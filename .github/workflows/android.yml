@@ -39,6 +39,11 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # The action's default still includes the retired SDK package
+          # "tools", which makes setup fail before our build starts.
+          packages: ''
+          log-accepted-android-sdk-licenses: false
 
       - name: Install Android SDK 34
         run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
