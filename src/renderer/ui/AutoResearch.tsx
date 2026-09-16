@@ -5894,7 +5894,11 @@ export default function AutoResearch() {
   );
 
   return (
-    <div className="autoResearchPage h-full min-h-0 overflow-hidden bg-transparent px-4 text-gray-800 xl:px-6">
+    <div
+      className={`autoResearchPage h-full min-h-0 overflow-hidden bg-transparent px-4 text-gray-800 xl:px-6 ${
+        selectedCareerRecords || careerSaveOpen ? 'autoResearchNestedView' : ''
+      }`}
+    >
       <style>
         {`
           .autoResearchTabScroll {
@@ -5948,6 +5952,19 @@ export default function AutoResearch() {
           }
 
           @media (max-width: 639px) {
+            html[data-autouma]:has(.autoResearchNestedView)
+              .app-drag-region {
+              display: none;
+            }
+            html[data-autouma] .autoResearchNestedView .autoResearchMobileTabs {
+              display: none;
+            }
+            html[data-autouma]
+              .autoResearchNestedView
+              .autoResearchContentGrid {
+              padding-top: 0.5rem;
+              padding-bottom: calc(0.75rem + var(--autouma-safe-bottom));
+            }
             html[data-autouma] .autoResearchPage {
               padding-right: 0.75rem;
               padding-left: 0.75rem;

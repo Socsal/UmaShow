@@ -9,9 +9,11 @@ import {
 } from 'react';
 import {
   ArrowLeft,
+  CalendarDays,
   Download,
   ExternalLink,
   Gem,
+  ListTodo,
   RefreshCw,
   Trash2,
   Trophy,
@@ -307,6 +309,7 @@ const recordSettingName = (record?: CareerSessionRecord) =>
   '未命名详设';
 
 const recordCareerMode = (record?: CareerSessionRecord) => {
+  if (record?.career_mode) return record.career_mode;
   if (record?.career_setting_snapshot?.mode) {
     return record.career_setting_snapshot.mode;
   }
@@ -316,6 +319,28 @@ const recordCareerMode = (record?: CareerSessionRecord) => {
 const recordSettingKey = (record: CareerSessionRecord) =>
   String(record.career_setting_id || '').trim() ||
   `${recordSettingName(record)}:${record.card_id || 0}:${recordCareerMode(record)}`;
+
+const recordLatestTime = (record: CareerSessionRecord) =>
+  String(record.ended_at || record.started_at || '');
+
+const taskPlanSummary = (record?: CareerSessionRecord) => {
+  if (!record) return '';
+  const cadence = record.cadence === 'daily' ? '每日计划' : '一次性计划';
+  const runMode =
+    record.run_mode || record.task_type || record.mode || 'single';
+  const target = Math.max(1, Number(record.target || 1));
+  const goal =
+    runMode === 'continuous'
+      ? '持续育成'
+      : runMode === 'count'
+        ? `完成 ${target} 次育成`
+        : runMode === 'jewel_drops'
+          ? `获得 ${target} 次宝石掉落`
+          : runMode === 'mixed'
+            ? '混合计划'
+            : '单次育成';
+  return `${cadence} · ${goal}`;
+};
 
 const groupRecordsBySettingAndDate = (records: CareerSessionRecord[]) => {
   const groups = new Map<
@@ -349,7 +374,21 @@ const groupRecordsBySettingAndDate = (records: CareerSessionRecord[]) => {
         });
       }
     });
-  return [...groups.values()];
+  return [...groups.values()].sort((left, right) => {
+    const leftLatest = left.records.reduce(
+      (latest, record) =>
+        Math.max(latest, Date.parse(recordLatestTime(record)) || 0),
+      0,
+    );
+    const rightLatest = right.records.reduce(
+      (latest, record) =>
+        Math.max(latest, Date.parse(recordLatestTime(record)) || 0),
+      0,
+    );
+    return (
+      rightLatest - leftLatest || right.dateKey.localeCompare(left.dateKey)
+    );
+  });
 };
 
 const groupRecordsByTask = (records: CareerSessionRecord[]) => {
@@ -361,7 +400,9 @@ const groupRecordsByTask = (records: CareerSessionRecord[]) => {
       ),
     )
     .forEach((record) => {
-      const taskId = String(record.task_id || record.session_id || record.id || '');
+      const taskId = String(
+        record.task_id || record.session_id || record.id || '',
+      );
       const key = `task:${taskId}`;
       const group = groups.get(key);
       if (group) group.push(record);
@@ -619,6 +660,8 @@ export default function HistoryTab({
       accountCareerSettings,
     );
     const canDownloadSetting = hasCareerSettingSnapshot(selectedCareerRecords);
+    const planSummary =
+      historyView === 'task' ? taskPlanSummary(selectedCareerRecords[0]) : '';
 
     return (
       <div className="autoResearchHistoryDetail space-y-4">
@@ -663,7 +706,9 @@ export default function HistoryTab({
                     ) {
                       deleteCareerHistory(
                         historyView === 'task'
-                          ? [`task:${selectedCareerRecords[0]?.task_id || selectedCareerRecords[0]?.session_id || ''}`]
+                          ? [
+                              `task:${selectedCareerRecords[0]?.task_id || selectedCareerRecords[0]?.session_id || ''}`,
+                            ]
                           : selectedCareerRecords.map((record) => record.id),
                       );
                     }
@@ -697,12 +742,15 @@ export default function HistoryTab({
               <div className="min-w-0">
                 <h2 className="truncate text-base font-bold text-slate-900 sm:text-xl">
                   {settingName} ·{' '}
-                  {historyView === 'task' ? '任务全量记录' : formatRecordDate(dateKey)}
+                  {historyView === 'task'
+                    ? '任务全量记录'
+                    : formatRecordDate(dateKey)}
                 </h2>
                 <p className="mt-0.5 text-xs text-slate-500 sm:mt-1 sm:text-sm">
                   {offlineHistory
                     ? '离线详设'
                     : `在线详设 · 预设：${selectedCareerRecords[0]?.preset_name || '未命名'}`}
+                  {planSummary ? ` · ${planSummary}` : ''}
                 </p>
                 <p className="mt-0.5 truncate text-[10px] text-slate-400 sm:mt-1 sm:text-xs">
                   {formatReportTime(aggregate.startedAt)} 至{' '}
@@ -721,11 +769,7 @@ export default function HistoryTab({
             </div>
           ) : null}
 
-          <div
-            className={`mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 ${
-              offlineHistory ? 'xl:grid-cols-7' : 'xl:grid-cols-8'
-            }`}
-          >
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:grid-cols-4">
             <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 sm:p-3">
               <p className="text-[11px] text-slate-500 sm:text-xs">完成次数</p>
               <strong className="mt-1 block text-lg text-slate-900 sm:text-xl">
@@ -758,15 +802,18 @@ export default function HistoryTab({
                 {aggregate.jewelDropCount} 次 / {aggregate.jewelsEarned} 个
               </strong>
             </div>
+          </div>
+          <div className="mt-2 grid grid-cols-5 gap-1 sm:gap-2">
             {attributeItems.map(([key, label]) => (
               <div
                 key={key}
-                className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 sm:p-3"
+                className="min-w-0 rounded-lg border border-slate-100 bg-slate-50 px-1 py-2 text-center sm:p-3"
               >
-                <p className="text-[11px] text-slate-500 sm:text-xs">
-                  平均{label}
+                <p className="truncate text-[10px] text-slate-500 sm:text-xs">
+                  <span className="hidden sm:inline">平均</span>
+                  {label}
                 </p>
-                <strong className="mt-1 block text-lg text-slate-900 sm:text-xl">
+                <strong className="mt-0.5 block truncate text-sm text-slate-900 sm:mt-1 sm:text-xl">
                   {formatMetric(aggregate.attributesAverage[key])}
                 </strong>
               </div>
@@ -776,152 +823,261 @@ export default function HistoryTab({
 
         <section className={panelClass('overflow-hidden')}>
           {aggregate.rows.length ? (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[1120px] text-left text-sm">
-                <thead className="bg-slate-50 text-xs text-slate-500">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">次数</th>
-                    <th className="px-3 py-3 font-medium">状态</th>
-                    {attributeItems.map(([key, label]) => (
-                      <th key={key} className="px-3 py-3 font-medium">
-                        {label}
-                      </th>
-                    ))}
-                    {!offlineHistory ? (
-                      <th className="px-3 py-3 font-medium">比赛大差</th>
-                    ) : null}
-                    {!offlineHistory ? (
-                      <th className="px-3 py-3 font-medium">闹钟</th>
-                    ) : null}
-                    <th className="px-3 py-3 font-medium">宝石掉落</th>
-                    <th className="px-3 py-3 font-medium">开始</th>
-                    <th className="px-3 py-3 font-medium">结束</th>
-                    <th className="px-3 py-3 font-medium">持续</th>
-                    {!readOnly && !offlineHistory ? (
-                      <th className="px-3 py-3 text-right font-medium">
-                        Training History
-                      </th>
-                    ) : null}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {aggregate.rows.map(
-                    ({ run, current, startedAt, endedAt, sequence }, index) => {
-                      const status = runStatus(run, current);
-                      const duration = formatRunDuration(startedAt, endedAt);
-                      const trainingHistoryId = String(
-                        run.training_history_id || '',
-                      );
-                      const downloaded =
-                        !!trainingHistoryId &&
-                        localTrainingHistoryIds.has(trainingHistoryId);
-                      return (
-                        <tr key={run.run_id || `current-${index}`}>
-                          <td className="px-4 py-3 font-medium text-slate-700">
-                            {sequence ?? '-'}
-                          </td>
-                          <td className={`px-3 py-3 ${status.className}`}>
-                            {status.label}
-                            {run.last_error ? (
-                              <span className="mt-1 block max-w-40 truncate text-xs text-red-500">
-                                {formatAccountError(run.last_error)}
+            <>
+              <div className="divide-y divide-slate-100 sm:hidden">
+                {aggregate.rows.map(
+                  ({ run, current, startedAt, endedAt, sequence }, index) => {
+                    const status = runStatus(run, current);
+                    const duration = formatRunDuration(startedAt, endedAt);
+                    const trainingHistoryId = String(
+                      run.training_history_id || '',
+                    );
+                    const downloaded =
+                      !!trainingHistoryId &&
+                      localTrainingHistoryIds.has(trainingHistoryId);
+                    return (
+                      <article
+                        key={run.run_id || `mobile-current-${index}`}
+                        className="px-3 py-3"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <span className="min-w-0">
+                            <strong className="text-sm text-slate-800">
+                              {sequence ? `第 ${sequence} 次` : '当前进度'}
+                            </strong>
+                            <span
+                              className={`ml-2 text-xs ${status.className}`}
+                            >
+                              {status.label}
+                            </span>
+                          </span>
+                          <span className="shrink-0 text-right text-[10px] leading-4 text-slate-500">
+                            <span className="block">
+                              {historyView === 'task'
+                                ? formatRunDateTime(startedAt)
+                                : formatRunTime(startedAt)}
+                            </span>
+                            <span className="block">
+                              {duration ||
+                                (current ? currentDurationLabel(run) : '未知')}
+                            </span>
+                          </span>
+                        </div>
+                        {run.last_error ? (
+                          <p className="mt-1 truncate text-xs text-red-500">
+                            {formatAccountError(run.last_error)}
+                          </p>
+                        ) : null}
+                        <div className="mt-2 grid grid-cols-5 gap-1 text-center">
+                          {attributeItems.map(([key, label]) => (
+                            <span
+                              key={key}
+                              className="min-w-0 rounded-md bg-slate-50 px-1 py-1.5"
+                            >
+                              <strong className="block truncate text-xs text-slate-800">
+                                {run.attributes?.[key] || 0}
+                              </strong>
+                              <span className="text-[9px] text-slate-500">
+                                {label}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                        <div className="mt-2 flex items-center justify-between gap-2 text-[11px] text-slate-500">
+                          <span className="flex flex-wrap gap-x-3 gap-y-1">
+                            {!offlineHistory ? (
+                              <span className="text-amber-700">
+                                大差 {run.large_margin_count || 0}/
+                                {totalRaceCount(run.g123_race_counts)}
                               </span>
                             ) : null}
-                          </td>
-                          {attributeItems.map(([key]) => (
-                            <td key={key} className="px-3 py-3 text-slate-700">
-                              {run.attributes?.[key] || 0}
-                            </td>
-                          ))}
-                          {!offlineHistory ? (
-                            <td className="px-3 py-3 text-amber-700">
-                              {run.large_margin_count || 0} /{' '}
-                              {totalRaceCount(run.g123_race_counts)} 场
-                            </td>
+                            {!offlineHistory ? (
+                              <span className="text-sky-700">
+                                闹钟 {run.clocks_used || 0}
+                              </span>
+                            ) : null}
+                            <span className="text-violet-700">
+                              宝石 {run.jewel_drop_count || 0}/
+                              {run.jewels_earned || 0}
+                            </span>
+                          </span>
+                          {!readOnly && !offlineHistory && trainingHistoryId ? (
+                            <button
+                              type="button"
+                              disabled={
+                                busy === `history-download:${trainingHistoryId}`
+                              }
+                              onClick={() => {
+                                if (downloaded) {
+                                  openTrainingHistory(trainingHistoryId);
+                                } else {
+                                  downloadTrainingHistory(trainingHistoryId);
+                                }
+                              }}
+                              className="shrink-0 rounded-md bg-indigo-50 px-2 py-1 font-medium text-indigo-700 disabled:opacity-50"
+                            >
+                              {downloaded ? '查看' : '下载记录'}
+                            </button>
                           ) : null}
-                          {!offlineHistory ? (
-                            <td className="px-3 py-3 text-sky-700">
-                              {run.clocks_used || 0} 次
+                        </div>
+                      </article>
+                    );
+                  },
+                )}
+              </div>
+              <div className="hidden overflow-x-auto sm:block">
+                <table className="w-full min-w-[980px] text-left text-xs">
+                  <thead className="bg-slate-50 text-xs text-slate-500">
+                    <tr>
+                      <th className="px-4 py-3 font-medium">次数</th>
+                      <th className="px-3 py-3 font-medium">状态</th>
+                      {attributeItems.map(([key, label]) => (
+                        <th key={key} className="px-3 py-3 font-medium">
+                          {label}
+                        </th>
+                      ))}
+                      {!offlineHistory ? (
+                        <th className="px-3 py-3 font-medium">比赛大差</th>
+                      ) : null}
+                      {!offlineHistory ? (
+                        <th className="px-3 py-3 font-medium">闹钟</th>
+                      ) : null}
+                      <th className="px-3 py-3 font-medium">宝石掉落</th>
+                      <th className="px-3 py-3 font-medium">开始</th>
+                      <th className="px-3 py-3 font-medium">结束</th>
+                      <th className="px-3 py-3 font-medium">持续</th>
+                      {!readOnly && !offlineHistory ? (
+                        <th className="px-3 py-3 text-right font-medium">
+                          Training History
+                        </th>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {aggregate.rows.map(
+                      (
+                        { run, current, startedAt, endedAt, sequence },
+                        index,
+                      ) => {
+                        const status = runStatus(run, current);
+                        const duration = formatRunDuration(startedAt, endedAt);
+                        const trainingHistoryId = String(
+                          run.training_history_id || '',
+                        );
+                        const downloaded =
+                          !!trainingHistoryId &&
+                          localTrainingHistoryIds.has(trainingHistoryId);
+                        return (
+                          <tr key={run.run_id || `current-${index}`}>
+                            <td className="px-4 py-3 font-medium text-slate-700">
+                              {sequence ?? '-'}
                             </td>
-                          ) : null}
-                          <td className="px-3 py-3 text-violet-700">
-                            {run.jewel_drop_count || 0} 次 /{' '}
-                            {run.jewels_earned || 0} 个
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600">
-                            {historyView === 'task'
-                              ? formatRunDateTime(startedAt)
-                              : formatRunTime(startedAt)}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600">
-                            {current
-                              ? '未结束'
-                              : historyView === 'task'
-                                ? formatRunDateTime(endedAt)
-                                : formatRunTime(endedAt)}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-500">
-                            {duration ||
-                              (current ? currentDurationLabel(run) : '未知')}
-                          </td>
-                          {!readOnly && !offlineHistory ? (
-                            <td className="px-3 py-3 text-right">
-                              {trainingHistoryId ? (
-                                <button
-                                  type="button"
-                                  disabled={
-                                    busy ===
-                                    `history-download:${trainingHistoryId}`
-                                  }
-                                  onClick={() => {
-                                    if (downloaded) {
-                                      openTrainingHistory(trainingHistoryId);
-                                    } else {
-                                      downloadTrainingHistory(
-                                        trainingHistoryId,
-                                      );
-                                    }
-                                  }}
-                                  className={`inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium disabled:opacity-50 ${
-                                    downloaded
-                                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                                      : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
-                                  }`}
-                                  title={
-                                    downloaded
-                                      ? '打开本机 Training History 记录'
-                                      : '下载到本机 Training History'
-                                  }
-                                >
-                                  {downloaded ? (
-                                    <ExternalLink size={14} />
-                                  ) : (
-                                    <Download
-                                      size={14}
-                                      className={
-                                        busy ===
-                                        `history-download:${trainingHistoryId}`
-                                          ? 'animate-bounce'
-                                          : ''
-                                      }
-                                    />
-                                  )}
-                                  {downloaded ? '查看记录' : '下载到本地'}
-                                </button>
-                              ) : (
-                                <span className="text-xs text-slate-300">
-                                  无数据
+                            <td className={`px-3 py-3 ${status.className}`}>
+                              {status.label}
+                              {run.last_error ? (
+                                <span className="mt-1 block max-w-40 truncate text-xs text-red-500">
+                                  {formatAccountError(run.last_error)}
                                 </span>
-                              )}
+                              ) : null}
                             </td>
-                          ) : null}
-                        </tr>
-                      );
-                    },
-                  )}
-                </tbody>
-              </table>
-            </div>
+                            {attributeItems.map(([key]) => (
+                              <td
+                                key={key}
+                                className="px-3 py-3 text-slate-700"
+                              >
+                                {run.attributes?.[key] || 0}
+                              </td>
+                            ))}
+                            {!offlineHistory ? (
+                              <td className="px-3 py-3 text-amber-700">
+                                {run.large_margin_count || 0} /{' '}
+                                {totalRaceCount(run.g123_race_counts)} 场
+                              </td>
+                            ) : null}
+                            {!offlineHistory ? (
+                              <td className="px-3 py-3 text-sky-700">
+                                {run.clocks_used || 0} 次
+                              </td>
+                            ) : null}
+                            <td className="px-3 py-3 text-violet-700">
+                              {run.jewel_drop_count || 0} 次 /{' '}
+                              {run.jewels_earned || 0} 个
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600">
+                              {historyView === 'task'
+                                ? formatRunDateTime(startedAt)
+                                : formatRunTime(startedAt)}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600">
+                              {current
+                                ? '未结束'
+                                : historyView === 'task'
+                                  ? formatRunDateTime(endedAt)
+                                  : formatRunTime(endedAt)}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-500">
+                              {duration ||
+                                (current ? currentDurationLabel(run) : '未知')}
+                            </td>
+                            {!readOnly && !offlineHistory ? (
+                              <td className="px-3 py-3 text-right">
+                                {trainingHistoryId ? (
+                                  <button
+                                    type="button"
+                                    disabled={
+                                      busy ===
+                                      `history-download:${trainingHistoryId}`
+                                    }
+                                    onClick={() => {
+                                      if (downloaded) {
+                                        openTrainingHistory(trainingHistoryId);
+                                      } else {
+                                        downloadTrainingHistory(
+                                          trainingHistoryId,
+                                        );
+                                      }
+                                    }}
+                                    className={`inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium disabled:opacity-50 ${
+                                      downloaded
+                                        ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                                        : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+                                    }`}
+                                    title={
+                                      downloaded
+                                        ? '打开本机 Training History 记录'
+                                        : '下载到本机 Training History'
+                                    }
+                                  >
+                                    {downloaded ? (
+                                      <ExternalLink size={14} />
+                                    ) : (
+                                      <Download
+                                        size={14}
+                                        className={
+                                          busy ===
+                                          `history-download:${trainingHistoryId}`
+                                            ? 'animate-bounce'
+                                            : ''
+                                        }
+                                      />
+                                    )}
+                                    {downloaded ? '查看记录' : '下载到本地'}
+                                  </button>
+                                ) : (
+                                  <span className="text-xs text-slate-300">
+                                    无数据
+                                  </span>
+                                )}
+                              </td>
+                            ) : null}
+                          </tr>
+                        );
+                      },
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </>
           ) : (
             <p className="py-12 text-center text-sm text-slate-400">
               当天没有可显示的育成结果
@@ -1041,187 +1197,200 @@ export default function HistoryTab({
                 : '下拉刷新'}
           </div>
         ) : null}
-        <div className="mt-5 space-y-4">
-          <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-1">
-            <span className="px-2 text-xs text-slate-500">历史聚合方式</span>
-            <div className="flex gap-1">
-              {([['day', '按日期'], ['task', '按任务']] as const).map(
-                ([value, label]) => (
-                  <button
-                    key={value}
-                    type="button"
-                    className={`rounded-md px-3 py-1.5 text-xs font-medium ${
-                      historyView === value
-                        ? 'bg-slate-900 text-white'
-                        : 'text-slate-600 hover:bg-slate-100'
-                    }`}
-                    onClick={() => {
-                      setHistoryView(value);
-                      setSelectedCareerRecords(null);
-                    }}
-                  >
-                    {label}
-                  </button>
-                ),
-              )}
+        <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
+          <div className="flex justify-center sm:justify-start">
+            <div
+              className="inline-grid w-full grid-cols-2 rounded-xl bg-slate-100 p-1 sm:w-auto"
+              role="group"
+              aria-label="历史聚合方式"
+            >
+              {(
+                [
+                  ['day', '按日期', CalendarDays],
+                  ['task', '按任务', ListTodo],
+                ] as const
+              ).map(([value, label, Icon]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={`inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                    historyView === value
+                      ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-slate-200/70'
+                      : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                  onClick={() => {
+                    setHistoryView(value);
+                    setSelectedCareerRecords(null);
+                  }}
+                >
+                  <Icon size={15} />
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
           {(historyView === 'task'
             ? groupRecordsByTask(careerHistory)
             : groupRecordsBySettingAndDate(careerHistory)
-          ).map(
-            ({ key, settingName, dateKey, records }) => {
-              const aggregate = aggregateRecords(records);
-              const recordUma = resolveRecordUma(aggregate.cardId);
-              const offline = records.every(
-                (record) => recordCareerMode(record) === 'offline',
-              );
-              const settingDownloaded = hasLocalCareerSetting(
-                records,
-                accountCareerSettings,
-              );
-              const canDownloadSetting = hasCareerSettingSnapshot(records);
-              return (
-                <section
-                  key={key}
-                  className="overflow-hidden rounded-xl border border-slate-200 bg-white"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3">
-                    <h3 className="font-semibold text-slate-800">
+          ).map(({ key, settingName, dateKey, records }) => {
+            const aggregate = aggregateRecords(records);
+            const recordUma = resolveRecordUma(aggregate.cardId);
+            const offline = records.every(
+              (record) => recordCareerMode(record) === 'offline',
+            );
+            const settingDownloaded = hasLocalCareerSetting(
+              records,
+              accountCareerSettings,
+            );
+            const canDownloadSetting = hasCareerSettingSnapshot(records);
+            const planSummary =
+              historyView === 'task' ? taskPlanSummary(records[0]) : '';
+            return (
+              <section
+                key={key}
+                className="overflow-hidden rounded-xl border border-slate-200 bg-white"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3">
+                  <div className="min-w-0">
+                    <h3 className="truncate font-semibold text-slate-800">
                       {historyView === 'task'
-                        ? `任务 · ${settingName}`
+                        ? settingName
                         : formatRecordDate(dateKey)}
                     </h3>
-                    <span className="flex flex-wrap items-center justify-end gap-2">
-                      <span className={careerSettingModeBadgeClass(offline)}>
-                        {offline ? '离线' : '在线'}
-                      </span>
-                      <span className="text-xs text-slate-500">
-                        {aggregate.count} 次育成 · {records.length} 次托管
-                      </span>
-                      {!readOnly && canDownloadSetting ? (
-                        <button
-                          type="button"
-                          disabled={
-                            settingDownloaded ||
-                            busy.startsWith('history-setting-download:')
-                          }
-                          onClick={() => downloadCareerSetting(records)}
-                          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-indigo-700 hover:bg-indigo-50 disabled:text-slate-400 disabled:opacity-70"
-                          title={
-                            settingDownloaded
-                              ? 'UmaShow 中已有这个详设'
-                              : '将记录中的详设保存到 UmaShow'
-                          }
-                        >
-                          <Download size={14} />
-                          {settingDownloaded ? '详设已保存' : '下载详设'}
-                        </button>
-                      ) : null}
-                      {!readOnly ? (
-                        <button
-                          type="button"
-                          disabled={busy === 'history-delete'}
-                          onClick={() => {
-                            if (
-                              window.confirm(
-                                `确定删除 ${formatRecordDate(dateKey)} 的全部养马记录吗？`,
-                              )
-                            ) {
-                              deleteCareerHistory(
-                                historyView === 'task'
-                                  ? [`task:${records[0]?.task_id || records[0]?.session_id || ''}`]
-                                  : records.map((record) => record.id),
-                              );
-                            }
-                          }}
-                          className="rounded p-1 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
-                          title="删除"
-                        >
-                          <Trash2 size={15} />
-                        </button>
-                      ) : null}
-                    </span>
+                    {planSummary ? (
+                      <p className="mt-0.5 text-xs font-medium text-indigo-600">
+                        {planSummary}
+                      </p>
+                    ) : null}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedCareerRecords(records)}
-                    className="grid w-full gap-4 px-4 py-3 text-left transition hover:bg-indigo-50/40 lg:grid-cols-[minmax(220px,1.2fr)_minmax(300px,1.6fr)_minmax(300px,1.5fr)] lg:items-center"
-                  >
-                    <span className="flex min-w-0 items-center gap-3">
-                      <span className="h-14 w-14 flex-none">
-                        {recordUma ? (
-                          <AssetIcon
-                            path={
-                              horseIconPath(
-                                recordUma.id,
-                                recordUma.rarity,
-                                recordUma.race_cloth_id,
-                              ) || ''
-                            }
-                            alt={settingName}
-                            className="h-full w-full object-contain"
-                          />
-                        ) : (
-                          <Trophy
-                            size={20}
-                            className="m-[18px] text-slate-300"
-                          />
-                        )}
-                      </span>
-                      <span className="min-w-0">
-                        <strong className="block truncate text-slate-900">
-                          {settingName}
-                        </strong>
-                        <span className="mt-1 block text-xs text-slate-500">
-                          {formatReportTime(aggregate.startedAt)} 至{' '}
-                          {formatReportTime(aggregate.endedAt)}
-                        </span>
+                  <span className="flex flex-wrap items-center justify-end gap-2">
+                    <span className={careerSettingModeBadgeClass(offline)}>
+                      {offline ? '离线' : '在线'}
+                    </span>
+                    <span className="text-xs text-slate-500">
+                      {aggregate.count} 次育成 · {records.length} 次托管
+                    </span>
+                    {!readOnly && canDownloadSetting ? (
+                      <button
+                        type="button"
+                        disabled={
+                          settingDownloaded ||
+                          busy.startsWith('history-setting-download:')
+                        }
+                        onClick={() => downloadCareerSetting(records)}
+                        className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-indigo-700 hover:bg-indigo-50 disabled:text-slate-400 disabled:opacity-70"
+                        title={
+                          settingDownloaded
+                            ? 'UmaShow 中已有这个详设'
+                            : '将记录中的详设保存到 UmaShow'
+                        }
+                      >
+                        <Download size={14} />
+                        {settingDownloaded ? '详设已保存' : '下载详设'}
+                      </button>
+                    ) : null}
+                    {!readOnly ? (
+                      <button
+                        type="button"
+                        disabled={busy === 'history-delete'}
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              `确定删除 ${formatRecordDate(dateKey)} 的全部养马记录吗？`,
+                            )
+                          ) {
+                            deleteCareerHistory(
+                              historyView === 'task'
+                                ? [
+                                    `task:${records[0]?.task_id || records[0]?.session_id || ''}`,
+                                  ]
+                                : records.map((record) => record.id),
+                            );
+                          }
+                        }}
+                        className="rounded p-1 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                        title="删除"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    ) : null}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCareerRecords(records)}
+                  className="grid w-full gap-4 px-4 py-3 text-left transition hover:bg-indigo-50/40 lg:grid-cols-[minmax(220px,1.2fr)_minmax(300px,1.6fr)_minmax(300px,1.5fr)] lg:items-center"
+                >
+                  <span className="flex min-w-0 items-center gap-3">
+                    <span className="h-14 w-14 flex-none">
+                      {recordUma ? (
+                        <AssetIcon
+                          path={
+                            horseIconPath(
+                              recordUma.id,
+                              recordUma.rarity,
+                              recordUma.race_cloth_id,
+                            ) || ''
+                          }
+                          alt={settingName}
+                          className="h-full w-full object-contain"
+                        />
+                      ) : (
+                        <Trophy size={20} className="m-[18px] text-slate-300" />
+                      )}
+                    </span>
+                    <span className="min-w-0">
+                      <strong className="block truncate text-slate-900">
+                        {settingName}
+                      </strong>
+                      <span className="mt-1 block text-xs text-slate-500">
+                        {formatReportTime(aggregate.startedAt)} 至{' '}
+                        {formatReportTime(aggregate.endedAt)}
                       </span>
                     </span>
+                  </span>
 
-                    <span className="grid grid-cols-5 gap-1 text-center text-[11px] text-slate-500">
-                      {attributeItems.map(([attributeKey, label]) => (
-                        <span
-                          key={attributeKey}
-                          className="rounded bg-slate-50 px-1 py-1.5"
-                        >
-                          <strong className="block text-xs text-slate-700">
-                            {formatMetric(
-                              aggregate.attributesAverage[attributeKey],
-                            )}
-                          </strong>
-                          {label}
-                        </span>
-                      ))}
-                    </span>
+                  <span className="grid grid-cols-5 gap-1 text-center text-[11px] text-slate-500">
+                    {attributeItems.map(([attributeKey, label]) => (
+                      <span
+                        key={attributeKey}
+                        className="rounded bg-slate-50 px-1 py-1.5"
+                      >
+                        <strong className="block text-xs text-slate-700">
+                          {formatMetric(
+                            aggregate.attributesAverage[attributeKey],
+                          )}
+                        </strong>
+                        {label}
+                      </span>
+                    ))}
+                  </span>
 
-                    <span className="grid grid-cols-3 gap-2 text-center text-xs text-slate-500">
-                      <span>
-                        <strong className="block text-sm text-slate-800">
-                          {aggregate.count}
-                        </strong>
-                        完成
-                      </span>
-                      <span>
-                        <strong className="block text-sm text-amber-700">
-                          {aggregate.largeMarginCount}
-                        </strong>
-                        大差
-                      </span>
-                      <span>
-                        <strong className="flex items-center justify-center gap-1 text-sm text-violet-700">
-                          <Gem size={12} />
-                          {aggregate.jewelDropCount}/{aggregate.jewelsEarned}
-                        </strong>
-                        掉落/宝石
-                      </span>
+                  <span className="grid grid-cols-3 gap-2 text-center text-xs text-slate-500">
+                    <span>
+                      <strong className="block text-sm text-slate-800">
+                        {aggregate.count}
+                      </strong>
+                      完成
                     </span>
-                  </button>
-                </section>
-              );
-            },
-          )}
+                    <span>
+                      <strong className="block text-sm text-amber-700">
+                        {aggregate.largeMarginCount}
+                      </strong>
+                      大差
+                    </span>
+                    <span>
+                      <strong className="flex items-center justify-center gap-1 text-sm text-violet-700">
+                        <Gem size={12} />
+                        {aggregate.jewelDropCount}/{aggregate.jewelsEarned}
+                      </strong>
+                      掉落/宝石
+                    </span>
+                  </span>
+                </button>
+              </section>
+            );
+          })}
         </div>
         {!careerHistory.length && busy !== 'history' ? (
           <p className="py-14 text-center text-sm text-slate-400">

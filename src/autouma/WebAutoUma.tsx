@@ -1005,12 +1005,17 @@ export default function WebAutoUma() {
     <div
       className={`autoResearchPage h-full min-h-0 overflow-hidden bg-transparent px-4 text-gray-800 xl:px-6 ${
         activeTab === 'career' ? 'autoResearchCareerPage' : ''
-      }`}
+      } ${selectedCareerRecords ? 'autoResearchNestedView' : ''}`}
     >
       <style>
         {`
           .autoResearchMobileTabs { display: none; }
           @media (max-width: 639px) {
+            html[data-autouma]:has(.autoResearchNestedView) .app-drag-region { display: none; }
+            html[data-autouma] .autoResearchNestedView .autoResearchMobileTabs { display: none; }
+            html[data-autouma] .autoResearchNestedView .autoResearchContentGrid {
+              padding-top: .5rem; padding-bottom: calc(.75rem + var(--autouma-safe-bottom));
+            }
             html[data-autouma] .autoResearchPage { padding-right: .75rem; padding-left: .75rem; }
             html[data-autouma] .autoResearchDesktopTabs { display: none; }
             html[data-autouma] .autoResearchHeaderServer,

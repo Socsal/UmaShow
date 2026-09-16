@@ -518,15 +518,15 @@ export default function ProgressTab({
                         : automationPhaseLabel(automation)}
                 </span>
               </div>
-              <p className="mt-1 truncate text-xs font-medium text-indigo-600 sm:text-sm">
-                {offlineMode
-                  ? idleSingleMode?.active
-                    ? idleSingleMode.ends_at
+              {!offlineMode || idleSingleMode?.active ? (
+                <p className="mt-1 truncate text-xs font-medium text-indigo-600 sm:text-sm">
+                  {offlineMode
+                    ? idleSingleMode?.ends_at
                       ? `${idleSingleMode.ends_at} 完成`
                       : '等待服务器返回结束时间'
-                    : '离线育成启动队列'
-                  : turnDateLabel(currentCareerTurn)}
-              </p>
+                    : turnDateLabel(currentCareerTurn)}
+                </p>
+              ) : null}
               <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-5 text-slate-600 sm:mt-2 sm:items-center sm:gap-2 sm:text-sm">
                 {runnerStopping || runnerPaused ? (
                   <RefreshCw
