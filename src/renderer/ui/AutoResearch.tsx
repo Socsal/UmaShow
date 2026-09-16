@@ -55,6 +55,7 @@ import {
   AutoResearchRequestError,
   buildOfflinePrioritySkillArray,
   CAREER_SETTINGS_KEY,
+  cloudCareerSetting,
   careerSettingModeBadgeClass,
   careerSettingMatchesCurrent,
   compareRaces,
@@ -2024,17 +2025,8 @@ export default function AutoResearch() {
         },
       );
       const cloudSettings = (result.career_configs || []).flatMap((config) => {
-        const setting = config.payload?.setting;
-        if (!setting?.id || !setting.name) return [];
-        return [
-          {
-            ...setting,
-            id: config.config_id,
-            name: config.name,
-            account_uid: account.uid,
-            updated_at: config.updated_at || setting.updated_at,
-          } satisfies CareerSetting,
-        ];
+        const setting = cloudCareerSetting(config, account.uid);
+        return setting ? [setting] : [];
       });
       setCloudCareerConfigIds(
         new Set(
@@ -2100,6 +2092,12 @@ export default function AutoResearch() {
       }
       return {
         careerConfigCount: cloudSettings.length,
+        onlineConfigCount: cloudSettings.filter(
+          (setting) => setting.mode !== 'offline',
+        ).length,
+        offlineConfigCount: cloudSettings.filter(
+          (setting) => setting.mode === 'offline',
+        ).length,
         hasDailyConfig: Boolean(dailyConfig?.payload.daily_tasks),
       };
     },
@@ -2118,7 +2116,7 @@ export default function AutoResearch() {
       const result = await loadCloudConfiguration(selectedAccountId);
       if (result?.careerConfigCount) {
         setSuccessMessage(
-          `已拉取 ${result.careerConfigCount} 条云端详设、绑定预设和每日配置`,
+          `已拉取 ${result.careerConfigCount} 条云端详设（在线 ${result.onlineConfigCount}、离线 ${result.offlineConfigCount}）、绑定预设和每日配置`,
         );
       } else if (result?.hasDailyConfig) {
         setSuccessMessage('云端暂无详设，已拉取每日配置');

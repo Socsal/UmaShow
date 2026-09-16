@@ -1,10 +1,57 @@
 import {
+  cloudCareerSetting,
   describeLogAction,
   formatAccountError,
   needsRelogin,
   normalizeOnlineScenarioId,
   onlineScenarioLabel,
 } from './shared';
+
+const cloudConfig = (setting: Record<string, unknown>) => ({
+  uid: '10001',
+  config_id: 'cloud-config-id',
+  name: '云端详设',
+  payload: { setting },
+  version: 1,
+  updated_at: '2026-09-16T12:00:00+08:00',
+});
+
+describe('cloudCareerSetting', () => {
+  it('keeps explicit offline cloud settings offline', () => {
+    const setting = cloudCareerSetting(
+      cloudConfig({
+        id: 'local-id',
+        name: '离线详设',
+        mode: 'offline',
+      }) as never,
+    );
+    expect(setting).toMatchObject({
+      id: 'cloud-config-id',
+      name: '云端详设',
+      account_uid: '10001',
+      mode: 'offline',
+    });
+  });
+
+  it('recognizes legacy offline settings without an explicit mode', () => {
+    const setting = cloudCareerSetting(
+      cloudConfig({
+        id: 'legacy-offline',
+        name: '旧离线详设',
+        offline_scenario_id: 5,
+        offline_race_deck_num: 2,
+      }) as never,
+    );
+    expect(setting?.mode).toBe('offline');
+  });
+
+  it('defaults legacy non-offline settings to online', () => {
+    const setting = cloudCareerSetting(
+      cloudConfig({ id: 'legacy-online', name: '旧在线详设' }) as never,
+    );
+    expect(setting?.mode).toBe('online');
+  });
+});
 
 describe('describeLogAction', () => {
   it('describes Grand Masters actions in Chinese', () => {

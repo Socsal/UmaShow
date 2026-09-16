@@ -32,6 +32,7 @@ import {
 } from 'renderer/components/autoResearch/SelectionCards';
 import {
   buildOfflinePrioritySkillArray,
+  cloudCareerSetting,
   createDefaultOfflineFactorSelection,
   createDefaultOfflineSkillSettings,
   fileToBase64,
@@ -165,9 +166,17 @@ async function serverRequest<T>(
 }
 
 function runnableConfigs(configs: CloudCareerConfig[]) {
-  return configs.filter(
-    (config): config is RunnableCloudConfig => Boolean(config.payload?.setting),
-  );
+  return configs.flatMap((config) => {
+    const setting = cloudCareerSetting(config);
+    return setting
+      ? [
+          {
+            ...config,
+            payload: { ...config.payload, setting },
+          } satisfies RunnableCloudConfig,
+        ]
+      : [];
+  });
 }
 
 function buildScheduleItem(

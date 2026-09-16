@@ -1,6 +1,7 @@
 import { UMDB } from 'renderer/utils/umdb';
 import {
   CareerSetting,
+  CloudCareerConfig,
   LoginProgress,
   OfflineFactorSelection,
   OfflineSkillSettings,
@@ -17,6 +18,29 @@ export const DEFAULT_SERVER = 'http://127.0.0.1:18765';
 export const DEFAULT_PRESET_NAME = 'URA 默认';
 export const LOCAL_PRESETS_KEY = 'autoResearch.presets';
 export const CAREER_SETTINGS_KEY = 'autoResearch.careerSettings';
+
+export function cloudCareerSetting(
+  config: CloudCareerConfig,
+  accountUid = config.uid,
+): CareerSetting | undefined {
+  const setting = config.payload?.setting;
+  if (!setting || !config.config_id || !(config.name || setting.name)) {
+    return undefined;
+  }
+  const offline =
+    setting.mode === 'offline' ||
+    (setting.mode === undefined &&
+      (Number(setting.offline_scenario_id || 0) > 0 ||
+        Number(setting.offline_race_deck_num || 0) > 0));
+  return {
+    ...setting,
+    id: config.config_id,
+    name: config.name || setting.name,
+    account_uid: accountUid,
+    mode: offline ? 'offline' : 'online',
+    updated_at: config.updated_at || setting.updated_at,
+  };
+}
 
 export function normalizeOnlineScenarioId(value: unknown): number {
   return Number(value) === 5 ? 5 : 1;
