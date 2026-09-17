@@ -198,6 +198,19 @@ export function formatAccountError(message: unknown) {
   return String((message as Error)?.message || message || '');
 }
 
+export const CREDENTIAL_REFRESH_GUIDANCE =
+  '账号凭证已失效。请重新登录游戏，获取新的 secret key/access_key，在 UmaShow 中更新或重新添加该账号，然后恢复任务。';
+
+export function isCredentialExpiredError(message: unknown) {
+  const detail = formatAccountError(message).toLowerCase();
+  return (
+    detail.includes('user_no_login') ||
+    /(?:错误(?:码|代码)|oauth|\bcode)[^\d-]*-101\b/i.test(detail) ||
+    ((detail.includes('access_key') || detail.includes('secret key')) &&
+      detail.includes('失效'))
+  );
+}
+
 export function needsRelogin(error: unknown) {
   if (error instanceof AutoResearchRequestError && error.status === 401) {
     return true;

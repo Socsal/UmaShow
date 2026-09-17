@@ -12,9 +12,11 @@ import {
   describeLogAction,
   describeLogDetail,
   describeRunnerAction,
+  CREDENTIAL_REFRESH_GUIDANCE,
   formatAccountError,
   formatDailyJewelScheduleWindow,
   HIDDEN_RUNNER_LOG_ACTIONS,
+  isCredentialExpiredError,
   panelClass,
   statusBadgeClass,
   turnDateLabel,
@@ -424,6 +426,10 @@ export default function ProgressTab({
       (message, index, messages) =>
         Boolean(message) && messages.indexOf(message) === index,
     );
+  const credentialExpired = Boolean(
+    (observation?.phase === 'blocked' || runnerPaused) &&
+      runnerErrors.some(isCredentialExpiredError),
+  );
   const runnerG123RaceCount = Object.values(
     runner?.g123_race_counts || {},
   ).reduce<number>((sum, count) => sum + Number(count || 0), 0);
@@ -603,7 +609,12 @@ export default function ProgressTab({
           ) : null}
         </div>
 
-        {runnerErrors.length ? (
+        {credentialExpired ? (
+          <div className="mt-4 flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm font-medium leading-6 text-amber-900">
+            <CircleStop size={18} className="mt-0.5 flex-none" />
+            <p>{CREDENTIAL_REFRESH_GUIDANCE}</p>
+          </div>
+        ) : runnerErrors.length ? (
           <div className="mt-4 flex items-start gap-2 border-t border-red-100 pt-4 text-sm text-red-700">
             <CircleStop size={16} className="mt-0.5 flex-none" />
             <div className="min-w-0 space-y-1">
@@ -771,7 +782,12 @@ export default function ProgressTab({
               ? '新的育成开始后，这里会显示实时状态。'
               : '开始或继续育成后，这里会显示当前属性和流程。'}
         </p>
-        {observation?.last_error ? (
+        {credentialExpired ? (
+          <div className="mt-4 flex max-w-xl items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-4 text-left text-sm font-medium leading-6 text-amber-900">
+            <CircleStop size={18} className="mt-0.5 flex-none" />
+            <p>{CREDENTIAL_REFRESH_GUIDANCE}</p>
+          </div>
+        ) : observation?.last_error ? (
           <p className="mt-2 text-xs text-red-500">
             {formatAccountError(observation.last_error)}
           </p>
