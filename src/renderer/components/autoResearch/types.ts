@@ -503,6 +503,8 @@ export type CareerSessionRun = {
 };
 
 export type CareerSessionRecord = {
+  summary_only?: boolean;
+  aggregation_type?: 'day' | 'task';
   id: string;
   schema_version: number;
   session_id: string;

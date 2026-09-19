@@ -1996,6 +1996,7 @@ export default function AutoResearch() {
         const result = await request<{
           success: boolean;
           reports: CareerSessionRecord[];
+          task_reports?: CareerSessionRecord[];
           asset_snapshots?: DailyAssetSnapshot[];
         }>('/api/account/career/history/query', {
           method: 'POST',
@@ -2010,19 +2011,12 @@ export default function AutoResearch() {
           selectedAccountIdRef.current !== accountId
         )
           return;
-        setCareerHistory(result.reports || []);
+        setCareerHistory([
+          ...(result.reports || []),
+          ...(result.task_reports || []),
+        ]);
         setAssetSnapshots(result.asset_snapshots || []);
-        const localRecords = (await window.electron.trainingHistory.list()) as
-          | Array<{ id?: string }>
-          | undefined;
-        if (revision !== historyLoadRevision.current) return;
-        setLocalTrainingHistoryIds(
-          new Set(
-            (localRecords || [])
-              .map((record) => String(record.id || ''))
-              .filter(Boolean),
-          ),
-        );
+        setLocalTrainingHistoryIds(new Set());
       } catch (caught) {
         if (revision === historyLoadRevision.current)
           setError((caught as Error).message);
@@ -2170,18 +2164,20 @@ export default function AutoResearch() {
         const result = await request<{
           success: boolean;
           reports: CareerSessionRecord[];
+          task_reports?: CareerSessionRecord[];
         }>('/api/account/career/history/delete-by-account', {
           method: 'POST',
           body: JSON.stringify({
             uid: credential.uid,
             access_key: credential.accessKey,
             report_ids: reportIds,
-            view: reportIds.some((id) => String(id).startsWith('task:'))
-              ? 'task'
-              : 'day',
+            view: 'day',
           }),
         });
-        setCareerHistory(result.reports || []);
+        setCareerHistory([
+          ...(result.reports || []),
+          ...(result.task_reports || []),
+        ]);
         setSelectedCareerRecords(null);
       } catch (caught) {
         setError((caught as Error).message);
@@ -4772,7 +4768,9 @@ export default function AutoResearch() {
         }
       } catch (caught) {
         setPresetSyncError(true);
-        setError(`预设已保存到本地，但云端同步失败：${(caught as Error).message}`);
+        setError(
+          `预设已保存到本地，但云端同步失败：${(caught as Error).message}`,
+        );
         return false;
       }
       const runnerPresetName =
@@ -5363,7 +5361,10 @@ export default function AutoResearch() {
       setError(firstMissing[1]);
       window.requestAnimationFrame(() => {
         const field = document.getElementById(firstMissing[0]);
-        field?.scrollIntoView({ behavior: motionScrollBehavior(), block: 'center' });
+        field?.scrollIntoView({
+          behavior: motionScrollBehavior(),
+          block: 'center',
+        });
         field
           ?.querySelector<HTMLElement>(
             'button:not(:disabled), input:not(:disabled), select:not(:disabled)',
@@ -5461,7 +5462,9 @@ export default function AutoResearch() {
           : `详设“${setting.name}”已保存到本地，连接服务器后可上传`,
       );
     } catch (caught) {
-      setError(`详设已保存到本地，但云端同步失败：${(caught as Error).message}`);
+      setError(
+        `详设已保存到本地，但云端同步失败：${(caught as Error).message}`,
+      );
       return false;
     } finally {
       setBusy('');
@@ -5543,10 +5546,10 @@ export default function AutoResearch() {
       setError('');
       try {
         const result =
-          (await window.electron.autoResearch.prepareIdleSingleMode(
-            accountId,
-            { card_id: effectiveCardId, scenario_id: offlineScenarioId },
-          )) as LocalOfflineSetupResponse;
+          (await window.electron.autoResearch.prepareIdleSingleMode(accountId, {
+            card_id: effectiveCardId,
+            scenario_id: offlineScenarioId,
+          })) as LocalOfflineSetupResponse;
         if (!isOfflineSingleModeSetup(result?.offline_setup)) {
           throw new Error('游戏没有返回离线育成赛程信息');
         }
@@ -5578,15 +5581,10 @@ export default function AutoResearch() {
       effectiveCardId,
       offlineScenarioId,
       offlineSetupRequestKey,
-    ],
-  );
+    ]);
 
   useEffect(() => {
-    if (
-      activeTab !== 'career' ||
-      !careerSaveOpen ||
-      careerMode !== 'offline'
-    ) {
+    if (activeTab !== 'career' || !careerSaveOpen || careerMode !== 'offline') {
       autoPreparedOfflineSetupKey.current = '';
       return;
     }
@@ -8669,6 +8667,22 @@ export default function AutoResearch() {
                       setSelectedCareerRecords={setSelectedCareerRecords}
                       busy={busy}
                       loadCareerHistory={loadCareerHistory}
+                      loadCareerHistoryDetail={async (reportId) => {
+                        const account = accountsRef.current.find(
+                          (item) => item.id === selectedAccountId,
+                        );
+                        if (!account) throw new Error('本地账号不存在');
+                        const result = await request<{
+                          reports: CareerSessionRecord[];
+                        }>('/api/account/career/history/detail/query', {
+                          method: 'POST',
+                          body: JSON.stringify({
+                            uid: account.uid,
+                            report_id: reportId,
+                          }),
+                        });
+                        return result.reports || [];
+                      }}
                       selectedAccountId={selectedAccountId}
                       accountCareerSettings={accountCareerSettings}
                       careerHistory={careerHistory}

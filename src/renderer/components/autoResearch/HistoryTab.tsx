@@ -51,6 +51,7 @@ type HistoryTabProps = {
   >;
   busy: string;
   loadCareerHistory: (accountId: string) => Promise<void>;
+  loadCareerHistoryDetail: (reportId: string) => Promise<CareerSessionRecord[]>;
   selectedAccountId: string;
   accountCareerSettings: CareerSetting[];
   careerHistory: CareerSessionRecord[];
@@ -545,6 +546,7 @@ export default function HistoryTab({
   setSelectedCareerRecords,
   busy,
   loadCareerHistory,
+  loadCareerHistoryDetail,
   selectedAccountId,
   accountCareerSettings,
   careerHistory,
@@ -560,6 +562,42 @@ export default function HistoryTab({
     'day',
   );
   const [umaDatabase, setUmaDatabase] = useState(UMDB.data);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [detailError, setDetailError] = useState('');
+  const detailRevision = useRef(0);
+  useEffect(() => {
+    detailRevision.current += 1;
+    setDetailLoading(false);
+    setDetailError('');
+    return () => {
+      detailRevision.current += 1;
+    };
+  }, [selectedAccountId, careerHistory]);
+  const openDetails = async (records: CareerSessionRecord[]) => {
+    const revision = ++detailRevision.current;
+    setDetailLoading(true);
+    setDetailError('');
+    try {
+      const details = (
+        await Promise.all(
+          records.map((record) =>
+            record.summary_only
+              ? loadCareerHistoryDetail(record.id)
+              : Promise.resolve([record]),
+          ),
+        )
+      ).flat();
+      if (revision === detailRevision.current) {
+        if (!details.length) throw new Error('记录已不存在，请刷新列表');
+        setSelectedCareerRecords(details);
+      }
+    } catch (caught) {
+      if (revision === detailRevision.current)
+        setDetailError(String((caught as Error).message || caught));
+    } finally {
+      if (revision === detailRevision.current) setDetailLoading(false);
+    }
+  };
   const [pullDistance, setPullDistance] = useState(0);
   const pullStartY = useRef<number | null>(null);
   const pullDistanceRef = useRef(0);
@@ -1151,8 +1189,12 @@ export default function HistoryTab({
 
   const groups =
     historyView === 'task'
-      ? groupRecordsByTask(careerHistory)
-      : groupRecordsBySettingAndDate(careerHistory);
+      ? groupRecordsByTask(
+          careerHistory.filter((record) => record.aggregation_type !== 'day'),
+        )
+      : groupRecordsBySettingAndDate(
+          careerHistory.filter((record) => record.aggregation_type !== 'task'),
+        );
   const visibleGroups = historyView === 'tracking' ? [] : groups;
   return (
     <section
@@ -1163,6 +1205,12 @@ export default function HistoryTab({
       onTouchEnd={finishPull}
       onTouchCancel={finishPull}
     >
+      {detailLoading ? <p role="status">正在读取记录详情…</p> : null}
+      {detailError ? (
+        <p role="alert" className="text-red-600">
+          {detailError}
+        </p>
+      ) : null}
       {mobilePullToRefresh && (pullDistance > 0 || busy === 'history') ? (
         <div
           className="flex items-center justify-center overflow-hidden text-caption font-medium text-slate-500"
@@ -1332,7 +1380,10 @@ export default function HistoryTab({
               </div>
               <button
                 type="button"
-                onClick={() => setSelectedCareerRecords(records)}
+                disabled={detailLoading}
+                onClick={() => {
+                  void openDetails(records);
+                }}
                 className="historyRecordRow"
               >
                 <span className="historyIdentity flex min-w-0 items-center gap-3">
@@ -1402,7 +1453,7 @@ export default function HistoryTab({
           );
         })}
         {historyView !== 'tracking' &&
-        !careerHistory.length &&
+        !groups.length &&
         busy !== 'history' ? (
           <p
             role="status"
