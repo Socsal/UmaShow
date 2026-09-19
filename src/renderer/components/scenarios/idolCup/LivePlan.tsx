@@ -187,7 +187,7 @@ export default function LivePlan({
           return (
             <div
               key={key}
-              className={`relative flex h-[74px] w-[90px] min-w-[90px] shrink-0 overflow-visible rounded-lg border shadow-sm transition-all ${
+              className={`relative flex h-[74px] w-[90px] min-w-[90px] shrink-0 overflow-visible rounded-lg border shadow-sm transition-ui ${
                 isMetPreview
                   ? 'border-emerald-200 bg-emerald-50'
                   : `${style.border} ${style.bg}`
@@ -196,7 +196,7 @@ export default function LivePlan({
               {minCurrencyKeys?.includes(key) ? (
                 <div className="pointer-events-none absolute -inset-1 z-0 rounded-[12px]">
                   <div className="h-full w-full rounded-[12px] border-[3px] border-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.75)]" />
-                  <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-[95%] text-[9px] font-black leading-none text-rose-500">
+                  <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-[95%] text-caption font-bold text-rose-500">
                     最小
                   </span>
                 </div>
@@ -205,21 +205,21 @@ export default function LivePlan({
               <div className="flex h-full w-full">
                 <div className="flex w-[44px] shrink-0 flex-col items-center justify-center border-r border-dashed border-slate-200 px-1">
                   {trainingLabelsByNote?.[key]?.length ? (
-                    <span className="mb-0.5 text-[9px] font-black leading-none text-slate-500">
+                    <span className="mb-0.5 text-caption font-bold text-slate-500">
                       {trainingLabelsByNote[key]!.join('')}
                     </span>
                   ) : (
-                    <span className="mb-0.5 text-[11px] font-black leading-none text-rose-500">
+                    <span className="mb-0.5 text-caption font-bold text-rose-500">
                       {'\u00d7'}
                     </span>
                   )}
                   <span
-                    className={`mb-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border bg-white text-[10px] font-black ring-2 ${style.border} ${style.text} ${style.ring}`}
+                    className={`mb-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border bg-white text-caption font-bold ring-2 ${style.border} ${style.text} ${style.ring}`}
                   >
                     {style.label}
                   </span>
                   <span
-                    className={`text-[13px] font-black leading-none tabular-nums ${style.text}`}
+                    className={`text-label font-bold leading-none tabular-nums ${style.text}`}
                   >
                     {displayNeed}
                   </span>
@@ -241,7 +241,7 @@ export default function LivePlan({
                         ) : (
                           <XCircle size={12} className="text-red-400" />
                         )}
-                        <span className="text-[10px] text-slate-400">
+                        <span className="text-caption text-slate-400">
                           {'\u2192'}
                         </span>
                         {isMetPreview ? (
@@ -261,46 +261,46 @@ export default function LivePlan({
                   </div>
                   <div className="flex flex-col gap-1 text-center leading-none">
                     <div className="min-w-0">
-                      <div className="text-[9px] font-semibold text-slate-500">
+                      <div className="text-caption font-semibold text-slate-500">
                         {'\u73b0\u6709'}
                       </div>
                       {hasPreview ? (
                         <div className="mt-0.5 flex items-center justify-center gap-1">
-                          <span className="text-[11px] font-black text-slate-700 tabular-nums">
+                          <span className="text-caption font-bold text-slate-700 tabular-nums">
                             {displayCurrentValue}
                           </span>
-                          <span className="text-[9px] text-slate-400 line-through tabular-nums">
+                          <span className="text-caption text-slate-400 line-through tabular-nums">
                             {displayPreviewValue}
                           </span>
                         </div>
                       ) : (
                         <div className="mt-0.5 flex items-center justify-center gap-1">
-                          <span className="text-[11px] font-black text-slate-700 tabular-nums">
+                          <span className="text-caption font-bold text-slate-700 tabular-nums">
                             {displayCurrentValue}
                           </span>
                         </div>
                       )}
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[9px] font-semibold text-slate-500">
+                      <div className="text-caption font-semibold text-slate-500">
                         {isMetPreview ? '\u591a\u51fa' : '\u8fd8\u5dee'}
                       </div>
                       {hasPreview ? (
                         <div className="mt-0.5 flex items-center justify-center gap-1">
                           <span
-                            className={`text-[11px] font-black tabular-nums ${
+                            className={`text-caption font-bold tabular-nums ${
                               isMetPreview ? 'text-emerald-700' : style.text
                             }`}
                           >
                             {displayPreviewDelta}
                           </span>
-                          <span className="text-[9px] text-slate-400 line-through tabular-nums">
+                          <span className="text-caption text-slate-400 line-through tabular-nums">
                             {displayCurrentDelta}
                           </span>
                         </div>
                       ) : (
                         <div
-                          className={`mt-0.5 flex items-center justify-center text-[11px] font-black tabular-nums ${
+                          className={`mt-0.5 flex items-center justify-center text-caption font-bold tabular-nums ${
                             isMetPreview ? 'text-emerald-700' : style.text
                           }`}
                         >
@@ -338,29 +338,29 @@ export default function LivePlan({
               onMouseLeave={() =>
                 setHoveredLiveId((prev) => (prev === song.id ? null : prev))
               }
-              className={`relative shrink-0 w-20 min-w-25 h-20 text-left rounded-lg px-2 py-1.5 transition-all overflow-visible bg-emerald-50 ${
+              className={`relative shrink-0 w-20 min-w-25 min-h-24 text-left rounded-lg px-2 py-4 transition-ui overflow-visible bg-emerald-50 ${
                 isSelected
                   ? `border-2 border-emerald-500 ${weightBg} shadow-sm`
                   : `${weightBorder} ${weightBg} hover:border-slate-300 hover:shadow-sm`
               }`}
             >
               {isPurchasable ? (
-                <span className="absolute right-0 top-0 rounded bg-emerald-500 px-1 py-0 text-[8px] font-black text-white">
+                <span className="absolute right-0 top-0 rounded bg-emerald-500 px-1 py-0 text-caption font-bold text-white">
                   {'\u53ef\u8d2d'}
                 </span>
               ) : null}
               {isSelling ? (
-                <span className="absolute right-0 bottom-0 rounded bg-sky-500 px-0 py-0 text-[8px] font-black text-white">
+                <span className="absolute right-0 bottom-0 rounded bg-sky-500 px-0 py-0 text-caption font-bold text-white">
                   {'\u53ef\u552e'}
                 </span>
               ) : null}
-              <div className="text-[11px] font-bold text-slate-800 truncate">
+              <div className="text-label font-semibold text-slate-800 truncate">
                 {song.name}
               </div>
-              <div className="mt-0.5 text-[10px] text-slate-600 truncate">
+              <div className="mt-0.5 text-caption text-slate-600 truncate">
                 {song.description}
               </div>
-              <div className="mt-0.5 text-[10px] font-semibold text-emerald-600 truncate">
+              <div className="mt-0.5 text-caption font-semibold text-emerald-600 truncate">
                 {song.liveBonus}
               </div>
             </button>
@@ -371,19 +371,19 @@ export default function LivePlan({
             type="button"
             onMouseEnter={openFuturePanel}
             onMouseLeave={scheduleCloseFuturePanel}
-            className={`relative shrink-0 w-20 min-w-25 h-20 text-left rounded-lg px-2 py-1.5 transition-all overflow-visible border-dashed bg-amber-50 ${
+            className={`relative shrink-0 w-20 min-w-25 min-h-24 text-left rounded-lg px-2 py-4 transition-ui overflow-visible border-dashed bg-amber-50 ${
               showFuture
                 ? 'border-2 border-emerald-500 shadow-sm'
                 : 'border-amber-300 hover:border-amber-400 hover:shadow-sm'
             }`}
           >
-            <div className="text-[11px] font-bold text-slate-800 truncate">
+            <div className="text-label font-semibold text-slate-800 truncate">
               {'\u672a\u51fa\u73b0'}
             </div>
-            <div className="mt-0.5 text-[10px] text-slate-600 truncate">
+            <div className="mt-0.5 text-caption text-slate-600 truncate">
               {'\u6b4c\u66f2\u5217\u8868'}
             </div>
-            <div className="mt-0.5 text-[10px] font-semibold text-amber-700 truncate">
+            <div className="mt-0.5 text-caption font-semibold text-amber-700 truncate">
               {futureSongs.length} {'\u9996'}
             </div>
           </button>
@@ -396,7 +396,7 @@ export default function LivePlan({
           onMouseEnter={openFuturePanel}
           onMouseLeave={scheduleCloseFuturePanel}
         >
-          <div className="mb-1 text-[11px] font-bold text-amber-700">
+          <div className="mb-1 text-caption font-bold text-amber-700">
             {'\u672a\u51fa\u73b0\u533a\u57df'}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -415,24 +415,24 @@ export default function LivePlan({
                   onMouseLeave={() =>
                     setHoveredLiveId((prev) => (prev === song.id ? null : prev))
                   }
-                  className={`relative shrink-0 w-20 min-w-25 h-20 text-left rounded-lg px-2 py-1.5 transition-all overflow-visible border-dashed bg-amber-50 ${
+                  className={`relative shrink-0 w-20 min-w-25 min-h-24 text-left rounded-lg px-2 py-4 transition-ui overflow-visible border-dashed bg-amber-50 ${
                     isSelected
                       ? `border-2 border-emerald-500 ${weightBg} shadow-sm`
                       : `${weightBorder} ${weightBg} hover:border-slate-300 hover:shadow-sm`
                   }`}
                 >
                   {isSelling ? (
-                    <span className="absolute right-0 bottom-0 rounded bg-sky-500 px-0 py-0 text-[8px] font-black text-white">
+                    <span className="absolute right-0 bottom-0 rounded bg-sky-500 px-0 py-0 text-caption font-bold text-white">
                       {'\u53ef\u552e'}
                     </span>
                   ) : null}
-                  <div className="text-[11px] font-bold text-slate-800 truncate">
+                  <div className="text-label font-semibold text-slate-800 truncate">
                     {song.name}
                   </div>
-                  <div className="mt-0.5 text-[10px] text-slate-600 truncate">
+                  <div className="mt-0.5 text-caption text-slate-600 truncate">
                     {song.description}
                   </div>
-                  <div className="mt-0.5 text-[10px] font-semibold text-emerald-600 truncate">
+                  <div className="mt-0.5 text-caption font-semibold text-emerald-600 truncate">
                     {song.liveBonus}
                   </div>
                 </button>

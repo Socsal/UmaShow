@@ -16,6 +16,8 @@ import { RaceOption } from './types';
 type Props = {
   id?: string;
   title: string;
+  description?: string;
+  notice?: string;
   step?: number;
   races: RaceOption[];
   selectedRaceIds: number[];
@@ -25,6 +27,8 @@ type Props = {
 export default function RaceSchedulePicker({
   id,
   title,
+  description,
+  notice,
   step,
   races,
   selectedRaceIds,
@@ -49,24 +53,30 @@ export default function RaceSchedulePicker({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2">
           {step ? (
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
               {step}
             </span>
           ) : null}
-          <h3 className="font-semibold text-slate-900">{title}</h3>
+          <h3 className="text-section font-semibold text-slate-900">{title}</h3>
         </div>
         <div className="text-right">
-          <p className="text-sm text-slate-500">
+          <p className="uma-prose text-data text-slate-500">
             已选择 {selectedRaceIds.length} 场
           </p>
         </div>
       </div>
 
+      {description ? (
+        <p className="uma-prose mt-2 text-data text-slate-600">{description}</p>
+      ) : null}
+      {notice ? (
+        <p className="uma-prose mt-2 text-label text-amber-800">{notice}</p>
+      ) : null}
       <div className="mt-4 space-y-5">
         {SKILL_PURCHASE_YEAR_OPTIONS.map((year) => (
           <div key={year.offset}>
             <div className="mb-2 flex items-center gap-2">
-              <h4 className="text-sm font-semibold text-slate-800">
+              <h4 className="text-data font-semibold text-slate-800">
                 {year.label}
               </h4>
               <span className="h-px flex-1 bg-slate-200" />
@@ -77,7 +87,7 @@ export default function RaceSchedulePicker({
                   key={month}
                   className="rounded-lg border border-slate-200 bg-slate-50 p-1.5"
                 >
-                  <p className="mb-1 text-center text-[11px] font-medium text-slate-500">
+                  <p className="mb-1 text-center text-caption font-medium text-slate-500">
                     {month}月
                   </p>
                   <div className="grid grid-cols-2 gap-1">
@@ -99,7 +109,7 @@ export default function RaceSchedulePicker({
                               : '，未选择比赛'
                           }`}
                           onClick={() => setSelectedRaceTurn(turn)}
-                          className={`relative aspect-[2/1] min-w-0 overflow-hidden rounded text-[10px] transition ${
+                          className={`relative aspect-[2/1] min-w-0 overflow-hidden rounded text-caption transition ${
                             selected
                               ? 'bg-indigo-50 text-indigo-700 ring-2 ring-indigo-500'
                               : 'bg-white text-slate-500 hover:bg-indigo-50 hover:text-indigo-700'
@@ -134,6 +144,8 @@ export default function RaceSchedulePicker({
           title={skillPurchaseTurnLabel(selectedRaceTurn)}
           description={`该日期最多选择一场比赛，共 ${racesForSelectedDate.length} 场可选`}
           onClose={() => setSelectedRaceTurn(null)}
+          overlayClassName="plannerNestedOverlay"
+          escapePriority
           dialogClassName="max-w-4xl"
           footer={
             <>
@@ -161,7 +173,7 @@ export default function RaceSchedulePicker({
                     current.filter((raceId) => !raceIdsForDate.has(raceId)),
                   );
                 }}
-                className="text-xs text-slate-500 hover:text-slate-800"
+                className="text-caption text-slate-500 hover:text-slate-800"
               >
                 取消该日选择
               </button>
@@ -208,14 +220,14 @@ export default function RaceSchedulePicker({
                         alt={race.name}
                         className="h-10 w-20 shrink-0 rounded-lg object-contain"
                       />
-                      <span className="min-w-0 text-xs">
-                        <strong className="block truncate text-sm">
+                      <span className="min-w-0 text-caption">
+                        <strong className="block truncate text-data">
                           {race.name}
                         </strong>
                         <span className="block text-slate-500">
                           {race.type} · {race.venue}
                         </span>
-                        <span className="text-slate-400">
+                        <span className="text-slate-500">
                           {race.terrain} · {race.distance}
                         </span>
                       </span>
@@ -224,7 +236,7 @@ export default function RaceSchedulePicker({
                 })}
               </div>
             ) : (
-              <p className="rounded-lg bg-slate-50 px-3 py-10 text-center text-sm text-slate-400">
+              <p className="rounded-lg bg-slate-50 px-3 py-10 text-center text-data text-slate-600">
                 该日期没有可选比赛
               </p>
             )}

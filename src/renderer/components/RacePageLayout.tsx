@@ -8,7 +8,7 @@ type RacePageLayoutProps = {
 };
 
 export const raceHeaderButtonClass =
-  'flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-300';
+  'flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-label font-medium text-slate-600 transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-300';
 
 export default function RacePageLayout({
   title,

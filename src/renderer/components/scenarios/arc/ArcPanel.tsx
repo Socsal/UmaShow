@@ -171,7 +171,7 @@ function ParamChips({ params }: { params: CommandParam[] }) {
       {params.map((param) => (
         <span
           key={param.targetType}
-          className={`rounded-md border px-1.5 py-0.5 text-xs font-black ${
+          className={`rounded-md border px-1.5 py-0.5 text-caption font-bold ${
             PARAM_STYLES[param.targetType] ??
             'border-gray-200 bg-gray-50 text-gray-700'
           }`}
@@ -213,13 +213,13 @@ function RivalAvatar({
             }}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-[9px] font-black text-gray-400">
+          <div className="flex h-full w-full items-center justify-center text-caption font-bold text-gray-400">
             {rival.charaId || '?'}
           </div>
         )}
       </div>
       {showLevel ? (
-        <div className="absolute -bottom-1 -right-1 rounded-full border border-white bg-violet-600 px-1 text-[8px] font-black leading-3 text-white shadow-sm">
+        <div className="absolute -bottom-1 -right-1 rounded-full border border-white bg-violet-600 px-1 text-[8px] font-bold leading-3 text-white shadow-sm">
           {rival.starLevel}
         </div>
       ) : null}
@@ -314,8 +314,8 @@ function RivalSelectionEffects({
             key={effect.effectNum}
             className={`flex min-w-0 items-center gap-0.5 rounded border font-bold ${
               currentOnly
-                ? 'px-1.5 py-1 text-[11px]'
-                : 'px-1 py-0.5 text-[9px] leading-3'
+                ? 'px-1.5 py-1 text-caption'
+                : 'px-1 py-0.5 text-caption'
             } ${
               isActive
                 ? 'border-[#FF9741] bg-[#FF9741] text-[#875632]'
@@ -418,10 +418,10 @@ function ArcStatusBar({
       }`}
     >
       {visibleSelection?.isSpecialMatch ? (
-        <div className="pointer-events-none absolute -inset-[3px] z-20 animate-pulse rounded-[14px] border-2 border-[#FB689D] shadow-[0_0_14px_4px_rgba(251,104,157,0.75)] [animation-duration:0.5s]" />
+        <div className="pointer-events-none absolute -inset-[3px] z-20 rounded-[14px] border-2 border-[#FB689D] shadow-[0_0_14px_4px_rgba(251,104,157,0.75)]" />
       ) : null}
-      <div className="flex flex-wrap items-center gap-1.5 text-xs">
-        <div className="mr-1 flex items-center gap-1 font-black text-slate-800">
+      <div className="flex flex-wrap items-center gap-1.5 text-caption">
+        <div className="mr-1 flex items-center gap-1 font-bold text-slate-800">
           <Globe2 className="text-[#3CA2FF]" size={16} />
           凯旋门
         </div>
@@ -442,14 +442,14 @@ function ArcStatusBar({
         ) : null}
         {visibleSelection ? <ParamChips params={matchParams} /> : null}
         {arcData.allRivalBoostBlocked ? (
-          <span className="rounded-md border border-rose-200 bg-rose-50 px-2 py-1 font-black text-rose-700">
+          <span className="rounded-md border border-rose-200 bg-rose-50 px-2 py-1 font-bold text-rose-700">
             群星槽锁定
           </span>
         ) : null}
         <div className="ml-auto flex gap-1">
           <button
             type="button"
-            className={`flex items-center gap-1 rounded-md border px-2 py-1 font-black transition-colors ${
+            className={`flex items-center gap-1 rounded-md border px-2 py-1 font-bold transition-colors ${
               openPanel === 'potential'
                 ? 'border-[#3CA2FF] bg-gradient-to-r from-[#71BCFF] to-[#3CA2FF] text-white'
                 : 'border-[#71BCFF] bg-white/80 text-[#3CA2FF] hover:bg-[#71BCFF]/10'
@@ -463,7 +463,7 @@ function ArcStatusBar({
           </button>
           <button
             type="button"
-            className={`flex items-center gap-1 rounded-md border px-2 py-1 font-black transition-colors ${
+            className={`flex items-center gap-1 rounded-md border px-2 py-1 font-bold transition-colors ${
               openPanel === 'rivals'
                 ? 'border-[#3CA2FF] bg-gradient-to-r from-[#71BCFF] to-[#3CA2FF] text-white'
                 : 'border-[#71BCFF] bg-white/80 text-[#3CA2FF] hover:bg-[#71BCFF]/10'
@@ -476,13 +476,13 @@ function ArcStatusBar({
       </div>
       {recommendedPotentialPurchases.length > 0 ? (
         <div className="mt-1.5 inline-flex max-w-full flex-wrap items-center gap-1 rounded-lg border-2 border-amber-400 bg-amber-100/70 px-2 py-1 ring-2 ring-amber-200">
-          <span className="inline-flex items-center gap-1 text-xs font-black text-amber-900">
+          <span className="inline-flex items-center gap-1 text-caption font-bold text-amber-900">
             <ShoppingCart size={13} strokeWidth={2.5} /> 先购买
           </span>
           {recommendedPotentialPurchases.map((purchase) => (
             <span
               key={purchase.id}
-              className="rounded-md border border-amber-300 bg-white/85 px-2 py-0.5 text-xs font-black text-amber-900"
+              className="rounded-md border border-amber-300 bg-white/85 px-2 py-0.5 text-caption font-bold text-amber-900"
             >
               {purchase.name} Lv3
               {purchase.cost ? ` · ${purchase.cost}Pt` : ''} · {purchase.effect}
@@ -565,7 +565,7 @@ function ArcStatusBar({
                                     className="absolute -right-1 -top-1 z-30 h-[18px] w-[18px] object-contain drop-shadow-sm"
                                   />
                                 ) : (
-                                  <span className="absolute -right-1 -top-1 z-30 text-2xl font-black text-slate-500">
+                                  <span className="absolute -right-1 -top-1 z-30 text-2xl font-bold text-slate-500">
                                     ?
                                   </span>
                                 )}
@@ -580,7 +580,7 @@ function ArcStatusBar({
                           ) : null}
                         </div>
                         {!rival ? (
-                          <div className="flex h-12 items-center justify-between gap-2 px-1 text-xs font-bold text-slate-500">
+                          <div className="flex h-12 items-center justify-between gap-2 px-1 text-caption font-bold text-slate-500">
                             <span className="truncate">{name}</span>
                             {matchMark.iconPath ? (
                               <img
@@ -642,14 +642,14 @@ function ArcPotentialPanel({ arcData }: { arcData: ArcData }) {
           let upgradeStatus = null;
           if (level >= meta.maxLevel) {
             upgradeStatus = (
-              <div className="mt-1 rounded bg-emerald-100 py-0.5 text-center text-[9px] font-black text-emerald-700">
+              <div className="mt-1 rounded bg-emerald-100 py-0.5 text-center text-caption font-bold text-emerald-700">
                 已满级
               </div>
             );
           } else if (nextCost != null) {
             upgradeStatus = (
               <div
-                className={`mt-1 rounded py-0.5 text-center text-[9px] font-black ${
+                className={`mt-1 rounded py-0.5 text-center text-caption font-bold ${
                   canUpgrade
                     ? 'bg-amber-400 text-amber-950'
                     : 'bg-white text-slate-500'
@@ -672,7 +672,7 @@ function ArcPotentialPanel({ arcData }: { arcData: ArcData }) {
                 />
                 <div className="min-w-0 flex-1">
                   <div
-                    className="truncate text-[11px] font-black text-slate-800"
+                    className="truncate text-label font-semibold text-slate-800"
                     title={meta.name}
                   >
                     {meta.name}
@@ -697,7 +697,7 @@ function ArcPotentialPanel({ arcData }: { arcData: ArcData }) {
               </div>
 
               {isUmaAiRecommended ? (
-                <div className="mt-1 flex items-center justify-center gap-1 rounded bg-indigo-600 py-0.5 text-[9px] font-black text-white">
+                <div className="mt-1 flex items-center justify-center gap-1 rounded bg-indigo-600 py-0.5 text-caption font-bold text-white">
                   <Bot size={10} /> 建议升至 Lv3
                 </div>
               ) : null}
@@ -709,7 +709,7 @@ function ArcPotentialPanel({ arcData }: { arcData: ArcData }) {
                     <div
                       key={rawLevel}
                       title={effect}
-                      className={`truncate text-[9px] leading-3.5 ${getPotentialEffectStyle(
+                      className={`truncate text-caption ${getPotentialEffectStyle(
                         effectLevel,
                         level,
                         nextLevel,
@@ -731,7 +731,7 @@ function ArcPotentialPanel({ arcData }: { arcData: ArcData }) {
                     );
                     return (
                       <div key={item.conditionId}>
-                        <div className="flex justify-between gap-1 text-[8px] font-bold text-slate-500">
+                        <div className="flex justify-between gap-1 text-caption font-medium tabular-nums text-slate-500">
                           <span className="truncate">
                             {ARC_POTENTIAL_CONDITIONS[item.conditionId] ??
                               `条件 ${item.conditionId}`}
@@ -843,8 +843,8 @@ export default function ArcPanel({ charInfo }: { charInfo: CharInfo }) {
         <VitalPanel charInfo={charInfo} />
         <section className="rounded-2xl border border-[#71BCFF] bg-gradient-to-r from-[#71BCFF]/20 to-[#3CA2FF]/20 p-5 text-center shadow-sm">
           <Globe2 className="mx-auto text-[#3CA2FF]" size={30} />
-          <h2 className="mt-2 font-black text-slate-800">已识别凯旋门剧本</h2>
-          <p className="mt-1 text-xs text-slate-500">
+          <h2 className="mt-2 text-section font-semibold text-slate-800">已识别凯旋门剧本</h2>
+          <p className="mt-1 text-caption text-slate-500">
             等待下一份包含 arc_data_set 的游戏数据包。
           </p>
         </section>

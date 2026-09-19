@@ -1,0 +1,293 @@
+/* Shared by desktop, AutoUma, and portal-mounted dialogs. Keep the user's
+   root font size. Compact data has its own scale; no webfont download/swap. */
+:root {
+  --uma-font-sans:
+    'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC',
+    sans-serif;
+  --uma-font-mono:
+    Consolas, 'SFMono-Regular', 'Microsoft YaHei UI', 'Microsoft YaHei',
+    monospace;
+  --uma-type-caption: 0.75rem;
+  --uma-type-label: 0.8125rem;
+  --uma-type-data: 0.875rem;
+  --uma-type-body: 1rem;
+  --uma-type-section: 1.125rem;
+  --uma-type-title: 1.5rem;
+  --uma-type-display: 2rem;
+}
+
+:where(body) {
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-body);
+  line-height: 1.5;
+  color: #334155;
+  font-kerning: normal;
+}
+
+:where(button, input, select, textarea) {
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+:where(h1, h2, h3, h4) {
+  font-weight: 600;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+:where(h1) {
+  font-size: var(--uma-type-title);
+}
+:where(h2, h3) {
+  font-size: var(--uma-type-section);
+}
+
+:where(
+  table,
+  time,
+  input[type='number'],
+  input[type='time'],
+  input[type='date']
+) {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+:where(code, pre, kbd, samp) {
+  font-family: var(--uma-font-mono);
+}
+
+/* Opt-in prose measure, never applied to table cells or compact controls. */
+.uma-prose {
+  max-inline-size: 70ch;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+::selection {
+  color: #312e81;
+  background: #e0e7ff;
+}
+::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+
+/* Shared density for daily tasks, preset/detail editors, and their dialogs. */
+:where(.autoResearchForm) {
+  font-size: var(--uma-type-data);
+  line-height: 1.5;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.autoResearchForm :where(label, input, select, textarea) {
+  min-width: 0;
+}
+
+.autoResearchForm :where(input, select, textarea) {
+  font-size: var(--uma-type-data);
+  line-height: 1.5;
+}
+
+.autoResearchForm :where(p) {
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.autoResearchForm
+  :where(
+    input[type='number'],
+    input[inputmode='numeric'],
+    input[inputmode='decimal']
+  ) {
+  text-align: right;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.autoResearchEditorTabs button,
+.autoResearchEditorActions button {
+  font-size: var(--uma-type-label);
+  line-height: 1.5;
+}
+
+/* Keep editor navigation and actions in the scrolling content, clear of the
+   shell's centred page navigation. Intrinsic sizing also works at browser zoom. */
+.autoResearchEditorToolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.autoResearchEditorTabs,
+.autoResearchEditorActions {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.autoResearchEditorActions {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.autoResearchEditorToolbar button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  height: auto;
+  padding-block: 6px;
+  white-space: nowrap;
+}
+
+.autoResearchEditorStatus {
+  flex: 1 1 8rem;
+  min-width: 0;
+  max-width: 24rem;
+  overflow-wrap: anywhere;
+}
+
+.autoResearchAdaptiveColumns {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+}
+
+.autoResearchAdaptiveColumns > * {
+  min-width: 0;
+}
+
+.autoResearchStatFields {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+}
+
+.autoResearchSectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+
+.autoResearchSectionHeader > :first-child {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.autoResearchSectionHeader > button {
+  flex-shrink: 0;
+  min-height: 36px;
+  font-size: var(--uma-type-label);
+  white-space: nowrap;
+}
+
+.autoResearchForm :where(input[type='checkbox'], input[type='radio']) {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+.dailyTaskActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dailyTaskActions > button {
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.autoResearchDaily {
+  container: daily-form / inline-size;
+}
+
+.dailyTasksColumns,
+.dailyTaskFields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.dailyTaskPanel {
+  min-width: 0;
+  container: daily-task / inline-size;
+}
+
+.dailyTaskFields {
+  gap: 0.75rem;
+}
+
+@container daily-form (min-width: 1100px) {
+  .dailyTasksColumns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container daily-task (min-width: 560px) {
+  .dailyTaskFields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .dailyTaskFields > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 639px) {
+  .autoResearchEditorToolbar {
+    gap: 8px;
+  }
+
+  .autoResearchEditorTabs,
+  .autoResearchEditorActions {
+    flex-basis: 100%;
+  }
+
+  .autoResearchEditorTabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .autoResearchEditorToolbar button {
+    min-height: 40px;
+  }
+
+  .autoResearchEditorActions > button:first-child {
+    margin-right: auto;
+  }
+
+  .autoResearchForm section[id] {
+    scroll-margin-top: 10rem;
+  }
+
+  /* Keep typed values legible and prevent iOS focus zoom in compact forms. */
+  .autoResearchForm
+    :where(input:not([type='checkbox']):not([type='radio']), select, textarea) {
+    font-size: var(--uma-type-body);
+    line-height: 1.5;
+  }
+  .autoResearchForm
+    :where(select, input:not([type='checkbox']):not([type='radio'])) {
+    min-height: 2.5rem;
+  }
+}
+
+@container daily-task (max-width: 420px) {
+  .dailyTaskActions {
+    width: 100%;
+  }
+  .dailyTaskActions > button {
+    flex: 1 1 10rem;
+  }
+}

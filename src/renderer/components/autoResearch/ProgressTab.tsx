@@ -8,6 +8,8 @@ import {
   Trash2,
 } from 'lucide-react';
 import AssetIcon from 'renderer/components/trainingHistory/AssetIcon';
+import { useReducedMotion } from 'renderer/utils/motion';
+import DailyTasksProgress from './DailyTasksProgress';
 import {
   describeLogAction,
   describeLogDetail,
@@ -76,42 +78,35 @@ function FloatingStatDelta({
   onFinished: (id: number) => void;
 }) {
   const elementRef = useRef<HTMLSpanElement>(null);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const element = elementRef.current;
     if (!element) return undefined;
 
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-    if (reducedMotion) {
-      const timeout = window.setTimeout(() => onFinished(delta.id), 650);
+    if (reducedMotion || !element.animate || document.hidden) {
+      const timeout = window.setTimeout(() => onFinished(delta.id), 900);
       return () => window.clearTimeout(timeout);
     }
 
     const animation = element.animate(
       [
-        { opacity: 0, transform: 'translate(-50%, 6px) scale(0.85)' },
+        { opacity: 0, transform: 'translate(-50%, 0)' },
         {
           opacity: 1,
           offset: 0.12,
-          transform: 'translate(-50%, -1px) scale(1)',
+          transform: 'translate(-50%, -3px)',
         },
         {
           opacity: 1,
-          offset: 0.38,
-          transform: 'translate(-50%, -4px) scale(1)',
+          offset: 0.75,
+          transform: 'translate(-50%, -6px)',
         },
-        {
-          opacity: 1,
-          offset: 0.78,
-          transform: 'translate(-50%, -20px) scale(1)',
-        },
-        { opacity: 0, transform: 'translate(-50%, -30px) scale(0.94)' },
+        { opacity: 0, transform: 'translate(-50%, -10px)' },
       ],
       {
-        duration: 2800,
-        easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        duration: 900,
+        easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
         fill: 'forwards',
       },
     );
@@ -121,12 +116,12 @@ function FloatingStatDelta({
       animation.removeEventListener('finish', finish);
       animation.cancel();
     };
-  }, [delta.id, onFinished]);
+  }, [delta.id, onFinished, reducedMotion]);
 
   return (
     <span
       ref={elementRef}
-      className={`pointer-events-none absolute bottom-3 left-1/2 z-10 whitespace-nowrap text-lg font-black tabular-nums drop-shadow-sm ${
+      className={`pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-label font-bold tabular-nums ${
         delta.amount > 0 ? 'text-emerald-600' : 'text-red-600'
       }`}
     >
@@ -143,14 +138,12 @@ function AnimatedStatNumber({
 }: AnimatedStatNumberProps) {
   const normalizedValue =
     typeof value === 'number' && Number.isFinite(value) ? value : undefined;
-  const [displayedValue, setDisplayedValue] = useState(normalizedValue);
   const [deltas, setDeltas] = useState<StatDelta[]>([]);
   const resetKeyRef = useRef(resetKey);
   const targetValueRef = useRef(normalizedValue);
-  const displayedValueRef = useRef(normalizedValue);
-  const animationFrameRef = useRef<number | undefined>(undefined);
   const deltaIdRef = useRef(0);
   const valueElementRef = useRef<HTMLSpanElement>(null);
+  const reducedMotion = useReducedMotion();
 
   const removeDelta = useCallback((id: number) => {
     setDeltas((current) => current.filter((delta) => delta.id !== id));
@@ -162,79 +155,36 @@ function AnimatedStatNumber({
     resetKeyRef.current = resetKey;
     targetValueRef.current = normalizedValue;
 
-    if (animationFrameRef.current !== undefined) {
-      window.cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = undefined;
-    }
-
     if (
       reset ||
       previousTarget === undefined ||
       normalizedValue === undefined
     ) {
-      displayedValueRef.current = normalizedValue;
-      setDisplayedValue(normalizedValue);
       setDeltas([]);
       return undefined;
     }
 
     const amount = normalizedValue - previousTarget;
     if (!amount) {
-      displayedValueRef.current = normalizedValue;
-      setDisplayedValue(normalizedValue);
       return undefined;
     }
 
     deltaIdRef.current += 1;
-    setDeltas((current) => [
-      ...current.slice(-2),
-      { id: deltaIdRef.current, amount },
-    ]);
+    setDeltas([{ id: deltaIdRef.current, amount }]);
 
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-    if (reducedMotion) {
-      displayedValueRef.current = normalizedValue;
-      setDisplayedValue(normalizedValue);
+    if (reducedMotion || document.hidden) {
       return undefined;
     }
 
-    valueElementRef.current?.animate(
+    const animation = valueElementRef.current?.animate?.(
       [
-        { transform: 'translateY(2px) scale(0.92)', opacity: 0.65 },
-        { transform: 'translateY(-1px) scale(1.08)', opacity: 1 },
-        { transform: 'translateY(0) scale(1)', opacity: 1 },
+        { opacity: 0.65 },
+        { opacity: 1 },
       ],
-      { duration: 720, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+      { duration: 180, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
     );
-
-    const from = displayedValueRef.current ?? previousTarget;
-    const startedAt = performance.now();
-    const duration = 950;
-    const tick = (now: number) => {
-      const progress = Math.min(1, (now - startedAt) / duration);
-      const eased = 1 - (1 - progress) ** 3;
-      const nextDisplayedValue = Math.round(
-        from + (normalizedValue - from) * eased,
-      );
-      displayedValueRef.current = nextDisplayedValue;
-      setDisplayedValue(nextDisplayedValue);
-      if (progress < 1) {
-        animationFrameRef.current = window.requestAnimationFrame(tick);
-      } else {
-        animationFrameRef.current = undefined;
-      }
-    };
-    animationFrameRef.current = window.requestAnimationFrame(tick);
-
-    return () => {
-      if (animationFrameRef.current !== undefined) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = undefined;
-      }
-    };
-  }, [normalizedValue, resetKey]);
+    return () => animation?.cancel();
+  }, [normalizedValue, resetKey, reducedMotion]);
 
   return (
     <span className="relative inline-flex min-h-7 items-end">
@@ -252,7 +202,7 @@ function AnimatedStatNumber({
           'origin-bottom text-xl font-bold tabular-nums text-slate-800'
         }
       >
-        {displayedValue ?? '-'}
+        {normalizedValue ?? '-'}
       </span>
     </span>
   );
@@ -302,7 +252,7 @@ function AnimatedStatValue({
     <div
       className={`relative min-w-[92px] flex-1 rounded-lg px-3 py-2.5 ${toneClasses.container}`}
     >
-      <p className={`text-[11px] font-semibold ${toneClasses.label}`}>
+      <p className={`text-caption font-semibold ${toneClasses.label}`}>
         {label}
       </p>
       <div className="mt-0.5">
@@ -358,6 +308,8 @@ function scheduleGoalLabel(automation?: AccountAutomation) {
 
 function automationPhaseLabel(automation?: AccountAutomation) {
   switch (automation?.observation.phase) {
+    case 'daily_tasks':
+      return '正在执行日常';
     case 'paused':
       return '计划已暂停';
     case 'running':
@@ -449,6 +401,9 @@ export default function ProgressTab({
   );
   const liveActivityLabel =
     automationActive && liveActivity?.endpoint ? liveActivity.endpoint : '';
+  if (observation?.phase === 'daily_tasks') {
+    return <DailyTasksProgress daily={automation?.daily_tasks} />;
+  }
   return currentCareerActive ? (
     <div className="space-y-4">
       <section>
@@ -656,7 +611,7 @@ export default function ProgressTab({
 
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-xl border border-amber-100 bg-amber-50/70 px-4 py-3">
-                <p className="text-[11px] font-semibold text-amber-700">大差</p>
+                <p className="text-caption font-semibold text-amber-700">大差</p>
                 <div className="mt-1 flex min-h-7 items-end gap-1 whitespace-nowrap text-amber-700">
                   <AnimatedStatNumber
                     value={runner?.large_margin_count || 0}
@@ -672,7 +627,7 @@ export default function ProgressTab({
               </div>
 
               <div className="rounded-xl border border-violet-100 bg-violet-50/70 px-4 py-3">
-                <p className="text-[11px] font-semibold text-violet-700">
+                <p className="text-caption font-semibold text-violet-700">
                   本局宝石
                 </p>
                 <div className="mt-1 flex min-h-7 items-end gap-1 whitespace-nowrap text-violet-600">
@@ -692,7 +647,7 @@ export default function ProgressTab({
               </div>
 
               <div className="rounded-xl border border-indigo-100 bg-indigo-50/70 px-4 py-3">
-                <p className="text-[11px] font-semibold text-indigo-700">
+                <p className="text-caption font-semibold text-indigo-700">
                   今日宝石
                 </p>
                 <div className="mt-1 flex min-h-7 items-end gap-1 whitespace-nowrap text-indigo-600">
@@ -745,7 +700,7 @@ export default function ProgressTab({
               </div>
             ))}
           {!runnerLog.length ? (
-            <p className="p-10 text-center text-sm text-slate-400">
+            <p className="p-10 text-center text-data text-slate-600">
               暂无流程记录
             </p>
           ) : null}
@@ -763,7 +718,7 @@ export default function ProgressTab({
           size={38}
           className={`mx-auto ${automationActive ? 'animate-pulse text-indigo-300' : 'text-slate-300'}`}
         />
-        <h2 className="mt-4 font-bold text-slate-700">
+        <h2 className="text-section mt-4 font-bold text-slate-700">
           {schedule?.cadence === 'daily'
             ? observation?.phase === 'completed'
               ? '今日计划已完成'
@@ -772,7 +727,7 @@ export default function ProgressTab({
               ? '正在准备下一次育成'
               : '当前没有进行中的养马'}
         </h2>
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="uma-prose mt-1 text-data text-slate-600">
           {schedule?.cadence === 'daily'
             ? `每日 ${formatDailyJewelScheduleWindow(
                 schedule.start_time,

@@ -10,6 +10,7 @@ import {
 import {
   ArrowLeft,
   CalendarDays,
+  ChevronRight,
   Download,
   ExternalLink,
   Gem,
@@ -17,13 +18,14 @@ import {
   RefreshCw,
   Trash2,
   Trophy,
+  TrendingUp,
 } from 'lucide-react';
-import AppMenuPortal from 'renderer/components/AppMenuPortal';
-import AppSideNotch from 'renderer/components/AppSideNotch';
 import AssetIcon from 'renderer/components/trainingHistory/AssetIcon';
 import { PlannerButton } from 'renderer/components/succession/PlannerComponents';
 import { loadUMDB, UMDB } from 'renderer/utils/umdb';
-import { horseIconPath } from './SelectionCards';
+import AssetTracking from './AssetTracking';
+import './History.css';
+import { umaSkinIconPath } from './SelectionCards';
 import {
   careerSettingModeBadgeClass,
   formatAccountError,
@@ -37,6 +39,7 @@ import {
   CareerSetting,
   G123RaceRecord,
   RaceOption,
+  DailyAssetSnapshot,
 } from './types';
 
 type HistoryTabProps = {
@@ -50,6 +53,7 @@ type HistoryTabProps = {
   selectedAccountId: string;
   accountCareerSettings: CareerSetting[];
   careerHistory: CareerSessionRecord[];
+  assetSnapshots: DailyAssetSnapshot[];
   downloadCareerSetting: (records: CareerSessionRecord[]) => Promise<void>;
   deleteCareerHistory: (reportIds: string[]) => Promise<void>;
   downloadTrainingHistory: (recordId: string) => Promise<void>;
@@ -542,6 +546,7 @@ export default function HistoryTab({
   selectedAccountId,
   accountCareerSettings,
   careerHistory,
+  assetSnapshots,
   downloadCareerSetting,
   deleteCareerHistory,
   downloadTrainingHistory,
@@ -549,7 +554,9 @@ export default function HistoryTab({
   openTrainingHistory,
   races,
 }: HistoryTabProps) {
-  const [historyView, setHistoryView] = useState<'day' | 'task'>('day');
+  const [historyView, setHistoryView] = useState<'day' | 'task' | 'tracking'>(
+    'day',
+  );
   const [umaDatabase, setUmaDatabase] = useState(UMDB.data);
   const [pullDistance, setPullDistance] = useState(0);
   const pullStartY = useRef<number | null>(null);
@@ -628,8 +635,7 @@ export default function HistoryTab({
       name:
         [cardName, charaName].filter(Boolean).join(' · ') ||
         `育成马娘 ${cardId}`,
-      rarity: 0,
-      race_cloth_id: cardId,
+      iconPath: umaSkinIconPath(cardId),
     };
   };
 
@@ -664,13 +670,13 @@ export default function HistoryTab({
       historyView === 'task' ? taskPlanSummary(selectedCareerRecords[0]) : '';
 
     return (
-      <div className="autoResearchHistoryDetail space-y-4">
+      <div className="autoResearchHistory autoResearchHistoryDetail space-y-4">
         <section className={panelClass('p-3 sm:p-5')}>
-          <div className="mb-3 flex items-center justify-between gap-2 sm:gap-3">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
             <PlannerButton
               variant="secondary"
               size="small"
-              className="autoResearchHistoryAction"
+              className="historyAction"
               onClick={() => setSelectedCareerRecords(null)}
             >
               <ArrowLeft size={14} />
@@ -681,7 +687,7 @@ export default function HistoryTab({
                 <PlannerButton
                   variant="secondary"
                   size="small"
-                  className="autoResearchHistoryAction"
+                  className="historyAction"
                   disabled={
                     settingDownloaded ||
                     busy.startsWith('history-setting-download:')
@@ -696,7 +702,7 @@ export default function HistoryTab({
                 <PlannerButton
                   variant="danger"
                   size="small"
-                  className="autoResearchHistoryAction"
+                  className="historyAction"
                   disabled={busy === 'history-delete'}
                   onClick={() => {
                     if (
@@ -725,13 +731,7 @@ export default function HistoryTab({
               <span className="h-12 w-12 flex-none sm:h-16 sm:w-16">
                 {recordUma ? (
                   <AssetIcon
-                    path={
-                      horseIconPath(
-                        recordUma.id,
-                        recordUma.rarity,
-                        recordUma.race_cloth_id,
-                      ) || ''
-                    }
+                    path={recordUma.iconPath || ''}
                     alt={recordUma.name}
                     className="h-full w-full object-contain"
                   />
@@ -740,19 +740,19 @@ export default function HistoryTab({
                 )}
               </span>
               <div className="min-w-0">
-                <h2 className="truncate text-base font-bold text-slate-900 sm:text-xl">
+                <h2 className="historyLongText text-section font-semibold text-slate-900">
                   {settingName} ·{' '}
                   {historyView === 'task'
                     ? '任务全量记录'
                     : formatRecordDate(dateKey)}
                 </h2>
-                <p className="mt-0.5 text-xs text-slate-500 sm:mt-1 sm:text-sm">
+                <p className="uma-prose mt-1 text-label text-slate-600">
                   {offlineHistory
                     ? '离线详设'
                     : `在线详设 · 预设：${selectedCareerRecords[0]?.preset_name || '未命名'}`}
                   {planSummary ? ` · ${planSummary}` : ''}
                 </p>
-                <p className="mt-0.5 truncate text-[10px] text-slate-400 sm:mt-1 sm:text-xs">
+                <p className="historyLongText mt-1 text-caption text-slate-500">
                   {formatReportTime(aggregate.startedAt)} 至{' '}
                   {formatReportTime(aggregate.endedAt)} · 合并{' '}
                   {selectedCareerRecords.length} 次托管
@@ -762,58 +762,59 @@ export default function HistoryTab({
           </div>
 
           {aggregate.errors.length ? (
-            <div className="mt-4 space-y-1 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+            <div className="historyLongText mt-4 space-y-1 rounded-lg bg-red-50 px-3 py-2 text-label text-red-700">
               {aggregate.errors.map((error) => (
                 <p key={error}>{error}</p>
               ))}
             </div>
           ) : null}
 
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:grid-cols-4">
-            <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 sm:p-3">
-              <p className="text-[11px] text-slate-500 sm:text-xs">完成次数</p>
-              <strong className="mt-1 block text-lg text-slate-900 sm:text-xl">
+          <div className="historySummary">
+            <div>
+              <p className="text-caption text-slate-500 sm:text-caption">
+                完成次数
+              </p>
+              <strong className="mt-1 block text-section text-slate-900">
                 {aggregate.count}
               </strong>
             </div>
             {!offlineHistory ? (
-              <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 sm:p-3">
-                <p className="text-[11px] text-slate-500 sm:text-xs">
+              <div>
+                <p className="text-caption text-slate-500 sm:text-caption">
                   比赛大差
                 </p>
-                <strong className="mt-1 block text-lg text-amber-700 sm:text-xl">
+                <strong className="mt-1 block text-section text-amber-700">
                   {aggregate.largeMarginCount} / {aggregate.g123RaceCount} 场
                 </strong>
               </div>
             ) : null}
             {!offlineHistory ? (
-              <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 sm:p-3">
-                <p className="text-[11px] text-slate-500 sm:text-xs">
+              <div>
+                <p className="text-caption text-slate-500 sm:text-caption">
                   使用闹钟
                 </p>
-                <strong className="mt-1 block text-lg text-sky-700 sm:text-xl">
+                <strong className="mt-1 block text-section text-sky-700">
                   {aggregate.clocksUsed} 次
                 </strong>
               </div>
             ) : null}
-            <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 sm:p-3">
-              <p className="text-[11px] text-slate-500 sm:text-xs">宝石掉落</p>
-              <strong className="mt-1 block text-lg text-violet-700 sm:text-xl">
+            <div>
+              <p className="text-caption text-slate-500 sm:text-caption">
+                宝石掉落
+              </p>
+              <strong className="mt-1 block text-section text-violet-700">
                 {aggregate.jewelDropCount} 次 / {aggregate.jewelsEarned} 个
               </strong>
             </div>
           </div>
-          <div className="mt-2 grid grid-cols-5 gap-1 sm:gap-2">
+          <div className="historyAttributes mt-4">
             {attributeItems.map(([key, label]) => (
-              <div
-                key={key}
-                className="min-w-0 rounded-lg border border-slate-100 bg-slate-50 px-1 py-2 text-center sm:p-3"
-              >
-                <p className="truncate text-[10px] text-slate-500 sm:text-xs">
+              <div key={key} className="min-w-0 text-center">
+                <p className="truncate text-caption text-slate-500 sm:text-caption">
                   <span className="hidden sm:inline">平均</span>
                   {label}
                 </p>
-                <strong className="mt-0.5 block truncate text-sm text-slate-900 sm:mt-1 sm:text-xl">
+                <strong className="mt-1 block text-data font-semibold text-slate-900">
                   {formatMetric(aggregate.attributesAverage[key])}
                 </strong>
               </div>
@@ -824,7 +825,7 @@ export default function HistoryTab({
         <section className={panelClass('overflow-hidden')}>
           {aggregate.rows.length ? (
             <>
-              <div className="divide-y divide-slate-100 sm:hidden">
+              <div className="historyCompactRuns divide-y divide-slate-200">
                 {aggregate.rows.map(
                   ({ run, current, startedAt, endedAt, sequence }, index) => {
                     const status = runStatus(run, current);
@@ -838,20 +839,20 @@ export default function HistoryTab({
                     return (
                       <article
                         key={run.run_id || `mobile-current-${index}`}
-                        className="px-3 py-3"
+                        className="historyRun px-3 py-4 sm:px-4"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <span className="min-w-0">
-                            <strong className="text-sm text-slate-800">
+                            <strong className="text-data text-slate-800">
                               {sequence ? `第 ${sequence} 次` : '当前进度'}
                             </strong>
                             <span
-                              className={`ml-2 text-xs ${status.className}`}
+                              className={`ml-2 text-caption ${status.className}`}
                             >
                               {status.label}
                             </span>
                           </span>
-                          <span className="shrink-0 text-right text-[10px] leading-4 text-slate-500">
+                          <span className="max-w-[55%] text-right text-caption tabular-nums text-slate-500">
                             <span className="block">
                               {historyView === 'task'
                                 ? formatRunDateTime(startedAt)
@@ -864,26 +865,23 @@ export default function HistoryTab({
                           </span>
                         </div>
                         {run.last_error ? (
-                          <p className="mt-1 truncate text-xs text-red-500">
+                          <p className="historyLongText mt-2 text-caption text-red-700">
                             {formatAccountError(run.last_error)}
                           </p>
                         ) : null}
-                        <div className="mt-2 grid grid-cols-5 gap-1 text-center">
+                        <div className="historyAttributes mt-3">
                           {attributeItems.map(([key, label]) => (
-                            <span
-                              key={key}
-                              className="min-w-0 rounded-md bg-slate-50 px-1 py-1.5"
-                            >
-                              <strong className="block truncate text-xs text-slate-800">
+                            <span key={key} className="min-w-0 text-center">
+                              <strong className="block text-label font-semibold text-slate-800">
                                 {run.attributes?.[key] || 0}
                               </strong>
-                              <span className="text-[9px] text-slate-500">
+                              <span className="text-caption text-slate-500">
                                 {label}
                               </span>
                             </span>
                           ))}
                         </div>
-                        <div className="mt-2 flex items-center justify-between gap-2 text-[11px] text-slate-500">
+                        <div className="mt-2 flex items-center justify-between gap-2 text-caption text-slate-500">
                           <span className="flex flex-wrap gap-x-3 gap-y-1">
                             {!offlineHistory ? (
                               <span className="text-amber-700">
@@ -914,7 +912,7 @@ export default function HistoryTab({
                                   downloadTrainingHistory(trainingHistoryId);
                                 }
                               }}
-                              className="shrink-0 rounded-md bg-indigo-50 px-2 py-1 font-medium text-indigo-700 disabled:opacity-50"
+                              className="historyAction shrink-0 rounded-md bg-indigo-50 px-3 font-medium text-indigo-700 disabled:opacity-50"
                             >
                               {downloaded ? '查看' : '下载记录'}
                             </button>
@@ -925,9 +923,9 @@ export default function HistoryTab({
                   },
                 )}
               </div>
-              <div className="hidden overflow-x-auto sm:block">
-                <table className="w-full min-w-[980px] text-left text-xs">
-                  <thead className="bg-slate-50 text-xs text-slate-500">
+              <div className="historyDesktopRuns overflow-x-auto">
+                <table className="historyTable w-full min-w-[980px] text-left text-label">
+                  <thead className="bg-slate-50 text-caption text-slate-500">
                     <tr>
                       <th className="px-4 py-3 font-medium">次数</th>
                       <th className="px-3 py-3 font-medium">状态</th>
@@ -975,7 +973,7 @@ export default function HistoryTab({
                             <td className={`px-3 py-3 ${status.className}`}>
                               {status.label}
                               {run.last_error ? (
-                                <span className="mt-1 block max-w-40 truncate text-xs text-red-500">
+                                <span className="historyLongText mt-1 block max-w-40 text-caption text-red-700">
                                   {formatAccountError(run.last_error)}
                                 </span>
                               ) : null}
@@ -1003,19 +1001,19 @@ export default function HistoryTab({
                               {run.jewel_drop_count || 0} 次 /{' '}
                               {run.jewels_earned || 0} 个
                             </td>
-                            <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600">
+                            <td className="whitespace-nowrap px-3 py-3 text-caption text-slate-600">
                               {historyView === 'task'
                                 ? formatRunDateTime(startedAt)
                                 : formatRunTime(startedAt)}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600">
+                            <td className="whitespace-nowrap px-3 py-3 text-caption text-slate-600">
                               {current
                                 ? '未结束'
                                 : historyView === 'task'
                                   ? formatRunDateTime(endedAt)
                                   : formatRunTime(endedAt)}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-500">
+                            <td className="whitespace-nowrap px-3 py-3 text-caption text-slate-500">
                               {duration ||
                                 (current ? currentDurationLabel(run) : '未知')}
                             </td>
@@ -1037,7 +1035,7 @@ export default function HistoryTab({
                                         );
                                       }
                                     }}
-                                    className={`inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium disabled:opacity-50 ${
+                                    className={`historyAction inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-caption font-medium disabled:opacity-50 ${
                                       downloaded
                                         ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
                                         : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
@@ -1056,7 +1054,7 @@ export default function HistoryTab({
                                         className={
                                           busy ===
                                           `history-download:${trainingHistoryId}`
-                                            ? 'animate-bounce'
+                                            ? 'animate-pulse'
                                             : ''
                                         }
                                       />
@@ -1064,7 +1062,7 @@ export default function HistoryTab({
                                     {downloaded ? '查看记录' : '下载到本地'}
                                   </button>
                                 ) : (
-                                  <span className="text-xs text-slate-300">
+                                  <span className="text-caption text-slate-500">
                                     无数据
                                   </span>
                                 )}
@@ -1079,17 +1077,19 @@ export default function HistoryTab({
               </div>
             </>
           ) : (
-            <p className="py-12 text-center text-sm text-slate-400">
+            <p className="py-12 text-center text-data text-slate-600">
               当天没有可显示的育成结果
             </p>
           )}
         </section>
 
         {!offlineHistory ? (
-          <section className={panelClass('p-5')}>
-            <h3 className="font-bold text-slate-900">大差情况</h3>
+          <section className={panelClass('p-3 sm:p-5')}>
+            <h3 className="text-section font-semibold text-slate-900">
+              大差情况
+            </h3>
             {aggregate.g123Races.length ? (
-              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="historyRaces mt-3">
                 {aggregate.g123Races.map((raceRow) => {
                   const race =
                     raceById.get(raceRow.raceId) ||
@@ -1100,7 +1100,7 @@ export default function HistoryTab({
                   return (
                     <div
                       key={`${raceRow.raceId}:${raceRow.programId}:${raceRow.turn}`}
-                      className="flex items-center gap-3 rounded-lg border border-amber-100 bg-amber-50/60 p-2"
+                      className="flex min-w-0 items-center gap-3 border-b border-slate-100 py-3"
                     >
                       {race?.thumbnail_id ? (
                         <AssetIcon
@@ -1114,22 +1114,22 @@ export default function HistoryTab({
                         </span>
                       )}
                       <span className="min-w-0 flex-1">
-                        <strong className="block truncate text-sm text-slate-700">
+                        <strong className="historyLongText block text-data font-semibold text-slate-700">
                           {race?.name || raceRow.raceName || '未知比赛'}
                         </strong>
                         {race ? (
-                          <span className="block truncate text-xs text-slate-500">
+                          <span className="block text-caption text-slate-500">
                             {race.date} · {race.type} · {race.terrain} ·{' '}
                             {race.distance}
                           </span>
                         ) : null}
                         {raceRow.recordedAt ? (
-                          <span className="block truncate text-[11px] text-slate-400">
+                          <span className="block text-caption text-slate-500">
                             比赛时间 {formatReportTime(raceRow.recordedAt)}
                           </span>
                         ) : null}
                       </span>
-                      <strong className="shrink-0 text-amber-700">
+                      <strong className="shrink-0 text-label tabular-nums text-amber-700">
                         {raceRow.largeMarginCount} / {raceRow.raceCount} 场
                       </strong>
                     </div>
@@ -1137,7 +1137,7 @@ export default function HistoryTab({
                 })}
               </div>
             ) : (
-              <p className="mt-4 rounded-lg bg-slate-50 px-3 py-6 text-center text-sm text-slate-400">
+              <p className="mt-4 rounded-lg bg-slate-50 px-3 py-6 text-center text-data text-slate-600">
                 当天没有 G1、G2、G3、EX 比赛记录
               </p>
             )}
@@ -1147,257 +1147,269 @@ export default function HistoryTab({
     );
   }
 
+  const groups =
+    historyView === 'task'
+      ? groupRecordsByTask(careerHistory)
+      : groupRecordsBySettingAndDate(careerHistory);
+  const visibleGroups = historyView === 'tracking' ? [] : groups;
   return (
-    <>
-      {!mobilePullToRefresh ? (
-        <AppMenuPortal targetId="app-page-context-actions">
-          <AppSideNotch side="right">
-            <div className="flex h-10 items-center px-2">
+    <section
+      className="autoResearchHistory"
+      aria-busy={busy === 'history'}
+      onTouchStart={beginPull}
+      onTouchMove={continuePull}
+      onTouchEnd={finishPull}
+      onTouchCancel={finishPull}
+    >
+      {mobilePullToRefresh && (pullDistance > 0 || busy === 'history') ? (
+        <div
+          className="flex items-center justify-center overflow-hidden text-caption font-medium text-slate-500"
+          style={{ height: busy === 'history' ? 40 : pullDistance }}
+        >
+          <RefreshCw
+            size={15}
+            className={busy === 'history' ? 'mr-2 animate-spin' : 'mr-2'}
+            style={{
+              transform:
+                busy === 'history'
+                  ? undefined
+                  : `rotate(${Math.min(180, pullDistance * 3)}deg)`,
+            }}
+          />
+          {busy === 'history'
+            ? '正在刷新记录…'
+            : pullDistance >= 56
+              ? '松开刷新'
+              : '下拉刷新'}
+        </div>
+      ) : null}
+      <div className="historyContent">
+        <div className="historyToolbar">
+          <div
+            className="historyViewSwitch"
+            role="group"
+            aria-label="历史聚合方式"
+          >
+            {(
+              [
+                ['day', '按日期', CalendarDays],
+                ['task', '按任务', ListTodo],
+                ['tracking', '追踪', TrendingUp],
+              ] as const
+            ).map(([value, label, Icon]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={historyView === value}
+                className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-label font-semibold transition-colors ${
+                  historyView === value
+                    ? 'bg-white text-indigo-700 shadow-sm'
+                    : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-800'
+                }`}
+                onClick={() => {
+                  setHistoryView(value);
+                  setSelectedCareerRecords(null);
+                }}
+              >
+                <Icon size={15} />
+                {label}
+              </button>
+            ))}
+          </div>
+          {busy === 'history' && !mobilePullToRefresh ? (
+            <span
+              role="status"
+              className="flex items-center gap-2 text-caption text-slate-500"
+            >
+              <RefreshCw size={14} className="animate-spin" />
+              正在刷新记录…
+            </span>
+          ) : null}
+          {!mobilePullToRefresh ? (
+            <button
+              type="button"
+              onClick={() => loadCareerHistory(selectedAccountId)}
+              disabled={busy === 'history'}
+              className="historyAction inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md border border-slate-200 px-3 py-2 text-label text-gray-700 hover:bg-slate-100 disabled:opacity-50"
+            >
+              <RefreshCw
+                size={14}
+                className={busy === 'history' ? 'animate-spin' : ''}
+              />
+              刷新记录
+            </button>
+          ) : null}
+        </div>
+        {historyView === 'tracking' ? (
+          <AssetTracking
+            snapshots={assetSnapshots}
+            loading={busy === 'history'}
+          />
+        ) : null}
+        {visibleGroups.map(({ key, settingName, dateKey, records }) => {
+          const aggregate = aggregateRecords(records);
+          const recordUma = resolveRecordUma(aggregate.cardId);
+          const offline = records.every(
+            (record) => recordCareerMode(record) === 'offline',
+          );
+          const settingDownloaded = hasLocalCareerSetting(
+            records,
+            accountCareerSettings,
+          );
+          const canDownloadSetting = hasCareerSettingSnapshot(records);
+          const planSummary =
+            historyView === 'task' ? taskPlanSummary(records[0]) : '';
+          return (
+            <section key={key} className="historyGroup">
+              <div className="historyGroupHeader">
+                <div className="min-w-0 flex-1">
+                  <h3 className="historyLongText text-data font-semibold text-slate-800">
+                    {historyView === 'task'
+                      ? settingName
+                      : formatRecordDate(dateKey)}
+                  </h3>
+                  {planSummary ? (
+                    <p className="mt-0.5 text-caption font-medium text-indigo-600">
+                      {planSummary}
+                    </p>
+                  ) : null}
+                </div>
+                <span className="historyGroupActions">
+                  <span className={careerSettingModeBadgeClass(offline)}>
+                    {offline ? '离线' : '在线'}
+                  </span>
+                  <span className="text-caption text-slate-500">
+                    {aggregate.count} 次育成 · {records.length} 次托管
+                  </span>
+                  {!readOnly && canDownloadSetting ? (
+                    <button
+                      type="button"
+                      disabled={
+                        settingDownloaded ||
+                        busy.startsWith('history-setting-download:')
+                      }
+                      onClick={() => downloadCareerSetting(records)}
+                      className="historyAction inline-flex items-center gap-1.5 rounded-md px-2 text-caption font-medium text-indigo-700 hover:bg-indigo-50 disabled:text-slate-500 disabled:opacity-70"
+                      title={
+                        settingDownloaded
+                          ? 'UmaShow 中已有这个详设'
+                          : '将记录中的详设保存到 UmaShow'
+                      }
+                    >
+                      <Download size={14} />
+                      {settingDownloaded ? '详设已保存' : '下载详设'}
+                    </button>
+                  ) : null}
+                  {!readOnly ? (
+                    <button
+                      type="button"
+                      disabled={busy === 'history-delete'}
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            `确定删除 ${formatRecordDate(dateKey)} 的全部养马记录吗？`,
+                          )
+                        ) {
+                          deleteCareerHistory(
+                            historyView === 'task'
+                              ? [
+                                  `task:${records[0]?.task_id || records[0]?.session_id || ''}`,
+                                ]
+                              : records.map((record) => record.id),
+                          );
+                        }
+                      }}
+                      className="historyAction inline-flex w-9 items-center justify-center rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                      title="删除"
+                      aria-label="删除"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  ) : null}
+                </span>
+              </div>
               <button
                 type="button"
-                onClick={() => loadCareerHistory(selectedAccountId)}
-                disabled={busy === 'history'}
-                className="flex h-7 items-center gap-1.5 rounded-md px-2 text-xs text-gray-700 hover:bg-slate-100 disabled:opacity-50"
+                onClick={() => setSelectedCareerRecords(records)}
+                className="historyRecordRow"
               >
-                <RefreshCw
-                  size={14}
-                  className={busy === 'history' ? 'animate-spin' : ''}
+                <span className="historyIdentity flex min-w-0 items-center gap-3">
+                  <span className="h-12 w-12 flex-none">
+                    {recordUma ? (
+                      <AssetIcon
+                        path={recordUma.iconPath || ''}
+                        alt={settingName}
+                        className="h-full w-full object-contain"
+                      />
+                    ) : (
+                      <Trophy size={20} className="m-3.5 text-slate-300" />
+                    )}
+                  </span>
+                  <span className="min-w-0">
+                    <strong className="historyLongText block text-data font-semibold text-slate-900">
+                      {settingName}
+                    </strong>
+                    <span className="historyLongText mt-1 block text-caption text-slate-500">
+                      {formatReportTime(aggregate.startedAt)} 至{' '}
+                      {formatReportTime(aggregate.endedAt)}
+                    </span>
+                  </span>
+                </span>
+
+                <span className="historyAttributes text-center text-caption text-slate-500">
+                  {attributeItems.map(([attributeKey, label]) => (
+                    <span key={attributeKey} className="min-w-0">
+                      <strong className="block text-data font-semibold text-slate-700">
+                        {formatMetric(
+                          aggregate.attributesAverage[attributeKey],
+                        )}
+                      </strong>
+                      {label}
+                    </span>
+                  ))}
+                </span>
+
+                <span className="historyResults grid grid-cols-3 gap-2 text-center text-caption text-slate-500">
+                  <span>
+                    <strong className="block text-data text-slate-800">
+                      {aggregate.count}
+                    </strong>
+                    完成
+                  </span>
+                  <span>
+                    <strong className="block text-data text-amber-700">
+                      {aggregate.largeMarginCount}
+                    </strong>
+                    大差
+                  </span>
+                  <span>
+                    <strong className="flex items-center justify-center gap-1 text-data text-violet-700">
+                      <Gem size={12} />
+                      {aggregate.jewelDropCount}/{aggregate.jewelsEarned}
+                    </strong>
+                    掉落/宝石
+                  </span>
+                </span>
+                <ChevronRight
+                  size={16}
+                  className="historyRowChevron text-slate-400"
+                  aria-hidden="true"
                 />
-                刷新记录
               </button>
-            </div>
-          </AppSideNotch>
-        </AppMenuPortal>
-      ) : null}
-      <section
-        onTouchStart={beginPull}
-        onTouchMove={continuePull}
-        onTouchEnd={finishPull}
-        onTouchCancel={finishPull}
-      >
-        {mobilePullToRefresh && (pullDistance > 0 || busy === 'history') ? (
-          <div
-            className="flex items-center justify-center overflow-hidden text-xs font-medium text-slate-500 transition-[height] duration-150"
-            style={{ height: busy === 'history' ? 40 : pullDistance }}
+            </section>
+          );
+        })}
+        {historyView !== 'tracking' &&
+        !careerHistory.length &&
+        busy !== 'history' ? (
+          <p
+            role="status"
+            className="py-14 text-center text-data text-slate-600"
           >
-            <RefreshCw
-              size={15}
-              className={busy === 'history' ? 'mr-2 animate-spin' : 'mr-2'}
-              style={{
-                transform:
-                  busy === 'history'
-                    ? undefined
-                    : `rotate(${Math.min(180, pullDistance * 3)}deg)`,
-              }}
-            />
-            {busy === 'history'
-              ? '正在刷新记录…'
-              : pullDistance >= 56
-                ? '松开刷新'
-                : '下拉刷新'}
-          </div>
-        ) : null}
-        <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
-          <div className="flex justify-center sm:justify-start">
-            <div
-              className="inline-grid w-full grid-cols-2 rounded-xl bg-slate-100 p-1 sm:w-auto"
-              role="group"
-              aria-label="历史聚合方式"
-            >
-              {(
-                [
-                  ['day', '按日期', CalendarDays],
-                  ['task', '按任务', ListTodo],
-                ] as const
-              ).map(([value, label, Icon]) => (
-                <button
-                  key={value}
-                  type="button"
-                  className={`inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                    historyView === value
-                      ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-slate-200/70'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
-                  onClick={() => {
-                    setHistoryView(value);
-                    setSelectedCareerRecords(null);
-                  }}
-                >
-                  <Icon size={15} />
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-          {(historyView === 'task'
-            ? groupRecordsByTask(careerHistory)
-            : groupRecordsBySettingAndDate(careerHistory)
-          ).map(({ key, settingName, dateKey, records }) => {
-            const aggregate = aggregateRecords(records);
-            const recordUma = resolveRecordUma(aggregate.cardId);
-            const offline = records.every(
-              (record) => recordCareerMode(record) === 'offline',
-            );
-            const settingDownloaded = hasLocalCareerSetting(
-              records,
-              accountCareerSettings,
-            );
-            const canDownloadSetting = hasCareerSettingSnapshot(records);
-            const planSummary =
-              historyView === 'task' ? taskPlanSummary(records[0]) : '';
-            return (
-              <section
-                key={key}
-                className="overflow-hidden rounded-xl border border-slate-200 bg-white"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3">
-                  <div className="min-w-0">
-                    <h3 className="truncate font-semibold text-slate-800">
-                      {historyView === 'task'
-                        ? settingName
-                        : formatRecordDate(dateKey)}
-                    </h3>
-                    {planSummary ? (
-                      <p className="mt-0.5 text-xs font-medium text-indigo-600">
-                        {planSummary}
-                      </p>
-                    ) : null}
-                  </div>
-                  <span className="flex flex-wrap items-center justify-end gap-2">
-                    <span className={careerSettingModeBadgeClass(offline)}>
-                      {offline ? '离线' : '在线'}
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      {aggregate.count} 次育成 · {records.length} 次托管
-                    </span>
-                    {!readOnly && canDownloadSetting ? (
-                      <button
-                        type="button"
-                        disabled={
-                          settingDownloaded ||
-                          busy.startsWith('history-setting-download:')
-                        }
-                        onClick={() => downloadCareerSetting(records)}
-                        className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-indigo-700 hover:bg-indigo-50 disabled:text-slate-400 disabled:opacity-70"
-                        title={
-                          settingDownloaded
-                            ? 'UmaShow 中已有这个详设'
-                            : '将记录中的详设保存到 UmaShow'
-                        }
-                      >
-                        <Download size={14} />
-                        {settingDownloaded ? '详设已保存' : '下载详设'}
-                      </button>
-                    ) : null}
-                    {!readOnly ? (
-                      <button
-                        type="button"
-                        disabled={busy === 'history-delete'}
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              `确定删除 ${formatRecordDate(dateKey)} 的全部养马记录吗？`,
-                            )
-                          ) {
-                            deleteCareerHistory(
-                              historyView === 'task'
-                                ? [
-                                    `task:${records[0]?.task_id || records[0]?.session_id || ''}`,
-                                  ]
-                                : records.map((record) => record.id),
-                            );
-                          }
-                        }}
-                        className="rounded p-1 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
-                        title="删除"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    ) : null}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCareerRecords(records)}
-                  className="grid w-full gap-4 px-4 py-3 text-left transition hover:bg-indigo-50/40 lg:grid-cols-[minmax(220px,1.2fr)_minmax(300px,1.6fr)_minmax(300px,1.5fr)] lg:items-center"
-                >
-                  <span className="flex min-w-0 items-center gap-3">
-                    <span className="h-14 w-14 flex-none">
-                      {recordUma ? (
-                        <AssetIcon
-                          path={
-                            horseIconPath(
-                              recordUma.id,
-                              recordUma.rarity,
-                              recordUma.race_cloth_id,
-                            ) || ''
-                          }
-                          alt={settingName}
-                          className="h-full w-full object-contain"
-                        />
-                      ) : (
-                        <Trophy size={20} className="m-[18px] text-slate-300" />
-                      )}
-                    </span>
-                    <span className="min-w-0">
-                      <strong className="block truncate text-slate-900">
-                        {settingName}
-                      </strong>
-                      <span className="mt-1 block text-xs text-slate-500">
-                        {formatReportTime(aggregate.startedAt)} 至{' '}
-                        {formatReportTime(aggregate.endedAt)}
-                      </span>
-                    </span>
-                  </span>
-
-                  <span className="grid grid-cols-5 gap-1 text-center text-[11px] text-slate-500">
-                    {attributeItems.map(([attributeKey, label]) => (
-                      <span
-                        key={attributeKey}
-                        className="rounded bg-slate-50 px-1 py-1.5"
-                      >
-                        <strong className="block text-xs text-slate-700">
-                          {formatMetric(
-                            aggregate.attributesAverage[attributeKey],
-                          )}
-                        </strong>
-                        {label}
-                      </span>
-                    ))}
-                  </span>
-
-                  <span className="grid grid-cols-3 gap-2 text-center text-xs text-slate-500">
-                    <span>
-                      <strong className="block text-sm text-slate-800">
-                        {aggregate.count}
-                      </strong>
-                      完成
-                    </span>
-                    <span>
-                      <strong className="block text-sm text-amber-700">
-                        {aggregate.largeMarginCount}
-                      </strong>
-                      大差
-                    </span>
-                    <span>
-                      <strong className="flex items-center justify-center gap-1 text-sm text-violet-700">
-                        <Gem size={12} />
-                        {aggregate.jewelDropCount}/{aggregate.jewelsEarned}
-                      </strong>
-                      掉落/宝石
-                    </span>
-                  </span>
-                </button>
-              </section>
-            );
-          })}
-        </div>
-        {!careerHistory.length && busy !== 'history' ? (
-          <p className="py-14 text-center text-sm text-slate-400">
             当前账号暂无养马记录
           </p>
         ) : null}
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

@@ -11435,7 +11435,7 @@ export default function SuccessionPlannerPage() {
       <AppMenuPortal>
         <div className="flex items-center gap-1.5">
           <span
-            className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+            className={`whitespace-nowrap rounded-full px-2 py-0.5 text-caption font-semibold ${
               effectiveSnapshot
                 ? 'bg-emerald-100 text-emerald-700'
                 : 'bg-amber-100 text-amber-700'

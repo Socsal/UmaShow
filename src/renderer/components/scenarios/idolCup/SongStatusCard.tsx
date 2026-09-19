@@ -201,12 +201,12 @@ export default function SongStatusCard({
           {badgeItems.map((badge) => (
             <div key={badge.key} className="group relative">
               <div
-                className={`inline-flex h-5 items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-black text-white shadow-sm cursor-default backdrop-blur-sm align-middle ${badge.className}`}
+                className={`inline-flex min-h-5 items-center gap-1 rounded-md px-1.5 py-0.5 text-caption font-bold text-white shadow-sm cursor-default backdrop-blur-sm align-middle ${badge.className}`}
               >
                 {badge.icon ? <Sparkles size={10} /> : null}
                 <span>{badge.label}</span>
               </div>
-              <div className="absolute right-0 top-full mt-1 hidden w-max max-w-[220px] rounded bg-gray-800 px-2 py-1 text-[10px] text-white shadow-lg group-hover:block">
+              <div className="absolute right-0 top-full mt-1 hidden w-max max-w-[220px] rounded bg-gray-800 px-2 py-1 text-caption text-white shadow-lg group-hover:block">
                 {badge.tooltip}
               </div>
             </div>
@@ -217,7 +217,7 @@ export default function SongStatusCard({
       <header className={`px-2.5 py-1.5 text-white ${headerClass}`}>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex items-center gap-2">
-            <h3 className="min-w-0 truncate text-xs font-black tracking-wide">
+            <h3 className="min-w-0 truncate text-data font-semibold tracking-normal">
               {title}
             </h3>
           </div>
@@ -235,11 +235,11 @@ export default function SongStatusCard({
                 key={`${attr.label}-${idx}`}
                 className={`flex items-center gap-2 rounded-md border px-2 py-1 ${attributeBorderClass} ${tone.bg}`}
               >
-                <div className="flex-1 truncate text-[11px] font-semibold text-slate-700">
+                <div className="flex-1 truncate text-caption font-semibold text-slate-700">
                   {attr.label}
                 </div>
                 <div
-                  className={`text-xs font-black ${tone.text}`}
+                  className={`text-data font-bold tabular-nums ${tone.text}`}
                   style={attr.color ? { color: attr.color } : undefined}
                 >
                   <span dangerouslySetInnerHTML={{ __html: attr.value }} />
@@ -291,7 +291,7 @@ export default function SongStatusCard({
               return (
                 <div
                   key={key}
-                  className={`relative flex flex-col overflow-hidden rounded-lg border shadow-sm transition-all ${
+                  className={`relative flex flex-col overflow-hidden rounded-lg border shadow-sm transition-ui ${
                     isMetPreview
                       ? 'border-emerald-200 bg-emerald-50'
                       : `${style.border} ${style.bg}`
@@ -303,20 +303,20 @@ export default function SongStatusCard({
                     }`}
                   >
                     {trainingLabelsByNote[key]?.length ? (
-                      <span className="mb-0.5 text-[9px] font-black text-slate-500">
+                      <span className="mb-0.5 text-caption font-bold text-slate-500">
                         {trainingLabelsByNote[key].join('')}
                       </span>
                     ) : (
-                      <span className="mb-0.5 text-[9px] font-black text-slate-400">
+                      <span className="mb-0.5 text-caption font-bold text-slate-400">
                         —
                       </span>
                     )}
 
                     <span
-                      className={`flex-shrink-0 rounded-full border bg-white ${style.border} ${style.text} ${style.ring} flex items-center justify-center font-black ring-2 ${
+                      className={`flex-shrink-0 rounded-full border bg-white ${style.border} ${style.text} ${style.ring} flex items-center justify-center font-bold ring-2 ${
                         hasPreview
-                          ? 'mb-0.5 h-5 w-5 text-[9px]'
-                          : 'mb-1 h-6 w-6 text-[10px]'
+                          ? 'mb-0.5 h-5 w-5 text-caption'
+                          : 'mb-1 h-6 w-6 text-caption'
                       }`}
                     >
                       {style.label}
@@ -324,7 +324,7 @@ export default function SongStatusCard({
 
                     <span
                       className={`tabular-nums font-bold ${style.text} ${
-                        hasPreview ? 'text-[12px]' : 'text-[13px]'
+                        hasPreview ? 'text-caption' : 'text-label'
                       }`}
                     >
                       {displayNeed}
@@ -332,7 +332,7 @@ export default function SongStatusCard({
                   </div>
 
                   <div
-                    className={`mt-auto flex flex-col items-center justify-center border-t border-dashed py-1 transition-all ${
+                    className={`mt-auto flex flex-col items-center justify-center border-t border-dashed py-1 transition-ui ${
                       isMetPreview
                         ? 'border-emerald-200 bg-emerald-100/50'
                         : `${style.border} ${style.accent}`
@@ -350,7 +350,7 @@ export default function SongStatusCard({
                             ) : (
                               <XCircle size={12} className="text-red-400" />
                             )}
-                            <span className="text-[10px] text-gray-400">
+                            <span className="text-caption text-gray-400">
                               -&gt;
                             </span>
                             {isMetPreview ? (
@@ -374,13 +374,13 @@ export default function SongStatusCard({
 
                       {hasPreview ? (
                         <div className="flex flex-col items-center gap-0.5">
-                          <span className="tabular-nums text-[9px] text-gray-400 line-through">
+                          <span className="tabular-nums text-caption text-gray-400 line-through">
                             {isMetCurrent
                               ? displayRemainingCurrent
                               : displayMissingCurrent}
                           </span>
                           <span
-                            className={`tabular-nums text-[11px] font-black ${
+                            className={`tabular-nums text-caption font-bold ${
                               isMetPreview ? 'text-emerald-700' : style.text
                             }`}
                           >
@@ -391,7 +391,7 @@ export default function SongStatusCard({
                         </div>
                       ) : (
                         <span
-                          className={`tabular-nums text-[11px] font-black ${
+                          className={`tabular-nums text-caption font-bold ${
                             isMetPreview ? 'text-emerald-700' : style.text
                           }`}
                         >

@@ -3,6 +3,9 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
+import 'renderer/styles/typography.css';
+import 'renderer/styles/motion.css';
+import { useAppMotion } from 'renderer/utils/motion';
 import AutoResearch from 'renderer/ui/AutoResearch';
 import TrainingHistory from 'renderer/ui/TrainingHistory';
 import WebAutoUma from './WebAutoUma';
@@ -12,6 +15,7 @@ function WebAutoUmaRoute() {
 }
 
 export default function AutoUmaApp() {
+  useAppMotion();
   useEffect(() => {
     if (!__AUTOUMA_ANDROID__) return undefined;
     let active = true;

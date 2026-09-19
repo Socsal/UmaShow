@@ -148,7 +148,7 @@ export default function VenusCupPanel({ charInfo }: { charInfo: CharInfo }) {
                     <div className="inline-flex max-w-full items-start gap-3">
                       <div className="min-w-0">
                         <div
-                          className={`rounded-full px-3 py-1 text-sm font-black ${style.badgeBg} ${style.badgeText}`}
+                          className={`rounded-full px-3 py-1 text-data font-bold ${style.badgeBg} ${style.badgeText}`}
                         >
                           {commandTypeLabel(cmd.commandId, cmd.commandType)}
                         </div>

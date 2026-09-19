@@ -125,7 +125,7 @@ export default function LiveRefreshTracker({
                 key={`${item.segmentIdx}-${idx}`}
                 type="button"
                 onClick={() => setPendingJumpIndex(idx)}
-                className={`relative flex h-7 w-5 shrink-0 items-center justify-center transition-all duration-300 ${
+                className={`relative flex h-7 w-5 shrink-0 items-center justify-center transition-ui duration-200 ${
                   item.isLoopPart ? 'bg-indigo-50/40' : ''
                 }`}
               >
@@ -147,7 +147,7 @@ export default function LiveRefreshTracker({
                 ) : null}
 
                 <div
-                  className={`z-10 flex h-5 w-3.5 items-center justify-center rounded-[5px] shadow-sm transition-all duration-500 ${tileColorClass} ${
+                  className={`z-10 flex h-5 w-3.5 items-center justify-center rounded-[5px] shadow-sm transition-ui duration-200 ${tileColorClass} ${
                     isActive
                       ? 'z-20 scale-105 ring-2 ring-indigo-500 shadow-md'
                       : ''
@@ -175,10 +175,10 @@ export default function LiveRefreshTracker({
               <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-amber-50">
                 <AlertCircle className="h-5 w-5 text-amber-500" />
               </div>
-              <div className="text-base font-bold text-slate-900">
+              <div className="text-section font-semibold text-slate-900">
                 跳转进度？
               </div>
-              <div className="mt-1 text-sm text-slate-500">
+              <div className="mt-1 text-body text-slate-500">
                 确认跳到第{' '}
                 <span className="font-bold text-indigo-600">
                   {pendingJumpIndex}
@@ -190,7 +190,7 @@ export default function LiveRefreshTracker({
               <button
                 type="button"
                 onClick={() => setPendingJumpIndex(null)}
-                className="flex-1 rounded-xl border border-slate-200 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-slate-50"
+                className="flex-1 rounded-xl border border-slate-200 py-2 text-data font-bold text-slate-500 transition-colors hover:bg-slate-50"
               >
                 取消
               </button>
@@ -200,7 +200,7 @@ export default function LiveRefreshTracker({
                   onJump?.(pendingJumpIndex);
                   setPendingJumpIndex(null);
                 }}
-                className="flex-1 rounded-xl bg-indigo-600 py-2 text-sm font-bold text-white transition-colors hover:bg-indigo-700"
+                className="flex-1 rounded-xl bg-indigo-600 py-2 text-data font-bold text-white transition-colors hover:bg-indigo-700"
               >
                 确定
               </button>

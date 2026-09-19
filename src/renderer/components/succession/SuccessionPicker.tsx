@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/no-autofocus, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-static-element-interactions */
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useAnimatedDismiss } from 'renderer/utils/motion';
 
 import {
   PlannerButton,
@@ -123,11 +124,13 @@ export function SuccessionPickerDialog({
   escapePriority = false,
   children,
 }: SuccessionPickerDialogProps) {
+  const { closing, dismiss } = useAnimatedDismiss(onClose);
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
       if (escapePriority) event.stopImmediatePropagation();
-      (onEscape || onClose)();
+      if (onEscape) onEscape();
+      else dismiss(true);
     };
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -136,20 +139,22 @@ export function SuccessionPickerDialog({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKeyDown, escapePriority);
     };
-  }, [escapePriority, onClose, onEscape]);
+  }, [dismiss, escapePriority, onEscape]);
 
   const hasToolbar = onSearchChange || meta;
 
   return createPortal(
     <div
       className={`successionPickerTheme successionPickerOverlay ${overlayClassName}`.trim()}
-      onMouseDown={onClose}
+      data-closing={closing || undefined}
+      onMouseDown={() => dismiss()}
     >
       <section
         className={`successionPickerDialog ${dialogClassName}`.trim()}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
+        inert={closing}
         onMouseDown={(event) => event.stopPropagation()}
       >
         {!hideHeader ? (
@@ -163,7 +168,7 @@ export function SuccessionPickerDialog({
               type="button"
               className="successionPickerClose"
               aria-label="关闭选择界面"
-              onClick={onClose}
+              onClick={() => dismiss()}
             >
               ×
             </button>

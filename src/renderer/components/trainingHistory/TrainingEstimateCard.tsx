@@ -66,7 +66,7 @@ function TrainingEstimateTargetCard({
     partnerMultiplier;
 
   return (
-    <div className="rounded border border-sky-100 bg-white/80 px-2 py-1.5 text-[11px] text-sky-950">
+    <div className="rounded border border-sky-100 bg-white/80 px-2 py-1.5 text-label tabular-nums text-sky-950">
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <span className="font-semibold text-sky-800">
           {targetTypeLabel(target.targetType)} 目标值 {observed} / 推算{' '}
@@ -81,7 +81,7 @@ function TrainingEstimateTargetCard({
         <span>成长率 +{growthPercent}%</span>
         <span>人数 ×{formatMultiplier(partnerMultiplier)}</span>
       </div>
-      <div className="mt-1 rounded bg-sky-50 px-2 py-1 text-[10px] text-sky-800">
+      <div className="mt-1 rounded bg-sky-50 px-2 py-1 text-caption text-sky-800">
         ({approxScenarioBase} + {supportBonus}) ×{' '}
         {formatMultiplier(friendshipMultiplier)} ×{' '}
         {formatMultiplier(1 + trainingEffectPercent / 100)} ×{' '}
@@ -90,7 +90,7 @@ function TrainingEstimateTargetCard({
         {formatMultiplier(partnerMultiplier)} = {baseBeforeFloor.toFixed(3)} →{' '}
         {estimated}
       </div>
-      <div className="mt-1 flex flex-wrap gap-1 text-[10px] text-sky-700">
+      <div className="mt-1 flex flex-wrap gap-1 text-caption text-sky-700">
         {supportBonusSources.map((item, index) => (
           <span
             key={`support-${item.source}-${index}`}
@@ -125,10 +125,10 @@ function TrainingEstimateTargetCard({
         ))}
       </div>
       <details className="mt-1">
-        <summary className="cursor-pointer list-none text-[10px] font-medium text-sky-700">
+        <summary className="cursor-pointer list-none text-label font-medium text-sky-700">
           展开详细步骤
         </summary>
-        <div className="mt-1 space-y-1 rounded bg-white/90 p-2 text-[10px] leading-5 text-sky-950">
+        <div className="mt-1 space-y-1 rounded bg-white/90 p-2 text-label leading-relaxed text-sky-950">
           <div>
             基础训练值 = 表内基础值 {approxScenarioBase} + 支援卡属性加成{' '}
             {supportBonus}
@@ -190,9 +190,9 @@ export default function TrainingEstimateCard({
   );
 
   return (
-    <div className="rounded-md border border-sky-200 bg-sky-50/80 p-2 text-xs">
+    <div className="rounded-md border border-sky-200 bg-sky-50/80 p-2 text-caption tabular-nums">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sky-900">
-        <span className="font-semibold">普通训练推算</span>
+        <span className="text-data font-semibold">普通训练推算</span>
         <span>Lv {estimate.commandLevel}</span>
         <span>到场 {estimate.partnerCount}</span>
         <span>支援卡 {estimate.supportPartnerCount}</span>
@@ -203,7 +203,7 @@ export default function TrainingEstimateCard({
         )}
       </div>
       {presentSupportCardIds.length > 0 && (
-        <div className="mt-1 flex flex-wrap gap-1 text-[10px] text-sky-800">
+        <div className="mt-1 flex flex-wrap gap-1 text-caption text-sky-800">
           <span className="rounded bg-white/80 px-1.5 py-0.5">在场支援卡</span>
           {presentSupportCardIds.map((supportCardId) => (
             <span
@@ -224,7 +224,7 @@ export default function TrainingEstimateCard({
         ))}
       </div>
       {notes.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1 text-[10px] text-sky-700">
+        <div className="mt-2 flex flex-wrap gap-1 text-caption text-sky-700">
           {notes.map((note, index) => (
             <span
               key={`note-${index}`}

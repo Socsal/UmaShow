@@ -687,7 +687,7 @@ export default function RaceList() {
           return (
             <div
               key={item.filename}
-              className={`group relative bg-white border rounded-xl p-1.5 flex items-start gap-3 transition-all duration-200 hover:shadow-md
+              className={`group relative bg-white border rounded-xl p-1.5 flex items-start gap-3 transition-ui duration-200 hover:shadow-md
                   ${isSelected ? 'border-blue-400 ring-1 ring-blue-400 bg-blue-50/10' : 'border-gray-200'}
                 `}
               onMouseLeave={() => setHoveredHorsePreview(null)}
@@ -765,7 +765,7 @@ export default function RaceList() {
                                 }`}
                               />
                             ) : (
-                              <div className="rounded bg-amber-100 px-1.5 py-0.5 text-center text-[10px] font-bold text-amber-700">
+                              <div className="rounded bg-amber-100 px-1.5 py-0.5 text-center text-caption font-bold text-amber-700">
                                 #{rank}
                               </div>
                             )}
@@ -786,7 +786,7 @@ export default function RaceList() {
                             )}
                           </div>
                           <div className="min-w-0">
-                            <div className="truncate text-[11px] font-medium text-gray-800">
+                            <div className="truncate text-caption font-medium text-gray-800">
                               {getHorseOwnerName(horse)}
                             </div>
                           </div>

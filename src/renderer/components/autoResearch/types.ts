@@ -125,6 +125,7 @@ export type AutomationObservation = {
     | 'idle'
     | 'paused'
     | 'running'
+    | 'daily_tasks'
     | 'waiting'
     | 'recovering'
     | 'blocked'
@@ -150,6 +151,16 @@ export type AutomationObservation = {
 export type AccountAutomation = {
   schedule: ScheduleIntent | null;
   observation: AutomationObservation;
+  daily_tasks?: ScheduleIntent['daily_tasks'];
+};
+
+export type DailyAssetSnapshot = {
+  business_day: string;
+  captured_at: string;
+  jewels: number;
+  support_tickets: number;
+  character_tickets: number;
+  energy_drinks: number;
 };
 
 export type SessionAccount = {
@@ -356,6 +367,7 @@ export type DailyTasksConfig = {
     buy_all: true;
   };
   status?: string;
+  current_task?: string;
   schedule_day?: string;
   daily_race_done?: boolean;
   daily_legend_race_done?: boolean;

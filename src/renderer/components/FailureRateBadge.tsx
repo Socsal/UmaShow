@@ -30,7 +30,7 @@ function FailureRateBadge({ failureRate }: { failureRate: number }) {
   const style = getStyleConfig(failureRate);
 
   return (
-    <div className="absolute -top-5 -right-2 z-20 flex flex-col items-center animate-bounce-slight">
+    <div className="absolute -top-5 -right-2 z-20 flex flex-col items-center">
       {/* 气泡主体 */}
       <div
         className={`
@@ -42,14 +42,14 @@ function FailureRateBadge({ failureRate }: { failureRate: number }) {
       >
         {/* "失败率" 标签 */}
         <span
-          className={`${style.labelColor} text-[10px] font-bold tracking-tight`}
+          className={`${style.labelColor} text-caption font-bold tracking-normal`}
         >
           失败率
         </span>
 
         {/* 具体数值 */}
         <span
-          className={`${style.numColor} text-[11px] font-extrabold font-mono`}
+          className={`${style.numColor} text-caption font-bold font-mono tabular-nums`}
         >
           {failureRate}%
         </span>

@@ -456,8 +456,8 @@ class RaceDataPageClass extends React.Component<
                 </div>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-blue-100">
                   <div
-                    className="h-full rounded-full bg-blue-600 transition-[width] duration-300"
-                    style={{ width: `${progressPercent}%` }}
+                    className="uma-progress-fill h-full rounded-full bg-blue-600"
+                    style={{ transform: `scaleX(${Math.max(0, Math.min(1, progressPercent / 100))})` }}
                   />
                 </div>
               </section>

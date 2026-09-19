@@ -1534,7 +1534,7 @@ export default function RaceTelemetryOverview({
 
   if (frames.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center text-sm text-gray-500">
+      <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center text-data text-gray-500">
         当前比赛没有可用帧数据，无法生成总览图。
       </div>
     );
@@ -1548,14 +1548,14 @@ export default function RaceTelemetryOverview({
             <section className="rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-sm">
               <div className="mb-3 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-900">
+                  <h4 className="text-section font-semibold text-slate-900">
                     时间控制
                   </h4>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-caption text-slate-500">
                     空格暂停/开始，左右键切帧。
                   </p>
                 </div>
-                <div className="rounded-full bg-slate-900 px-3 py-1 font-mono text-sm text-white">
+                <div className="rounded-full bg-slate-900 px-3 py-1 font-mono tabular-nums text-data text-white">
                   {currentTime.toFixed(2)}s
                 </div>
               </div>
@@ -1564,7 +1564,7 @@ export default function RaceTelemetryOverview({
                 <button
                   type="button"
                   onClick={togglePlayback}
-                  className={`flex-1 rounded-2xl px-4 py-2.5 text-sm font-semibold transition ${
+                  className={`flex-1 rounded-2xl px-4 py-2.5 text-data font-semibold transition ${
                     isPlaying
                       ? 'bg-rose-600 text-white hover:bg-rose-700'
                       : 'bg-slate-900 text-white hover:bg-slate-800'
@@ -1575,14 +1575,14 @@ export default function RaceTelemetryOverview({
                 <button
                   type="button"
                   onClick={jumpToPreviousFrame}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-data font-semibold text-slate-700 transition hover:bg-slate-100"
                 >
                   上一帧
                 </button>
                 <button
                   type="button"
                   onClick={jumpToNextFrame}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-data font-semibold text-slate-700 transition hover:bg-slate-100"
                 >
                   下一帧
                 </button>
@@ -1592,19 +1592,19 @@ export default function RaceTelemetryOverview({
                     setIsPlaying(false);
                     setCurrentTime(0);
                   }}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-data font-semibold text-slate-700 transition hover:bg-slate-100"
                 >
                   复位
                 </button>
               </div>
               {playbackFinishedNotice ? (
-                <div className="mt-2 text-xs font-medium text-amber-600">
+                <div className="mt-2 text-caption font-medium text-amber-600">
                   已播放完，先复位或拖动时间。
                 </div>
               ) : null}
 
               <div className="mt-4 flex items-center justify-between">
-                <span className="text-xs font-medium text-slate-500">
+                <span className="text-caption font-medium text-slate-500">
                   回放倍率
                 </span>
                 <div className="inline-flex rounded-2xl border border-slate-200 bg-slate-50 p-1">
@@ -1613,7 +1613,7 @@ export default function RaceTelemetryOverview({
                       key={speed}
                       type="button"
                       onClick={() => setPlaySpeed(speed)}
-                      className={`rounded-xl px-3 py-1 text-xs font-semibold transition ${
+                      className={`rounded-xl px-3 py-1 text-caption font-semibold transition ${
                         playSpeed === speed
                           ? 'bg-white text-slate-900 shadow-sm'
                           : 'text-slate-500 hover:text-slate-900'
@@ -1640,43 +1640,43 @@ export default function RaceTelemetryOverview({
               {selectedHorseTelemetry != null ? (
                 <>
                   <div className="mb-2 flex items-center justify-between gap-2">
-                    <h4 className="truncate text-[13px] font-semibold text-slate-900">
+                    <h4 className="truncate text-data font-semibold text-slate-900">
                       {selectedHorseName}
                     </h4>
-                    <div className="rounded-full bg-slate-900 px-2 py-0.5 font-mono text-[11px] text-white">
+                    <div className="rounded-full bg-slate-900 px-2 py-0.5 font-mono tabular-nums text-caption text-white">
                       {currentTime.toFixed(2)}s
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
                     <div className="rounded-xl bg-slate-50 px-2.5 py-2">
-                      <div className="text-[9px] uppercase tracking-wide text-slate-500">
+                      <div className="text-caption uppercase tracking-normal text-slate-500">
                         当前速度
                       </div>
-                      <div className="mt-0.5 font-mono text-[15px] font-semibold leading-none text-slate-900">
+                      <div className="mt-0.5 font-mono tabular-nums text-base font-semibold leading-snug text-slate-900">
                         {selectedHorseTelemetry.speed.toFixed(1)} m/s
                       </div>
                     </div>
                     <div className="rounded-xl bg-slate-50 px-2.5 py-2">
-                      <div className="text-[9px] uppercase tracking-wide text-slate-500">
+                      <div className="text-caption uppercase tracking-normal text-slate-500">
                         剩余体力
                       </div>
-                      <div className="mt-0.5 font-mono text-[15px] font-semibold leading-none text-slate-900">
+                      <div className="mt-0.5 font-mono tabular-nums text-base font-semibold leading-snug text-slate-900">
                         {selectedHorseTelemetry.hp.toFixed(0)} HP
                       </div>
                     </div>
                     <div className="rounded-xl bg-slate-50 px-2.5 py-2">
-                      <div className="text-[9px] uppercase tracking-wide text-slate-500">
+                      <div className="text-caption uppercase tracking-normal text-slate-500">
                         当前距离
                       </div>
-                      <div className="mt-0.5 font-mono text-[15px] font-semibold leading-none text-slate-900">
+                      <div className="mt-0.5 font-mono tabular-nums text-base font-semibold leading-snug text-slate-900">
                         {selectedHorseTelemetry.distance.toFixed(1)} m
                       </div>
                     </div>
                     <div className="rounded-xl bg-slate-50 px-2.5 py-2">
-                      <div className="text-[9px] uppercase tracking-wide text-slate-500">
+                      <div className="text-caption uppercase tracking-normal text-slate-500">
                         车道坐标
                       </div>
-                      <div className="mt-0.5 font-mono text-[15px] font-semibold leading-none text-slate-900">
+                      <div className="mt-0.5 font-mono tabular-nums text-base font-semibold leading-snug text-slate-900">
                         {selectedHorseTelemetry.lanePosition.toFixed(0)}
                       </div>
                     </div>
@@ -1688,12 +1688,12 @@ export default function RaceTelemetryOverview({
             <section className="flex min-h-0 flex-1 flex-col rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-sm">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-900">赛道</h4>
-                  <p className="text-xs text-slate-500">
+                  <h4 className="text-section font-semibold text-slate-900">赛道</h4>
+                  <p className="text-caption text-slate-500">
                     点击名称切换聚焦对象。
                   </p>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-slate-500">
+                <div className="flex items-center gap-3 text-caption text-slate-500">
                   <span className="inline-flex items-center gap-1.5">
                     <span className="w-5 border-t-2 border-dashed border-rose-600" />
                     闸技能影响线
@@ -1749,7 +1749,7 @@ export default function RaceTelemetryOverview({
                               />
                             )}
                             <span
-                              className="absolute left-1/2 top-1/2 inline-flex h-6 min-w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full px-1.5 text-xs font-black leading-none text-white"
+                              className="absolute left-1/2 top-1/2 inline-flex h-6 min-w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full px-1.5 text-caption font-bold leading-none text-white"
                               style={{
                                 backgroundColor:
                                   selectedHorse === row.frameOrder
@@ -1760,7 +1760,7 @@ export default function RaceTelemetryOverview({
                               {liveRank ?? row.frameOrder + 1}
                             </span>
                           </div>
-                          <div className="min-w-0 flex-1 truncate text-sm font-semibold">
+                          <div className="min-w-0 flex-1 truncate text-data font-semibold">
                             {row.name}
                           </div>
                           <div className="h-5 w-8 flex-none">
@@ -1781,7 +1781,7 @@ export default function RaceTelemetryOverview({
                         onClick={() =>
                           toggleRaceTrackFrameOrderVisibility(row.frameOrder)
                         }
-                        className={`flex-none rounded-full border px-2.5 py-1 text-[11px] font-semibold transition ${
+                        className={`flex-none rounded-full border px-2.5 py-1 text-caption font-semibold transition ${
                           visible
                             ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-white'
                             : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-white'
@@ -1801,10 +1801,10 @@ export default function RaceTelemetryOverview({
             <section className="rounded-3xl border border-slate-200 bg-white/92 p-5 shadow-sm">
               <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <h4 className="text-base font-semibold text-slate-900">
+                  <h4 className="text-section font-semibold text-slate-900">
                     {selectedHorseName} 的全程轨迹
                   </h4>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-data text-slate-500">
                     {metricMeta[selectedMetric].description}
                   </p>
                 </div>
@@ -1814,7 +1814,7 @@ export default function RaceTelemetryOverview({
                       key={metric}
                       type="button"
                       onClick={() => setSelectedMetric(metric)}
-                      className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                      className={`rounded-xl px-4 py-2 text-data font-semibold transition ${
                         selectedMetric === metric
                           ? 'bg-white text-slate-900 shadow-sm'
                           : 'text-slate-500 hover:text-slate-900'
@@ -2086,10 +2086,10 @@ export default function RaceTelemetryOverview({
                     style={{ left: `${Math.min(hoverLeft + 12, 560)}px` }}
                   >
                     <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-2">
-                      <div className="text-sm font-semibold text-slate-900">
+                      <div className="text-data font-semibold text-slate-900">
                         {hoverDisplaySnapshot.time.toFixed(2)}s
                       </div>
-                      <div className="text-[11px] text-slate-500">
+                      <div className="text-caption text-slate-500">
                         点击可跳到这里
                       </div>
                     </div>
@@ -2112,13 +2112,13 @@ export default function RaceTelemetryOverview({
                                 : 'bg-slate-50 text-slate-700'
                             }`}
                           >
-                            <div className="truncate text-xs font-medium">
+                            <div className="truncate text-caption font-medium">
                               {buildHorseName(
                                 displayNames[horse.frameOrder] ?? '',
                                 horse.frameOrder,
                               )}
                             </div>
-                            <div className="ml-2 font-mono text-xs">
+                            <div className="ml-2 font-mono tabular-nums text-caption">
                               {metricMeta[selectedMetric].formatter(
                                 metricMeta[selectedMetric].getValue(horse),
                               )}
@@ -2161,11 +2161,11 @@ export default function RaceTelemetryOverview({
                           return (
                             <div
                               key={`${segment.startTime}-${segment.endTime}-${index}`}
-                              className="absolute top-0.5 h-4 overflow-hidden rounded bg-red-500/85 px-1 text-[10px] font-semibold leading-4 text-white"
+                              className="absolute top-0.5 h-4 overflow-hidden rounded bg-red-500/85 px-1 text-caption font-semibold leading-4 text-white"
                               style={{
                                 left: `${left}%`,
                                 width: `${Math.max(width, 1.2)}%`,
-                                minWidth: '28px',
+                                minWidth: '32px',
                               }}
                               title={`阻挡 ${segment.startTime.toFixed(2)}s - ${segment.endTime.toFixed(2)}s | ${blockedByName}`}
                             >
@@ -2189,13 +2189,13 @@ export default function RaceTelemetryOverview({
                   ) : null}
 
                   {skillTracks.length === 0 ? (
-                    <div className="rounded-xl bg-slate-50 px-3 py-2 pr-36 text-xs text-slate-500">
+                    <div className="rounded-xl bg-slate-50 px-3 py-2 pr-36 text-caption text-slate-500">
                       无技能事件
                     </div>
                   ) : (
                     <div className="relative max-h-[240px] overflow-y-auto pr-1">
                       <div
-                        className="mb-1 flex justify-between pr-36 text-[10px] text-slate-400"
+                        className="mb-1 flex justify-between pr-36 text-caption tabular-nums text-slate-400"
                         style={{
                           marginLeft: `${chartLeftRatio}%`,
                           marginRight: `${chartRightRatio}%`,
@@ -2208,7 +2208,7 @@ export default function RaceTelemetryOverview({
                         {skillTracks.map((track, trackIndex) => (
                           <div key={trackIndex} className="relative h-5">
                             <div
-                              className="absolute text-center text-[10px] font-semibold text-slate-400"
+                              className="absolute text-center text-caption tabular-nums font-semibold text-slate-400"
                               style={{
                                 left: 0,
                                 width: `${Math.max(chartLeftRatio - 1, 3.5)}%`,
@@ -2254,7 +2254,7 @@ export default function RaceTelemetryOverview({
                                 return (
                                   <div
                                     key={skill.key}
-                                    className={`absolute top-0.5 h-4 overflow-hidden rounded-r px-1 text-[10px] font-medium leading-4 text-white ${
+                                    className={`absolute top-0.5 h-4 overflow-hidden rounded-r px-1 text-caption font-medium leading-4 text-white ${
                                       skill.isRangeKnown
                                         ? getSkillLaneClassName(
                                             skill.kind,
@@ -2307,18 +2307,18 @@ export default function RaceTelemetryOverview({
                       onClick={() => setShowPermanentSkills((value) => !value)}
                       className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50/90 px-3 py-1.5 text-left shadow-sm transition hover:bg-white"
                     >
-                      <span className="text-[11px] font-semibold text-slate-600">
+                      <span className="text-caption font-semibold text-slate-600">
                         永久
                       </span>
                       {permanentSkillRows.length > 0 ? (
-                        <span className="text-[11px] text-slate-400">
+                        <span className="text-caption text-slate-400">
                           ({permanentSkillRows.length})
                         </span>
                       ) : null}
                     </button>
                     {showPermanentSkills ? (
                       permanentSkillRows.length === 0 ? (
-                        <div className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-[180px] rounded-xl border border-slate-200 bg-white/95 px-3 py-2 text-[11px] text-slate-400 shadow-xl backdrop-blur">
+                        <div className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-[180px] rounded-xl border border-slate-200 bg-white/95 px-3 py-2 text-caption text-slate-400 shadow-xl backdrop-blur">
                           无
                         </div>
                       ) : (
@@ -2326,7 +2326,7 @@ export default function RaceTelemetryOverview({
                           {permanentSkillRows.map((skill) => (
                             <div
                               key={skill.key}
-                              className="rounded-md bg-slate-50 px-2 py-1 text-[11px] text-slate-700 shadow-sm"
+                              className="rounded-md bg-slate-50 px-2 py-1 text-caption text-slate-700 shadow-sm"
                               title={`${skill.name} | ${skill.time.toFixed(2)}s | 永久`}
                             >
                               <div className="truncate font-medium">
@@ -2353,7 +2353,7 @@ export default function RaceTelemetryOverview({
                           width: `${raceTrackZeroPercent}%`,
                         }}
                       >
-                        <div className="absolute left-1 top-1 text-[9px] font-medium text-amber-700">
+                        <div className="absolute left-1 top-1 text-caption font-medium text-amber-700">
                           落后区
                         </div>
                       </div>
@@ -2374,7 +2374,7 @@ export default function RaceTelemetryOverview({
                           >
                             <div className="absolute inset-y-0 border-l border-slate-300/45" />
                             {showLabel ? (
-                              <div className="absolute left-1 top-1 text-[9px] font-medium text-slate-500">
+                              <div className="absolute left-1 top-1 text-caption font-medium tabular-nums text-slate-500">
                                 {meter}m
                               </div>
                             ) : null}
@@ -2480,7 +2480,7 @@ export default function RaceTelemetryOverview({
                               </div>
                             ) : (
                               <div
-                                className={`flex h-full w-full items-center justify-center rounded-full text-xs font-bold text-white ${
+                                className={`flex h-full w-full items-center justify-center rounded-full text-caption font-bold text-white ${
                                   selected ? 'border-2 border-red-500' : ''
                                 }`}
                                 style={{
@@ -2492,7 +2492,7 @@ export default function RaceTelemetryOverview({
                               </div>
                             )}
                             <div
-                              className="absolute left-1/2 top-1/2 flex h-6 min-w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full px-1.5 text-xs font-black leading-none text-white shadow-sm"
+                              className="absolute left-1/2 top-1/2 flex h-6 min-w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full px-1.5 text-caption font-bold leading-none text-white shadow-sm"
                               style={{
                                 backgroundColor: selected
                                   ? '#dc2626'
@@ -2510,7 +2510,7 @@ export default function RaceTelemetryOverview({
                       className="absolute inset-y-0 right-0 border-l border-slate-300 bg-slate-100/70"
                       style={{ width: `${finishAreaWidthPercent}%` }}
                     >
-                      <div className="absolute inset-x-0 top-2 text-center text-[10px] font-semibold text-slate-500">
+                      <div className="absolute inset-x-0 top-2 text-center text-caption font-semibold text-slate-500">
                         完赛区
                       </div>
                     </div>

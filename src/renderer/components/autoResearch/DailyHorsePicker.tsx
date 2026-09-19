@@ -186,75 +186,75 @@ export default function DailyHorsePicker({
       >
         <div className="plannerDailyHorseFilters">
           <div className="grid gap-3 md:grid-cols-3">
-          <label className="block" htmlFor="daily-horse-distance-filter">
-            <span className="sr-only">距离适应性</span>
-            <select
-              id="daily-horse-distance-filter"
-              value={distanceMinimum}
-              onChange={(event) =>
-                setDistanceMinimum(event.target.value as MinimumGrade)
-              }
-              className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
-            >
-              <option value="auto">
-                {distanceLabels[race.distance_type]}：自动（≥
-                {aptitudeLabel(autoSuitabilityMinimum)}）
-              </option>
-              <option value="8">距离适应性 S</option>
-              <option value="7">距离适应性 A 以上</option>
-              <option value="6">距离适应性 B 以上</option>
-              <option value="5">距离适应性 C 以上</option>
-              <option value="4">距离适应性 D 以上</option>
-              <option value="0">距离不限</option>
-            </select>
-          </label>
-          <label className="block" htmlFor="daily-horse-ground-filter">
-            <span className="sr-only">场地适应性</span>
-            <select
-              id="daily-horse-ground-filter"
-              value={groundMinimum}
-              onChange={(event) =>
-                setGroundMinimum(event.target.value as MinimumGrade)
-              }
-              className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
-            >
-              <option value="auto">
-                {race.ground_name}：自动（≥
-                {aptitudeLabel(autoSuitabilityMinimum)}）
-              </option>
-              <option value="8">场地适应性 S</option>
-              <option value="7">场地适应性 A 以上</option>
-              <option value="6">场地适应性 B 以上</option>
-              <option value="5">场地适应性 C 以上</option>
-              <option value="4">场地适应性 D 以上</option>
-              <option value="0">场地不限</option>
-            </select>
-          </label>
-          <label className="relative block" htmlFor="daily-horse-sort">
-            <SlidersHorizontal
-              size={15}
-              className="absolute left-3 top-2.5 text-slate-400"
-            />
-            <select
-              id="daily-horse-sort"
-              value={sortKey}
-              onChange={(event) => setSortKey(event.target.value as SortKey)}
-              className="w-full rounded-md border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm"
-            >
-              <option value="suitability">按赛事适配度</option>
-              <option value="rank_score">按评分</option>
-              <option value="speed">按速度</option>
-              <option value="stamina">按耐力</option>
-              <option value="power">按力量</option>
-              <option value="guts">按根性</option>
-              <option value="wit">按智力</option>
-            </select>
-          </label>
-        </div>
-        <p className="mt-2 text-xs text-slate-500">
-          自动筛选优先要求 A 适应性；没有 A
-          时会放宽到当前账号能够达到的最高等级。当前显示 {visibleHorses.length}/
-          {horses.length} 匹。
+            <label className="block" htmlFor="daily-horse-distance-filter">
+              <span className="sr-only">距离适应性</span>
+              <select
+                id="daily-horse-distance-filter"
+                value={distanceMinimum}
+                onChange={(event) =>
+                  setDistanceMinimum(event.target.value as MinimumGrade)
+                }
+                className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data"
+              >
+                <option value="auto">
+                  {distanceLabels[race.distance_type]}：自动（≥
+                  {aptitudeLabel(autoSuitabilityMinimum)}）
+                </option>
+                <option value="8">距离适应性 S</option>
+                <option value="7">距离适应性 A 以上</option>
+                <option value="6">距离适应性 B 以上</option>
+                <option value="5">距离适应性 C 以上</option>
+                <option value="4">距离适应性 D 以上</option>
+                <option value="0">距离不限</option>
+              </select>
+            </label>
+            <label className="block" htmlFor="daily-horse-ground-filter">
+              <span className="sr-only">场地适应性</span>
+              <select
+                id="daily-horse-ground-filter"
+                value={groundMinimum}
+                onChange={(event) =>
+                  setGroundMinimum(event.target.value as MinimumGrade)
+                }
+                className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data"
+              >
+                <option value="auto">
+                  {race.ground_name}：自动（≥
+                  {aptitudeLabel(autoSuitabilityMinimum)}）
+                </option>
+                <option value="8">场地适应性 S</option>
+                <option value="7">场地适应性 A 以上</option>
+                <option value="6">场地适应性 B 以上</option>
+                <option value="5">场地适应性 C 以上</option>
+                <option value="4">场地适应性 D 以上</option>
+                <option value="0">场地不限</option>
+              </select>
+            </label>
+            <label className="relative block" htmlFor="daily-horse-sort">
+              <SlidersHorizontal
+                size={15}
+                className="absolute left-3 top-2.5 text-slate-400"
+              />
+              <select
+                id="daily-horse-sort"
+                value={sortKey}
+                onChange={(event) => setSortKey(event.target.value as SortKey)}
+                className="w-full rounded-md border border-slate-200 bg-white py-2 pl-9 pr-3 text-data"
+              >
+                <option value="suitability">按赛事适配度</option>
+                <option value="rank_score">按评分</option>
+                <option value="speed">按速度</option>
+                <option value="stamina">按耐力</option>
+                <option value="power">按力量</option>
+                <option value="guts">按根性</option>
+                <option value="wit">按智力</option>
+              </select>
+            </label>
+          </div>
+          <p className="mt-2 text-caption text-slate-500">
+            自动筛选优先要求 A 适应性；没有 A
+            时会放宽到当前账号能够达到的最高等级。当前显示{' '}
+            {visibleHorses.length}/{horses.length} 匹。
           </p>
         </div>
       </SuccessionPickerFilterSheet>
@@ -288,19 +288,19 @@ export default function DailyHorsePicker({
                   <>
                     <span className="mt-1 flex flex-wrap gap-1">
                       <span
-                        className={`rounded border px-1.5 py-0.5 text-xs font-bold ${gradeClass(distanceGrade)}`}
+                        className={`rounded border px-1.5 py-0.5 text-caption font-bold ${gradeClass(distanceGrade)}`}
                       >
                         {distanceLabels[race.distance_type]}{' '}
                         {aptitudeLabel(distanceGrade)}
                       </span>
                       <span
-                        className={`rounded border px-1.5 py-0.5 text-xs font-bold ${gradeClass(groundGrade)}`}
+                        className={`rounded border px-1.5 py-0.5 text-caption font-bold ${gradeClass(groundGrade)}`}
                       >
                         {race.ground_name} {aptitudeLabel(groundGrade)}
                       </span>
                       {runningStyle > 0 ? (
                         <span
-                          className={`rounded border px-1.5 py-0.5 text-xs font-bold ${gradeClass(styleGrade)}`}
+                          className={`rounded border px-1.5 py-0.5 text-caption font-bold ${gradeClass(styleGrade)}`}
                         >
                           跑法 {aptitudeLabel(styleGrade)}
                         </span>
@@ -316,7 +316,7 @@ export default function DailyHorsePicker({
                       ].map(([label, value]) => (
                         <span
                           key={label}
-                          className="text-[11px] text-slate-500"
+                          className="text-caption text-slate-500"
                         >
                           <span className="block">{label}</span>
                           <span className="block font-semibold text-slate-700">
@@ -333,7 +333,7 @@ export default function DailyHorsePicker({
           })}
         </div>
         {!visibleHorses.length ? (
-          <div className="py-16 text-center text-sm text-slate-400">
+          <div className="py-16 text-center text-data text-slate-400">
             没有符合当前筛选条件的已育成马娘，请降低适应性要求。
           </div>
         ) : null}

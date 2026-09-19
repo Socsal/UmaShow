@@ -158,7 +158,7 @@ export default function AppMenuBar() {
           className="h-6 w-6 rounded object-contain"
           loading="eager"
         />
-        <span className="hidden text-xs font-bold tracking-tight md:inline">
+        <span className="hidden text-data font-semibold tracking-normal md:inline">
           UmaShow
         </span>
       </button>
@@ -175,7 +175,7 @@ export default function AppMenuBar() {
               type="button"
               onClick={() => navigate(item.path)}
               aria-current={active ? 'page' : undefined}
-              className={`app-no-drag flex h-7 min-w-0 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-medium transition-colors ${
+              className={`app-no-drag flex h-7 min-w-0 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-label font-medium transition-colors ${
                 active
                   ? 'bg-indigo-50 text-indigo-700'
                   : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -198,7 +198,7 @@ export default function AppMenuBar() {
         <button
           type="button"
           onClick={() => setUmaAiSettingsOpen(true)}
-          className="app-no-drag ml-1.5 flex h-7 flex-none items-center gap-1.5 rounded-md px-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+          className="app-no-drag ml-1.5 flex h-7 flex-none items-center gap-1.5 rounded-md px-2 text-label font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
           title="配置推荐"
         >
           <span
@@ -231,7 +231,7 @@ export default function AppMenuBar() {
           type="button"
           onClick={() => setMenuOpen((current) => !current)}
           aria-expanded={menuOpen}
-          className={`flex h-7 items-center gap-1.5 rounded-md px-2 text-xs font-medium transition-colors ${
+          className={`flex h-7 items-center gap-1.5 rounded-md px-2 text-label font-medium transition-colors ${
             menuOpen
               ? 'bg-slate-100 text-slate-900'
               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -246,9 +246,9 @@ export default function AppMenuBar() {
         </button>
 
         {menuOpen ? (
-          <div className="absolute right-0 top-full mt-2 w-72 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+          <div className="uma-menu absolute right-0 top-full mt-2 w-72 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
             <div className="border-b border-slate-100 px-3 py-2.5">
-              <div className="text-xs font-semibold text-slate-800">
+              <div className="text-label font-semibold text-slate-800">
                 监听端口
               </div>
               <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -258,7 +258,7 @@ export default function AppMenuBar() {
                     type="button"
                     onClick={() => changeServerPort(port)}
                     disabled={changingPort !== null}
-                    className={`flex items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs transition-colors disabled:opacity-50 ${
+                    className={`flex items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-label transition-colors disabled:opacity-50 ${
                       port === info?.serverPort
                         ? 'border-indigo-200 bg-indigo-50 font-semibold text-indigo-700'
                         : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -278,7 +278,7 @@ export default function AppMenuBar() {
                   window.electron.appShell.toggleFullScreen();
                   setMenuOpen(false);
                 }}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-data text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               >
                 <Maximize2 size={16} />
                 切换全屏
@@ -289,14 +289,14 @@ export default function AppMenuBar() {
                   window.electron.appShell.checkForUpdates();
                   setMenuOpen(false);
                 }}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-data text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               >
                 <RefreshCw size={16} />
                 检查更新
               </button>
             </div>
 
-            <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/70 px-4 py-2 text-[11px] text-slate-400">
+            <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/70 px-4 py-2 text-caption text-slate-400">
               <span>UmaShow {info?.version ? `v${info.version}` : ''}</span>
               <span>{info?.platform || ''}</span>
             </div>

@@ -41,7 +41,7 @@ function TreeNode({
   return (
     <div
       className={[
-        'flex shrink-0 items-center justify-center border transition-all duration-200',
+        'flex shrink-0 items-center justify-center border transition-ui duration-200',
         filled
           ? 'border-rose-300 bg-white shadow-[inset_0_0_4px_rgba(0,0,0,0.05)]'
           : 'border-gray-200 bg-gray-50 opacity-40',
@@ -179,12 +179,12 @@ export default function VenusSpiritTree({
                         className="h-full w-full object-contain"
                       />
                     ) : (
-                      <div className="text-[8px] font-bold text-gray-400">
+                      <div className="text-caption font-bold text-gray-400">
                         ?
                       </div>
                     )}
                   </div>
-                  <div className="-mt-2 rounded-full border border-amber-200 bg-white px-2 py-0.5 text-[8px] font-black leading-none text-amber-700 shadow-sm">
+                  <div className="-mt-2 rounded-full border border-amber-200 bg-white px-1.5 py-0.5 text-caption font-semibold tabular-nums text-amber-700 shadow-sm">
                     {goddess && goddess.venusLevel > 0
                       ? `Lv${goddess.venusLevel}`
                       : 'None'}

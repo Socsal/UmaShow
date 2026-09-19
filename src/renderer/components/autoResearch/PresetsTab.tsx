@@ -30,6 +30,7 @@ import {
 } from './shared';
 import RaceSchedulePicker from './RaceSchedulePicker';
 import EventChoiceSelector from './EventChoiceSelector';
+import ReorderControls from './ReorderControls';
 import {
   CareerSetting,
   Preset,
@@ -55,6 +56,8 @@ type PresetsTabProps = {
   savePreset: () => Promise<boolean>;
   busy: string;
   presetSaved: boolean;
+  presetDirty: boolean;
+  presetSyncError: boolean;
   scenarioId: number;
   setScenarioId: Dispatch<SetStateAction<number>>;
   runningStyle: number;
@@ -112,6 +115,8 @@ export default function PresetsTab(props: PresetsTabProps) {
     savePreset,
     busy,
     presetSaved,
+    presetDirty,
+    presetSyncError,
     scenarioId,
     setScenarioId,
     runningStyle,
@@ -190,12 +195,12 @@ export default function PresetsTab(props: PresetsTabProps) {
     );
   };
   return !presetEditorOpen ? (
-    <>
+    <div className="autoResearchForm contents">
       <AppMenuPortal targetId="app-page-context-actions">
         <AppSideNotch side="right">
           <div className="autoResearchPresetImportAction flex h-10 items-center px-2">
             <label
-              className="inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-md px-2 text-xs font-medium text-gray-700 hover:bg-slate-100"
+              className="inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-md px-2 text-label font-medium text-gray-700 hover:bg-slate-100"
               title="导入预设"
             >
               <Upload size={15} />
@@ -246,7 +251,10 @@ export default function PresetsTab(props: PresetsTabProps) {
                         </p>
                       </div>
                     ) : (
-                      <label className="block text-xs text-gray-500">
+                      <label className="block text-label text-gray-500">
+                        <span className="sr-only">
+                          重命名预设：{preset.name}
+                        </span>
                         <input
                           key={preset.name}
                           defaultValue={preset.name}
@@ -262,15 +270,15 @@ export default function PresetsTab(props: PresetsTabProps) {
                               event.currentTarget.blur();
                             }
                           }}
-                          className="mt-1 w-full rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-800"
+                          className="mt-1 w-full rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-data font-semibold text-gray-800"
                         />
                       </label>
                     )}
-                    <p className="mt-2 text-xs text-gray-500">
+                    <p className="mt-2 text-label text-gray-500">
                       {`${onlineScenarioLabel(preset.scenario_id)} · ${skillCount} 个技能 · ${Object.keys(preset.fixed_event_choices || {}).length} 个事件 · ${(preset.extra_race_list || []).length} 场赛事`}
                     </p>
                     {referencedCount ? (
-                      <p className="mt-1 text-xs text-slate-400">
+                      <p className="mt-1 text-label text-slate-500">
                         被 {referencedCount} 个养马详设使用
                       </p>
                     ) : null}
@@ -280,7 +288,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                   <button
                     type="button"
                     onClick={() => openPresetEditor(preset.name)}
-                    className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                    className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-data font-medium text-white hover:bg-indigo-700"
                   >
                     进入预设
                   </button>
@@ -297,7 +305,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                     <button
                       type="button"
                       onClick={() => deletePreset(preset.name)}
-                      className="rounded-md border border-red-200 bg-white px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                      className="rounded-md border border-red-200 bg-white px-3 py-2 text-data text-red-600 hover:bg-red-50"
                       aria-label={`删除预设${preset.name}`}
                     >
                       <Trash2 size={15} />
@@ -309,18 +317,25 @@ export default function PresetsTab(props: PresetsTabProps) {
           })}
 
           <article className="rounded-lg border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-4">
-            <h3 className="font-semibold text-indigo-950">新建预设槽位</h3>
-            <input
-              value={newPresetName}
-              onChange={(event) => setNewPresetName(event.target.value)}
-              onKeyDown={(event) => event.key === 'Enter' && createPresetSlot()}
-              placeholder={`例如：URA 预设 ${presets.length}`}
-              className="mt-4 w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm"
-            />
+            <h3 className="text-section font-semibold text-indigo-950">
+              新建预设槽位
+            </h3>
+            <label className="mt-3 block text-label text-indigo-900">
+              预设名称
+              <input
+                value={newPresetName}
+                onChange={(event) => setNewPresetName(event.target.value)}
+                onKeyDown={(event) =>
+                  event.key === 'Enter' && createPresetSlot()
+                }
+                placeholder={`例如：URA 预设 ${presets.length}`}
+                className="mt-1 w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-data"
+              />
+            </label>
             <button
               type="button"
               onClick={createPresetSlot}
-              className="mt-2 w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100"
+              className="mt-2 w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-data font-medium text-indigo-700 hover:bg-indigo-100"
             >
               <Plus size={15} className="mr-1 inline" />
               新建并进入
@@ -328,66 +343,85 @@ export default function PresetsTab(props: PresetsTabProps) {
           </article>
         </div>
       </section>
-    </>
+    </div>
   ) : (
-    <>
-      <AppMenuPortal targetId="app-page-secondary-tabs">
-        <AppSideNotch side="left">
-          <nav className="autoResearchEditorTabs flex h-10 items-center gap-1 px-2">
-            {[
-              ['preset-basic', '基础'],
-              ['preset-skills', '技能'],
-              ['preset-training', '养成'],
-              ['preset-races', '赛事'],
-            ].map(([target, label]) => (
-              <button
-                key={target}
-                type="button"
-                onClick={() => scrollToSection(target)}
-                className="whitespace-nowrap rounded-md px-2.5 py-1.5 text-xs font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
-        </AppSideNotch>
-      </AppMenuPortal>
-      <AppMenuPortal targetId="app-page-context-actions">
-        <AppSideNotch side="right">
-          <div className="autoResearchEditorActions flex h-10 items-center gap-1.5 px-2">
+    <div className="autoResearchForm contents">
+      <header className="autoResearchEditorToolbar">
+        <nav className="autoResearchEditorTabs">
+          {[
+            ['preset-basic', '基础'],
+            ['preset-skills', '技能'],
+            ['preset-training', '养成'],
+            ['preset-races', '赛事'],
+          ].map(([target, label]) => (
             <button
+              key={target}
               type="button"
-              onClick={() => setPresetEditorOpen(false)}
-              className="h-7 rounded-md px-2.5 text-[13px] font-medium text-gray-600 hover:bg-slate-100"
+              onClick={() => scrollToSection(target)}
+              className="whitespace-nowrap rounded-md px-2.5 py-1.5 text-caption font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
             >
-              返回
+              {label}
             </button>
-            <button
-              type="button"
-              onClick={savePreset}
-              disabled={busy === 'preset'}
-              className={`flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[13px] font-semibold text-white disabled:opacity-50 ${
-                presetSaved
-                  ? 'bg-emerald-600 hover:bg-emerald-600'
-                  : 'bg-indigo-600 hover:bg-indigo-700'
-              }`}
-            >
-              {presetSaved ? <Check size={14} /> : <Save size={14} />}
-              {busy === 'preset' ? '保存中…' : presetSaved ? '已保存' : '保存'}
-            </button>
-          </div>
-        </AppSideNotch>
-      </AppMenuPortal>
+          ))}
+        </nav>
+
+        <div className="autoResearchEditorActions">
+          <button
+            type="button"
+            onClick={() => setPresetEditorOpen(false)}
+            className="h-7 rounded-md px-2.5 text-label font-medium text-gray-600 hover:bg-slate-100"
+          >
+            返回
+          </button>
+          <span
+            role="status"
+            className={`autoResearchEditorStatus text-label ${
+              presetDirty || presetSyncError
+                ? 'text-amber-800'
+                : 'text-emerald-700'
+            }`}
+          >
+            {presetDirty
+              ? '未保存'
+              : presetSyncError
+                ? '已保存到本地，运行配置同步失败'
+                : '已保存'}
+          </span>
+          <button
+            type="button"
+            onClick={savePreset}
+            disabled={busy === 'preset'}
+            className={`flex h-8 flex-none items-center gap-1.5 rounded-md px-2.5 text-label font-semibold text-white disabled:opacity-50 ${
+              presetSaved
+                ? 'bg-emerald-600 hover:bg-emerald-600'
+                : 'bg-indigo-600 hover:bg-indigo-700'
+            }`}
+          >
+            {presetSaved ? <Check size={14} /> : <Save size={14} />}
+            {busy === 'preset'
+              ? '保存中…'
+              : presetDirty
+                ? '保存修改'
+                : presetSyncError
+                  ? '重试同步'
+                  : presetSaved
+                    ? '已保存'
+                    : '保存'}
+          </button>
+        </div>
+      </header>
       <section id="preset-basic" className="scroll-mt-28">
         <div className="rounded-lg border border-gray-200 bg-gray-50/60 p-4">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
               1
             </span>
-            <h3 className="font-semibold text-gray-800">基础设置</h3>
+            <h3 className="text-section font-semibold text-gray-800">
+              基础设置
+            </h3>
           </div>
           <div className="mt-3 grid max-w-xl gap-4 sm:grid-cols-2">
-            <label className="text-sm">
+            <label className="text-label">
               育成剧本
               <select
                 value={scenarioId}
@@ -400,7 +434,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                 <option value={5}>荣耀女神杯</option>
               </select>
             </label>
-            <label className="text-sm">
+            <label className="text-label">
               跑法
               <select
                 value={runningStyle}
@@ -420,23 +454,23 @@ export default function PresetsTab(props: PresetsTabProps) {
         </div>
 
         <div id="preset-skills" className="mt-4 scroll-mt-28">
-          <section className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50/60 text-sm">
-            <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-4 py-3">
+          <section className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50/60 text-data">
+            <div className="autoResearchSectionHeader border-b border-slate-100 px-4 py-3">
               <div className="flex items-start gap-2">
-                <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                   2
                 </span>
                 <div>
                   <p className="font-semibold text-slate-800">育成中技能选择</p>
-                  <p className="mt-1 text-xs text-slate-500">
-                    越靠上优先级越高，可拖动调整顺序。
+                  <p className="mt-1 text-label text-slate-500">
+                    越靠上优先级越高，可拖动或使用上下移按钮调整顺序。
                   </p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setSkillPickerOpen(true)}
-                className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700"
+                className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-caption font-semibold text-white hover:bg-indigo-700"
               >
                 <Plus size={14} />
                 添加技能
@@ -476,13 +510,13 @@ export default function PresetsTab(props: PresetsTabProps) {
                       setDraggedPrioritySkill('');
                     }}
                     onDragEnd={() => setDraggedPrioritySkill('')}
-                    className={`flex cursor-grab items-center gap-2 rounded-lg border bg-white p-1.5 shadow-sm active:cursor-grabbing ${
+                    className={`flex min-w-0 flex-wrap cursor-grab items-center gap-2 rounded-lg border bg-white p-1.5 shadow-sm active:cursor-grabbing ${
                       draggedPrioritySkill === entry.id
                         ? 'border-indigo-300 opacity-45'
                         : 'border-slate-200'
                     }`}
                   >
-                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-xs font-bold text-indigo-700">
+                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-caption font-bold text-indigo-700">
                       {index + 1}
                     </span>
                     <span className="relative h-9 w-12 flex-none">
@@ -507,7 +541,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                                   className="h-full w-full object-cover"
                                 />
                               ) : (
-                                <span className="flex h-full items-center justify-center text-xs font-bold text-slate-400">
+                                <span className="flex h-full items-center justify-center text-caption font-bold text-slate-500">
                                   ?
                                 </span>
                               )}
@@ -515,12 +549,12 @@ export default function PresetsTab(props: PresetsTabProps) {
                           );
                         })}
                     </span>
-                    <span className="min-w-0 flex-1">
+                    <span className="min-w-0 flex-[1_1_8rem]">
                       <span className="block truncate font-semibold text-slate-800">
                         {isGroup ? entry.label || '技能组' : primaryName}
                       </span>
                       <span
-                        className="mt-0.5 block truncate text-xs text-slate-500"
+                        className="mt-0.5 block truncate text-caption text-slate-500"
                         title={`${entry.skill_names.join('、')} · ${skillLearningConditionLabel(entry)}`}
                       >
                         {isGroup
@@ -530,6 +564,17 @@ export default function PresetsTab(props: PresetsTabProps) {
                             : '当前技能数据中未找到'}
                       </span>
                     </span>
+                    <ReorderControls
+                      label={`育成中技能：${isGroup ? entry.label || entry.skill_names.join('、') : primaryName}`}
+                      index={index}
+                      count={skillSelections.length}
+                      onMove={(targetIndex) =>
+                        reorderPrioritySkill(
+                          entry.id,
+                          skillSelections[targetIndex].id,
+                        )
+                      }
+                    />
                     <button
                       type="button"
                       onClick={() => {
@@ -537,7 +582,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                         setEditingSkillSelectionId(entry.id);
                       }}
                       title="设置学习条件"
-                      className="flex flex-none items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-xs text-slate-500 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+                      className="flex flex-none items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-caption text-slate-500 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
                     >
                       <Settings2 size={13} />
                       设置
@@ -578,7 +623,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                 <button
                   type="button"
                   onClick={() => setSkillPickerOpen(true)}
-                  className="col-span-full flex min-h-[80px] w-full items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-400 hover:border-indigo-300 hover:bg-indigo-50/40 hover:text-indigo-600"
+                  className="col-span-full flex min-h-[80px] w-full items-center justify-center rounded-xl border border-dashed border-slate-300 text-data text-slate-500 hover:border-indigo-300 hover:bg-indigo-50/40 hover:text-indigo-600"
                 >
                   <Plus size={16} className="mr-1" />
                   添加育成中学习的技能
@@ -590,7 +635,7 @@ export default function PresetsTab(props: PresetsTabProps) {
 
         <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(280px,0.8fr)_minmax(0,2fr)]">
           <div className="divide-y divide-slate-200 rounded-lg border border-gray-200 bg-gray-50/60">
-            <label className="flex items-start gap-3 px-3 py-3 text-sm text-slate-700">
+            <label className="flex items-start gap-3 px-3 py-3 text-label text-slate-700">
               <input
                 type="checkbox"
                 checked={skipDoubleCircle}
@@ -601,12 +646,12 @@ export default function PresetsTab(props: PresetsTabProps) {
                 <strong className="block font-medium text-slate-800">
                   技能 Hit 等级不足 4 时跳过 ◎ 技能
                 </strong>
-                <span className="mt-0.5 block text-xs text-slate-500">
+                <span className="mt-0.5 block text-caption text-slate-500">
                   避免过早购买折扣不足的双圈技能
                 </span>
               </span>
             </label>
-            <label className="flex items-start gap-3 px-3 py-3 text-sm text-slate-700">
+            <label className="flex items-start gap-3 px-3 py-3 text-label text-slate-700">
               <input
                 type="checkbox"
                 checked={maximizeSkillScoreAtEnd}
@@ -619,7 +664,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                 <strong className="block font-medium text-slate-800">
                   结束时用剩余技能点最大化评价分
                 </strong>
-                <span className="mt-0.5 block text-xs leading-5 text-slate-500">
+                <span className="mt-0.5 block text-caption leading-5 text-slate-500">
                   先学习上方指定的技能，再用背包优化选择其余可学技能；优先让评价分最高，同分时尽量用完技能点。
                 </span>
               </span>
@@ -629,10 +674,10 @@ export default function PresetsTab(props: PresetsTabProps) {
           <section className="rounded-lg border border-gray-200 bg-gray-50/60 p-3">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-data font-semibold text-slate-800">
                   统一购买技能时间
                 </p>
-                <p className="mt-0.5 text-xs text-slate-500">
+                <p className="mt-0.5 text-label text-slate-500">
                   育成中到达选中日期时统一检查所选技能；不选择则只在育成结束前检查
                 </p>
               </div>
@@ -640,7 +685,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                 <button
                   type="button"
                   onClick={() => setSkillPurchaseTurns([])}
-                  className="rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-slate-100"
+                  className="rounded-md px-2 py-1 text-caption text-slate-500 hover:bg-slate-100"
                 >
                   清空
                 </button>
@@ -652,7 +697,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                   key={year.offset}
                   type="button"
                   onClick={() => setSkillPurchaseYearOffset(year.offset)}
-                  className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                  className={`flex-1 rounded-md px-3 py-1.5 text-caption font-medium transition ${
                     skillPurchaseYearOffset === year.offset
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-500 hover:text-slate-700'
@@ -668,7 +713,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                   key={month}
                   className="rounded-lg border border-slate-200 bg-slate-50 p-1.5"
                 >
-                  <p className="mb-1 text-center text-[11px] font-medium text-slate-500">
+                  <p className="mb-1 text-center text-label font-medium text-slate-500">
                     {month}月
                   </p>
                   <div className="grid grid-cols-2 gap-1">
@@ -693,7 +738,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                                   ),
                             )
                           }
-                          className={`rounded px-1 py-1 text-[11px] font-medium ${
+                          className={`rounded px-1 py-1 text-caption font-medium ${
                             selected
                               ? 'bg-indigo-600 text-white'
                               : 'bg-white text-slate-500 hover:bg-indigo-50 hover:text-indigo-700'
@@ -718,13 +763,13 @@ export default function PresetsTab(props: PresetsTabProps) {
                     )
                   }
                   title="点击移除"
-                  className="rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-1 text-[11px] text-indigo-700 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                  className="rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-1 text-caption text-indigo-700 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
                 >
                   {skillPurchaseTurnLabel(turn)} ×
                 </button>
               ))}
               {!skillPurchaseTurns.length ? (
-                <span className="py-1 text-xs text-slate-400">
+                <span className="py-1 text-caption text-slate-500">
                   尚未设置额外购买时间
                 </span>
               ) : null}
@@ -743,22 +788,22 @@ export default function PresetsTab(props: PresetsTabProps) {
             <div className="space-y-4">
               <div className="rounded-lg border border-gray-200 bg-gray-50/60 p-4">
                 <div className="flex items-start gap-2">
-                  <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                  <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                     4
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800">
+                    <p className="text-data font-semibold text-slate-800">
                       最终目标属性
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">
+                    <p className="mt-1 text-label leading-5 text-slate-500">
                       所有阶段结束后使用这组属性线。达到单项属性线后不再选择对应训练；填写
                       0 可关闭单项约束。
                     </p>
                   </div>
                 </div>
-                <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
+                <div className="mt-3 autoResearchStatFields grid gap-2">
                   {STAT_LABELS.map((label, index) => (
-                    <label key={label} className="text-xs text-slate-600">
+                    <label key={label} className="text-label text-slate-600">
                       {label}
                       <EditableNumberInput
                         min={0}
@@ -771,7 +816,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                             ),
                           )
                         }
-                        className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800"
+                        className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-data text-slate-800"
                       />
                     </label>
                   ))}
@@ -780,10 +825,10 @@ export default function PresetsTab(props: PresetsTabProps) {
                 <div className="mt-4 border-t border-slate-100 pt-4">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <p className="text-sm font-semibold text-slate-800">
+                      <p className="text-data font-semibold text-slate-800">
                         分阶段目标属性
                       </p>
-                      <p className="mt-0.5 text-xs leading-5 text-slate-500">
+                      <p className="mt-0.5 text-label leading-5 text-slate-500">
                         选中日期并填写阶段属性线；到该日期为止使用这组目标，之后自动切换到下一阶段，最后使用上方最终目标。
                       </p>
                     </div>
@@ -791,7 +836,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                       <button
                         type="button"
                         onClick={() => setTargetAttributeStages([])}
-                        className="rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-slate-100"
+                        className="rounded-md px-2 py-1 text-caption text-slate-500 hover:bg-slate-100"
                       >
                         清空阶段
                       </button>
@@ -806,7 +851,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                         onClick={() =>
                           setTargetAttributeStageYearOffset(year.offset)
                         }
-                        className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                        className={`flex-1 rounded-md px-3 py-1.5 text-caption font-medium transition ${
                           targetAttributeStageYearOffset === year.offset
                             ? 'bg-white text-indigo-700 shadow-sm'
                             : 'text-slate-500 hover:text-slate-700'
@@ -822,7 +867,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                         key={month}
                         className="rounded-lg border border-slate-200 bg-slate-50 p-1.5"
                       >
-                        <p className="mb-1 text-center text-[11px] font-medium text-slate-500">
+                        <p className="mb-1 text-center text-label font-medium text-slate-500">
                           {month}月
                         </p>
                         <div className="grid grid-cols-2 gap-1">
@@ -841,7 +886,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                                 type="button"
                                 aria-pressed={selected}
                                 onClick={() => toggleTargetAttributeStage(turn)}
-                                className={`rounded px-1 py-1 text-[11px] font-medium ${
+                                className={`rounded px-1 py-1 text-caption font-medium ${
                                   selected
                                     ? 'bg-indigo-600 text-white'
                                     : 'bg-white text-slate-500 hover:bg-indigo-50 hover:text-indigo-700'
@@ -863,7 +908,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                         className="rounded-lg border border-slate-200 bg-white/80 p-3"
                       >
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-semibold text-slate-700">
+                          <span className="text-caption font-semibold text-slate-700">
                             截至 {skillPurchaseTurnLabel(stage.turn)}
                           </span>
                           <button
@@ -877,11 +922,11 @@ export default function PresetsTab(props: PresetsTabProps) {
                             <Trash2 size={14} />
                           </button>
                         </div>
-                        <div className="mt-2 grid grid-cols-5 gap-1.5">
+                        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 2xl:grid-cols-5">
                           {STAT_LABELS.map((label, index) => (
                             <label
                               key={label}
-                              className="text-[11px] text-slate-600"
+                              className="text-label text-slate-600"
                             >
                               {label}
                               <EditableNumberInput
@@ -895,7 +940,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                                     nextValue,
                                   )
                                 }
-                                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-800"
+                                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-data text-slate-800"
                               />
                             </label>
                           ))}
@@ -903,7 +948,7 @@ export default function PresetsTab(props: PresetsTabProps) {
                       </div>
                     ))}
                     {!targetAttributeStages.length ? (
-                      <p className="rounded-lg border border-dashed border-slate-200 px-3 py-2 text-xs text-slate-400 md:col-span-2 xl:col-span-3">
+                      <p className="rounded-lg border border-dashed border-slate-200 px-3 py-2 text-label text-slate-500 md:col-span-2 xl:col-span-3">
                         尚未设置阶段目标，当前会全程使用最终目标属性。
                       </p>
                     ) : null}
@@ -924,6 +969,6 @@ export default function PresetsTab(props: PresetsTabProps) {
           />
         </div>
       </section>
-    </>
+    </div>
   );
 }

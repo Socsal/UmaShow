@@ -95,20 +95,20 @@ export function RecommendationScoreFooter({
       className={`flex min-h-14 items-center justify-between gap-2 rounded-b-lg border-t px-3 py-2 ${tone.footer}`}
     >
       <span
-        className={`rounded-md px-2 py-1 text-sm font-black tabular-nums shadow-sm ${tone.badge}`}
+        className={`rounded-md px-2 py-1 text-data font-bold tabular-nums shadow-sm ${tone.badge}`}
         aria-label={`排名第 ${rank}`}
       >
         #{rank}
       </span>
       <span className="ml-auto flex shrink-0 items-center gap-2 tabular-nums">
         <span className="flex items-baseline gap-0.5 whitespace-nowrap">
-          <span className="text-xl font-black leading-none">
+          <span className="text-xl font-bold tabular-nums leading-snug">
             {Math.round(action.scoreMean)}
           </span>
-          <span className="text-[11px] font-bold opacity-65">分</span>
+          <span className="text-caption font-bold opacity-65">分</span>
         </span>
         <span
-          className={`min-w-12 rounded-md px-2 py-1 text-center text-base font-black ${tone.delta}`}
+          className={`min-w-12 rounded-md px-2 py-1 text-center text-base font-bold tabular-nums ${tone.delta}`}
         >
           {deltaLabel}
         </span>
@@ -130,7 +130,7 @@ export function RecommendationRankChip({
       title={`第 ${rank} 名 · 预测最终分 ${Math.round(
         action.scoreMean,
       )} · 相对第一名 ${deltaLabel}`}
-      className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[11px] font-black tabular-nums ${tone.footer}`}
+      className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-caption font-bold tabular-nums ${tone.footer}`}
     >
       <span className={`rounded px-1 py-0.5 ${tone.badge}`}>#{rank}</span>
       <span>{Math.round(action.scoreMean)}分</span>

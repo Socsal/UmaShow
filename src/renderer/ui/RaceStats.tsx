@@ -384,7 +384,7 @@ function SkillNameCell({ skillId, label }: { skillId: number; label: string }) {
     <div className="flex items-center gap-2">
       {tag && (
         <span
-          className={`inline-flex shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${tag.className}`}
+          className={`inline-flex shrink-0 rounded px-1.5 py-0.5 text-caption font-medium ${tag.className}`}
         >
           {tag.label}
         </span>
@@ -1419,7 +1419,7 @@ function HorseSummary({
           <div className="truncate text-xs text-gray-500">
             {horse.trainerName || '-'}
           </div>
-          <div className="mt-1 text-[11px] text-blue-600">
+          <div className="mt-1 text-caption text-blue-600">
             {horse.appearances} 场 / 胜场 {horse.winAppearances}
           </div>
           <div className="mt-1 flex flex-wrap gap-1 text-xs">
@@ -2084,7 +2084,7 @@ function HorseSkillsModal({
                 <div className="mt-1 font-mono text-lg font-bold text-violet-700">
                   {hpText(average(horse.finalHpTotal, horse.finalHpCount))}
                 </div>
-                <div className="mt-1 text-[11px] text-gray-500">
+                <div className="mt-1 text-caption text-gray-500">
                   基于 {horse.finalHpCount} 场
                 </div>
               </div>
@@ -2095,7 +2095,7 @@ function HorseSkillsModal({
                     average(horse.winFinalHpTotal, horse.winFinalHpCount),
                   )}
                 </div>
-                <div className="mt-1 text-[11px] text-gray-500">
+                <div className="mt-1 text-caption text-gray-500">
                   基于 {horse.winFinalHpCount} 场
                 </div>
               </div>

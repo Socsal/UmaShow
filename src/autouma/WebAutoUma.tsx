@@ -46,6 +46,7 @@ import {
   CloudCareerConfig,
   CloudConfigurationResponse,
   Dashboard,
+  DailyAssetSnapshot,
   HostedControlResponse,
   RaceOption,
   RunnerStats,
@@ -65,6 +66,7 @@ type WebTab = 'career' | 'history';
 type CareerHistoryResponse = {
   success: boolean;
   reports: CareerSessionRecord[];
+  asset_snapshots?: DailyAssetSnapshot[];
 };
 type RunnableCloudConfig = CloudCareerConfig & {
   payload: CloudCareerConfig['payload'] & { setting: CareerSetting };
@@ -263,6 +265,9 @@ export default function WebAutoUma() {
   const [loginSettingsOpen, setLoginSettingsOpen] = useState(true);
   const [cloudConfigs, setCloudConfigs] = useState<CloudCareerConfig[]>([]);
   const [careerHistory, setCareerHistory] = useState<CareerSessionRecord[]>([]);
+  const [assetSnapshots, setAssetSnapshots] = useState<DailyAssetSnapshot[]>(
+    [],
+  );
   const [selectedCareerRecords, setSelectedCareerRecords] = useState<
     CareerSessionRecord[] | null
   >(null);
@@ -414,6 +419,7 @@ export default function WebAutoUma() {
       return;
     }
     setBusy('cloud-config-pull');
+    setAssetSnapshots([]);
     setError('');
     setSuccessMessage('');
     try {
@@ -484,6 +490,7 @@ export default function WebAutoUma() {
       }
       if (historyResult.status === 'fulfilled') {
         setCareerHistory(historyResult.value.reports || []);
+        setAssetSnapshots(historyResult.value.asset_snapshots || []);
       }
       setSelectedCareerRecords(null);
       if (!attached) enterAccount();
@@ -621,6 +628,7 @@ export default function WebAutoUma() {
         },
       );
       setCareerHistory(result.reports || []);
+      setAssetSnapshots(result.asset_snapshots || []);
       setSelectedCareerRecords(null);
     } catch (caught) {
       setError(String((caught as Error)?.message || caught));
@@ -1085,7 +1093,7 @@ export default function WebAutoUma() {
       <AppMenuPortal>
         <div className="autoResearchHeaderActions flex min-w-0 items-center gap-1.5">
           <span
-            className="autoResearchHeaderServer max-w-44 truncate text-[11px] text-slate-400"
+            className="autoResearchHeaderServer max-w-44 truncate text-caption text-slate-500"
             title={server || '未连接服务器'}
           >
             {server || '未选择服务器'}
@@ -1129,7 +1137,7 @@ export default function WebAutoUma() {
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
                   aria-current={activeTab === tab.id ? 'page' : undefined}
-                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 text-xs font-semibold transition-all ${
+                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 text-xs font-semibold transition-ui ${
                     activeTab === tab.id
                       ? 'bg-indigo-600 text-white shadow-sm'
                       : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'
@@ -1245,6 +1253,7 @@ export default function WebAutoUma() {
               selectedAccountId={connectedUid}
               accountCareerSettings={careerSettings}
               careerHistory={careerHistory}
+              assetSnapshots={assetSnapshots}
               downloadCareerSetting={noopAsync}
               deleteCareerHistory={noopAsync}
               downloadTrainingHistory={noopAsync}
@@ -1335,10 +1344,10 @@ export default function WebAutoUma() {
               <details className="group rounded-lg border border-slate-200 bg-white">
                 <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-3 px-3 text-sm font-medium text-slate-700 marker:content-none">
                   <span>手动添加账号</span>
-                  <span className="text-[10px] font-normal text-slate-400 group-open:hidden">
+                  <span className="text-caption font-normal text-slate-500 group-open:hidden">
                     UID + access_key
                   </span>
-                  <span className="hidden text-[10px] font-normal text-slate-400 group-open:inline">
+                  <span className="hidden text-caption font-normal text-slate-500 group-open:inline">
                     收起
                   </span>
                 </summary>
@@ -1397,7 +1406,7 @@ export default function WebAutoUma() {
                           <p className="truncate text-xs font-semibold text-slate-800">
                             {account.label || `UID ${account.uid}`}
                           </p>
-                          <p className="mt-0.5 truncate text-[10px] text-slate-400">
+                          <p className="mt-0.5 truncate text-caption text-slate-500">
                             {account.uid} · {account.accessKeyPreview}
                           </p>
                         </button>

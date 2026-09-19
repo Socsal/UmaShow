@@ -133,12 +133,12 @@ export default function EventChoiceSelector({
   return (
     <section className="mt-4 rounded-lg border border-gray-200 bg-gray-50/60 p-4">
       <div className="flex items-start gap-2">
-        <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+        <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
           3
         </span>
         <div>
-          <p className="text-sm font-semibold text-slate-800">事件固定选项</p>
-          <p className="mt-1 text-xs leading-5 text-slate-500">
+          <p className="text-data font-semibold text-slate-800">事件固定选项</p>
+          <p className="mt-1 text-caption leading-5 text-slate-500">
             在线育成遇到已配置事件时固定选择指定项；未配置事件继续使用自动策略。
           </p>
         </div>
@@ -153,7 +153,7 @@ export default function EventChoiceSelector({
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           placeholder="搜索事件名称或 story ID"
-          className="w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
+          className="w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-3 text-data text-slate-800 outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
         />
       </div>
 
@@ -174,10 +174,10 @@ export default function EventChoiceSelector({
                 className="flex items-center gap-3 border-b border-slate-100 px-3 py-2 last:border-b-0"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-slate-700">
+                  <p className="truncate text-data font-medium text-slate-700">
                     {story.name || `事件 ${story.id}`}
                   </p>
-                  <p className="mt-0.5 text-[11px] text-slate-400">
+                  <p className="mt-0.5 text-caption text-slate-500">
                     story_id: {story.id}
                     {messages[key] ? ` · ${messages[key]}` : ''}
                   </p>
@@ -186,7 +186,7 @@ export default function EventChoiceSelector({
                   type="button"
                   disabled={selected || loading || hasNoChoices}
                   onClick={() => addEvent(story)}
-                  className="flex flex-none items-center gap-1 rounded-md border border-indigo-200 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-50 disabled:border-slate-200 disabled:text-slate-400"
+                  className="flex flex-none items-center gap-1 rounded-md border border-indigo-200 px-2.5 py-1.5 text-caption font-medium text-indigo-700 hover:bg-indigo-50 disabled:border-slate-200 disabled:text-slate-400"
                 >
                   {loading ? (
                     <LoaderCircle size={13} className="animate-spin" />
@@ -199,7 +199,7 @@ export default function EventChoiceSelector({
             );
           })}
           {!searchResults.length ? (
-            <p className="px-3 py-6 text-center text-xs text-slate-400">
+            <p className="px-3 py-6 text-center text-caption text-slate-500">
               没有找到匹配事件
             </p>
           ) : null}
@@ -222,10 +222,10 @@ export default function EventChoiceSelector({
               className="flex flex-wrap items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2.5"
             >
               <div className="min-w-[180px] flex-1">
-                <p className="truncate text-sm font-medium text-slate-700">
+                <p className="truncate text-data font-medium text-slate-700">
                   {story?.name || `事件 ${storyId}`}
                 </p>
-                <p className="mt-0.5 text-[11px] text-slate-400">
+                <p className="mt-0.5 text-caption text-slate-500">
                   story_id: {storyId}
                 </p>
               </div>
@@ -238,7 +238,7 @@ export default function EventChoiceSelector({
                     [storyId]: Number(event.target.value),
                   }))
                 }
-                className="min-w-[240px] max-w-full rounded-md border border-slate-200 bg-white px-2.5 py-2 text-xs text-slate-700 disabled:text-slate-400"
+                className="min-w-[240px] max-w-full rounded-md border border-slate-200 bg-white px-2.5 py-2 text-caption text-slate-700 disabled:text-slate-400"
               >
                 {detail?.optionList.length ? (
                   detail.optionList.map((option, index) => (
@@ -268,7 +268,7 @@ export default function EventChoiceSelector({
           );
         })}
         {!selectedEntries.length ? (
-          <p className="rounded-lg border border-dashed border-slate-200 px-3 py-5 text-center text-xs text-slate-400">
+          <p className="rounded-lg border border-dashed border-slate-200 px-3 py-5 text-center text-caption text-slate-500">
             尚未添加固定事件选项
           </p>
         ) : null}

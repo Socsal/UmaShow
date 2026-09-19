@@ -30,7 +30,7 @@ function NumberField({
 }: NumberFieldProps) {
   return (
     <label className="block min-w-0">
-      <span className="text-xs font-semibold text-slate-700">{label}</span>
+      <span className="text-label font-semibold text-slate-700">{label}</span>
       <input
         type="number"
         value={value}
@@ -38,9 +38,9 @@ function NumberField({
         max={max}
         step={step}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="mt-1.5 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-right font-mono text-sm font-semibold text-slate-800 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100"
+        className="mt-1.5 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-right font-mono tabular-nums text-data font-semibold text-slate-800 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100"
       />
-      <span className="mt-1 block text-[11px] leading-4 text-slate-400">
+      <span className="mt-1 block text-caption text-slate-400">
         {description}
       </span>
     </label>
@@ -56,14 +56,14 @@ type AttributeFieldProps = {
 function AttributeField({ label, value, onChange }: AttributeFieldProps) {
   return (
     <label className="min-w-0">
-      <span className="text-xs font-semibold text-slate-700">{label}</span>
+      <span className="text-label font-semibold text-slate-700">{label}</span>
       <input
         type="number"
         value={value}
         min={0}
         max={3000}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="mt-1.5 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-right font-mono text-sm font-semibold text-slate-800 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100"
+        className="mt-1.5 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-right font-mono tabular-nums text-data font-semibold text-slate-800 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100"
       />
     </label>
   );
@@ -149,13 +149,13 @@ export default function UmaAiSettingsDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="recommendation-settings-title"
-        className="flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+        className="uma-dialog-surface flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
       >
         <header className="flex items-start justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4">
           <div>
             <h2
               id="recommendation-settings-title"
-              className="text-base font-bold text-slate-900"
+              className="text-title font-semibold text-slate-900"
             >
               推荐设置
             </h2>
@@ -173,14 +173,14 @@ export default function UmaAiSettingsDialog({
         <div className="min-h-0 flex-1 overflow-y-auto px-5">
           <section className="flex flex-wrap items-center justify-between gap-4 py-5">
             <div>
-              <h3 className="text-sm font-semibold text-slate-800">启用推荐</h3>
-              <p className="mt-1 text-xs text-slate-500">
+              <h3 className="text-section font-semibold text-slate-800">启用推荐</h3>
+              <p className="mt-1 max-w-prose text-data text-slate-500">
                 推荐结果会直接显示在现有育成界面中。
               </p>
             </div>
             <div className="flex items-center gap-3">
               <span
-                className={`text-[11px] font-medium ${
+                className={`text-caption font-medium ${
                   status?.engines?.[6] ? 'text-slate-500' : 'text-rose-600'
                 }`}
               >
@@ -213,7 +213,7 @@ export default function UmaAiSettingsDialog({
           <div className="grid border-t border-slate-200 md:grid-cols-2">
             <section className="py-5 md:pr-5">
               <div className="mb-4">
-                <h3 className="text-sm font-semibold text-slate-800">
+                <h3 className="text-section font-semibold text-slate-800">
                   计算设置
                 </h3>
               </div>
@@ -248,7 +248,7 @@ export default function UmaAiSettingsDialog({
               </div>
               {usingModel ? (
                 <details>
-                  <summary className="cursor-pointer select-none text-xs font-semibold text-slate-700">
+                  <summary className="cursor-pointer select-none text-label font-semibold text-slate-700">
                     模型搜索参数
                     <span className="ml-2 font-normal text-slate-400">
                       通常保持默认即可
@@ -256,7 +256,7 @@ export default function UmaAiSettingsDialog({
                   </summary>
                   <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
                     <label className="block min-w-0 sm:col-span-2 md:col-span-1 lg:col-span-2">
-                      <span className="text-xs font-semibold text-slate-700">
+                      <span className="text-label font-semibold text-slate-700">
                         根搜索算法
                       </span>
                       <select
@@ -268,14 +268,14 @@ export default function UmaAiSettingsDialog({
                               .value as UmaAiOptions['graphRootSelection'],
                           )
                         }
-                        className="mt-1.5 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-800 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100"
+                        className="mt-1.5 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-data font-semibold text-slate-800 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100"
                       >
                         <option value="puct">PUCT（稳定通用）</option>
                         <option value="gumbel">
                           Gumbel Sequential Halving（低预算）
                         </option>
                       </select>
-                      <span className="mt-1 block text-[11px] leading-4 text-slate-400">
+                      <span className="mt-1 block text-caption text-slate-400">
                         Gumbel 会先覆盖更多当前回合行动，再把预算集中到较优
                         候选。
                       </span>
@@ -405,10 +405,10 @@ export default function UmaAiSettingsDialog({
 
             <section className="border-t border-slate-200 py-5 md:border-l md:border-t-0 md:pl-5">
               <div className="mb-4">
-                <h3 className="text-sm font-semibold text-slate-800">
+                <h3 className="text-section font-semibold text-slate-800">
                   推荐偏好
                 </h3>
-                <p className="mt-1 text-xs leading-5 text-slate-500">
+                <p className="mt-1 max-w-prose text-data leading-relaxed text-slate-500">
                   调整高收益路线和未来随机事件收益的取舍。
                 </p>
               </div>
@@ -437,10 +437,10 @@ export default function UmaAiSettingsDialog({
           <section className="border-t border-slate-200 py-5">
             <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
               <div>
-                <h3 className="text-sm font-semibold text-slate-800">
+                <h3 className="text-section font-semibold text-slate-800">
                   属性上限
                 </h3>
-                <p className="mt-1 text-xs leading-5 text-slate-500">
+                <p className="mt-1 max-w-prose text-data leading-relaxed text-slate-500">
                   填写本次育成希望达到的属性上限，0 表示自动使用本局实际上限。
                 </p>
               </div>
@@ -476,10 +476,10 @@ export default function UmaAiSettingsDialog({
 
           <section className="border-t border-slate-200 py-5">
             <div className="mb-3">
-              <h3 className="text-sm font-semibold text-slate-800">
+              <h3 className="text-section font-semibold text-slate-800">
                 ONNX 模型（可选）
               </h3>
-              <p className="mt-1 text-xs leading-5 text-slate-500">
+              <p className="mt-1 max-w-prose text-data leading-relaxed text-slate-500">
                 选择 .onnx 使用 CPU；选择 .fp16.onnx 自动使用 GPU。
               </p>
             </div>
@@ -490,12 +490,12 @@ export default function UmaAiSettingsDialog({
                 value={draft.options.modelPath}
                 placeholder="未选择模型文件"
                 title={draft.options.modelPath || '未选择模型文件'}
-                className="h-9 min-w-0 flex-1 rounded-md border border-slate-200 bg-white px-3 text-xs text-slate-600 outline-none"
+                className="h-9 min-w-0 flex-1 rounded-md border border-slate-200 bg-white px-3 text-label text-slate-600 outline-none"
               />
               <button
                 type="button"
                 onClick={selectModel}
-                className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-label font-semibold text-slate-600 hover:bg-slate-50"
               >
                 <FolderOpen size={14} /> 选择模型
               </button>
@@ -508,20 +508,20 @@ export default function UmaAiSettingsDialog({
                       options: { ...current.options, modelPath: '' },
                     }))
                   }
-                  className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-xs font-semibold text-slate-500 hover:bg-slate-50 hover:text-rose-600"
+                  className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-label font-semibold text-slate-500 hover:bg-slate-50 hover:text-rose-600"
                 >
                   <Trash2 size={14} /> 清除
                 </button>
               ) : null}
             </div>
             {modelSelectError ? (
-              <p className="mt-2 text-xs font-semibold text-rose-600">
+              <p className="mt-2 text-label font-semibold text-rose-600">
                 {modelSelectError}
               </p>
             ) : null}
             {result?.modelLoaded &&
             result.modelPath === settings.options.modelPath ? (
-              <p className="mt-2 text-xs font-semibold leading-5 text-emerald-700">
+              <p className="mt-2 text-label font-semibold leading-5 text-emerald-700">
                 推理设备：
                 {result.inferenceProvider === 'directml'
                   ? 'DirectML（GPU）'
@@ -533,7 +533,7 @@ export default function UmaAiSettingsDialog({
             ) : null}
             {result?.fallbackReason &&
             result.modelPath === settings.options.modelPath ? (
-              <p className="mt-2 text-xs font-semibold leading-5 text-amber-700">
+              <p className="mt-2 text-label font-semibold leading-5 text-amber-700">
                 {result.fallbackReason}
               </p>
             ) : null}
@@ -544,7 +544,7 @@ export default function UmaAiSettingsDialog({
           <button
             type="button"
             onClick={restoreDefaults}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-label font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800"
           >
             <RotateCcw size={14} /> 恢复默认参数
           </button>
@@ -552,14 +552,14 @@ export default function UmaAiSettingsDialog({
             <button
               type="button"
               onClick={onClose}
-              className="h-9 rounded-lg border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+              className="h-9 rounded-lg border border-slate-200 bg-white px-4 text-label font-semibold text-slate-600 hover:bg-slate-50"
             >
               取消
             </button>
             <button
               type="button"
               onClick={save}
-              className="h-9 rounded-lg bg-indigo-600 px-4 text-xs font-semibold text-white hover:bg-indigo-700"
+              className="h-9 rounded-lg bg-indigo-600 px-4 text-label font-semibold text-white hover:bg-indigo-700"
             >
               保存设置
             </button>

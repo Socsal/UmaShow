@@ -11,9 +11,11 @@
   --uma-subtle: #8a94a3;
   --uma-accent: #1f66d1;
   --uma-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
-  --uma-mono: 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', monospace;
+  --uma-mono: var(--uma-font-mono);
   color: var(--uma-text);
-  font-family: 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-data);
+  line-height: 1.5;
 }
 
 .successionPlannerPage {
@@ -60,15 +62,16 @@
 
 .successionIndexStatus h1 {
   color: #1f2937;
-  font-size: 20px;
+  font-size: var(--uma-type-title);
   font-weight: 600;
-  line-height: 28px;
+  line-height: 1.35;
 }
 
 .successionIndexStatus p {
   margin-top: 4px;
   color: #64748b;
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.6;
 }
 
 .successionIndexTitle {
@@ -100,7 +103,8 @@
   min-height: 34px;
   padding: 6px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -125,7 +129,8 @@
   border-radius: 6px;
   background: #ffffff;
   color: #475569;
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
   font-weight: 500;
   cursor: pointer;
   transition:
@@ -168,16 +173,16 @@
 .successionCapturedPickerDialog > .successionPickerHeader h3 {
   margin-top: 0;
   color: #0f172a;
-  font-size: 18px;
+  font-size: var(--uma-type-section);
   font-weight: 700;
-  line-height: 28px;
+  line-height: 1.35;
 }
 
 .successionCapturedPickerDialog > .successionPickerHeader p {
   margin-top: 4px;
   color: #64748b;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--uma-type-data);
+  line-height: 1.6;
 }
 
 .successionCapturedPickerDialog
@@ -187,8 +192,8 @@
   min-height: 36px;
   border-radius: 8px;
   color: #94a3b8;
-  font-size: 20px;
-  line-height: 1;
+  font-size: 1.25rem;
+  line-height: 1.45;
 }
 
 .successionCapturedPickerDialog
@@ -199,12 +204,13 @@
 }
 
 .successionCapturedPickerFilters button {
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCapturedPickerFilters button.successionCapturedPickerCompactControl {
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionMatchingCapturedDialog {
@@ -270,13 +276,15 @@
 .successionCapturedDetailMembers > article > header small,
 .successionCapturedDetailMembers > article > header em {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-style: normal;
 }
 
 .successionCapturedDetailMembers > article > header strong {
   color: var(--uma-text);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCapturedAllFactors {
@@ -292,7 +300,8 @@
   border-radius: 6px;
   background: #f8fafc;
   color: #475569;
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedAllFactors .stat {
@@ -337,7 +346,7 @@
   border-color: var(--uma-accent);
   background: var(--uma-accent);
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionMatchingCapturedDialog .successionCapturedPickerGrid {
@@ -391,7 +400,8 @@
   border-radius: 6px;
   background: var(--uma-surface);
   color: var(--uma-text);
-  font-size: 12px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -408,7 +418,8 @@
 .successionCapturedPickerPagination strong {
   min-width: 70px;
   color: var(--uma-text);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   text-align: center;
 }
 
@@ -471,8 +482,9 @@
   border-radius: 6px;
   background: #eff6ff;
   color: #1d4ed8;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -540,16 +552,19 @@
 
 .successionCapturedMatchProbability small {
   color: #64748b;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCapturedMatchProbability strong {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCapturedMatchProbability em {
   color: #15803d;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
   font-weight: 700;
 }
@@ -562,8 +577,9 @@
   border-radius: 5px;
   background: #f5f3ff;
   color: #6d28d9;
-  font-size: 10px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.6;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -579,7 +595,8 @@
   border-radius: 5px;
   background: #fff;
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedFactorCounts b {
@@ -612,8 +629,9 @@
 
 .successionCandidateCapturedSource {
   color: #7c3aed !important;
-  font-size: 9px !important;
-  font-weight: 800;
+  font-size: var(--uma-type-caption) !important;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedCompatibility {
@@ -638,7 +656,8 @@
 .successionCapturedCompatibility small,
 .successionCapturedCompatibility em {
   color: #64748b;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-style: normal;
 }
 
@@ -649,7 +668,8 @@
 
 .successionCapturedCompatibility strong {
   color: #475569;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedPickerSelf strong,
@@ -662,12 +682,14 @@
 
 .successionCapturedPickerSelf span {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedPickerSelf em {
   color: #b45309;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
   font-weight: 700;
 }
@@ -680,7 +702,8 @@
   padding-top: 8px;
   border-top: 1px dashed var(--uma-border);
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedPickerParents > section {
@@ -724,13 +747,15 @@
 }
 
 .successionCapturedParentHeader small {
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCapturedParentHeader strong {
   overflow: hidden;
   color: var(--uma-text);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -748,7 +773,8 @@
 .successionCapturedPickerActions button {
   min-height: 30px;
   padding: 5px 9px;
-  font-size: 11px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCapturedPickerActions .successionUseCapturedUma {
@@ -768,7 +794,8 @@
   border-radius: 7px;
   background: #fff7ed;
   color: #9a3412;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -822,7 +849,7 @@
 }
 
 .successionPlanner small {
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+  font-family: var(--uma-font-sans);
   letter-spacing: 0;
 }
 
@@ -868,14 +895,15 @@
 
 .successionHero h1 {
   margin: 4px 0 6px;
-  font-size: clamp(28px, 4vw, 46px);
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-size: var(--uma-type-display);
+  line-height: 1.35;
+  letter-spacing: 0;
 }
 
 .successionHero p {
   color: var(--uma-muted);
-  font-size: 15px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
 }
 
 .successionEyebrow,
@@ -883,9 +911,10 @@
 .successionSectionHeading > div > span,
 .successionProbabilityCard > span {
   color: var(--succession-gold);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .successionHeroActions {
@@ -897,7 +926,8 @@
 
 .successionHeroActions > span {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionSteps {
@@ -937,7 +967,8 @@
   border: 1px solid var(--uma-border-strong);
   border-radius: 50%;
   background: var(--uma-surface);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionSteps li.active {
@@ -978,15 +1009,16 @@
 .successionSectionIntro h2,
 .successionSectionHeading h2 {
   margin-top: 3px;
-  font-size: 21px;
-  line-height: 1.2;
+  font-size: var(--uma-type-section);
+  line-height: 1.35;
 }
 
 .successionSectionIntro p,
 .successionSectionHeading p {
   margin-top: 6px;
   color: var(--uma-muted);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.6;
 }
 
 .successionUmaSelect {
@@ -1014,8 +1046,9 @@
   gap: 6px;
   min-height: 22px;
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionUmaSelectTitle > span {
@@ -1039,7 +1072,8 @@
   border: none;
   background: transparent;
   color: var(--uma-subtle);
-  font-size: 11px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   white-space: nowrap;
 }
 
@@ -1047,14 +1081,14 @@
   .successionUmaSelectActions
   .successionUseCapturedUma {
   color: var(--uma-accent);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionUmaSelectTitle
   .successionUmaSelectActions
   .successionPendingTrainingSwitch {
   color: #b45309;
-  font-weight: 900;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -1062,21 +1096,21 @@
   .successionUmaSelectActions
   .successionCopySelectedViewerId {
   color: #7c3aed;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionUmaSelectTitle
   .successionUmaSelectActions
   .successionCancelCapturedUma {
   color: #dc2626;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionUmaSelectTitle
   .successionUmaSelectActions
   .successionFixedDressSwitch {
   color: #087f5b;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -1133,7 +1167,8 @@
 
 .successionFixedDressOption small {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionFixedDressOption > svg {
@@ -1184,14 +1219,15 @@
 
 .successionUmaCompatibility small {
   color: var(--uma-muted);
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionUmaCompatibility strong {
   color: var(--uma-accent);
   font-family: var(--uma-mono);
-  font-size: 20px;
-  line-height: 1;
+  font-size: 1.25rem;
+  line-height: 1.45;
 }
 
 .successionUmaTrigger {
@@ -1242,7 +1278,8 @@
 .successionUmaPlaceholder small {
   margin-top: 3px;
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionPickerOverlay {
@@ -1295,12 +1332,14 @@
 }
 
 .successionPlayerScanSectionTitle strong {
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionPlayerScanSectionTitle span {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionPlayerScanSectionTitle > div:first-child {
@@ -1345,7 +1384,8 @@
   max-width: 100%;
   overflow: hidden;
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1353,7 +1393,8 @@
 .successionPlayerScanEmpty {
   margin: 0;
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionPlayerScanTargets textarea {
@@ -1384,8 +1425,8 @@
   resize: vertical;
   padding: 11px 12px;
   font-family: var(--uma-mono);
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionPlayerScanProgress,
@@ -1397,7 +1438,8 @@
   margin-top: 10px;
   padding: 8px 10px;
   border-radius: 7px;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionPlayerScanProgress {
@@ -1430,7 +1472,8 @@
   border-radius: 6px;
   background: #fff;
   color: var(--uma-text);
-  font-size: 11px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-weight: 700;
   cursor: pointer;
 }
@@ -1465,7 +1508,8 @@
 
 .successionPlayerScanFooter span {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionPlayerScanUpdateToggle {
@@ -1545,9 +1589,10 @@
 
 .successionPickerHeader span {
   color: #6366f1;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .successionPickerHeader h3,
@@ -1557,13 +1602,15 @@
 
 .successionPickerHeader h3 {
   margin-top: 3px;
-  font-size: 24px;
+  font-size: var(--uma-type-section);
+  line-height: 1.35;
 }
 
 .successionPickerHeader p {
   margin-top: 4px;
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionPickerClose {
@@ -1574,7 +1621,8 @@
   border-radius: 8px;
   background: transparent;
   color: #94a3b8;
-  font-size: 24px;
+  font-size: var(--uma-type-title);
+  line-height: 1.45;
   font-weight: 400;
   cursor: pointer;
 }
@@ -1615,14 +1663,16 @@
 .successionPickerMeta span {
   margin-right: auto;
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
 .successionPickerMeta button {
   min-height: 27px;
   padding: 0 8px;
-  font-size: 10px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionPickerGrid {
@@ -1695,7 +1745,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionPickerCard > em {
@@ -1710,9 +1761,10 @@
   border-radius: 50%;
   background: #4f46e5;
   color: #fff;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionPickerCard > em.occupied {
@@ -1721,7 +1773,8 @@
   padding: 0 7px;
   border-radius: 999px;
   background: #7c8492;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   white-space: nowrap;
 }
 
@@ -1762,9 +1815,9 @@
 
 .successionAptitudeRow small {
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1;
+  font-size: var(--uma-type-label);
+  font-weight: 700;
+  line-height: 1.6;
 }
 
 .successionAptitudeRow .successionRankIcon {
@@ -1785,7 +1838,8 @@
 }
 
 .successionAptitudeRows.picker .successionAptitudeRow small {
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.6;
 }
 
 .successionAptitudeRows.picker .successionAptitudeRow .successionRankIcon {
@@ -1815,7 +1869,8 @@
   border-top: 1px solid var(--uma-border);
   background: #fff;
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionPickerFooter button {
@@ -1835,7 +1890,7 @@
   border-color: #4f46e5;
   background: #4f46e5;
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionPickerFooter button:last-child:hover {
@@ -1861,13 +1916,14 @@
 .successionPortrait.large {
   width: 76px;
   height: 76px;
-  font-size: 24px;
+  font-size: var(--uma-type-title);
+  line-height: 1.45;
 }
 
 .successionPortrait.empty,
 .successionPortrait.fallback {
   color: var(--uma-muted);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionFactorIcon,
@@ -1930,15 +1986,17 @@
   margin-left: -5px;
   color: #b42368;
   font-family: var(--uma-mono);
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionFactorStarStack b {
   flex: 0 0 auto;
   font-family: var(--uma-mono);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionFactorStarStack.compact {
@@ -1955,11 +2013,13 @@
 
 .successionFactorStarStack.compact .successionFactorStarSources em {
   margin-left: -4px;
-  font-size: 8px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionFactorStarStack.compact b {
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCandidateAptitudes {
@@ -1977,14 +2037,15 @@
   border-radius: 3px;
   background: var(--uma-surface-muted);
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
 .successionCandidateAptitudes small {
   color: var(--uma-muted);
-  font-size: 10px;
-  line-height: 1;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionTargetSummary {
@@ -2008,12 +2069,14 @@
 }
 
 .successionTargetSummary > div:nth-child(2) strong {
-  font-size: 17px;
+  font-size: 1.0625rem;
+  line-height: 1.45;
 }
 
 .successionTargetSummary > div:nth-child(2) span {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionTargetAptitudes {
@@ -2036,7 +2099,8 @@
 
 .successionAptitude small {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -2059,7 +2123,7 @@
   border-radius: 50%;
   background: var(--uma-surface-muted);
   color: var(--uma-subtle);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionLockedState strong,
@@ -2165,7 +2229,8 @@
   border-radius: 999px;
   background: var(--uma-surface-soft);
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -2176,8 +2241,8 @@
 }
 
 .successionResetLineage span {
-  font-size: 15px;
-  line-height: 1;
+  font-size: 0.9375rem;
+  line-height: 1.45;
 }
 
 .successionGlobalInheritance {
@@ -2289,8 +2354,9 @@
   border-radius: 0;
   background: transparent;
   color: var(--uma-muted);
-  font-size: 15px;
-  font-weight: 900;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionBranchModeSwitch button:hover {
@@ -2500,8 +2566,9 @@
 }
 
 .successionTrainedFactorButton > span {
-  font-size: 10px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionTrainedFactorButton > strong {
@@ -2514,15 +2581,17 @@
 
 .successionTrainedFactorButton > strong b {
   font-family: var(--uma-mono);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   white-space: nowrap;
 }
 
 .successionTrainedFactorButton > em {
   color: #b45309;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionTrainedFactorButton.configured {
@@ -2553,8 +2622,9 @@
 
 .successionTrainedFactorModalBody > section > strong {
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionTrainedFactorTypes {
@@ -2571,8 +2641,9 @@
 
 .successionTrainedFactorTypes > div > span {
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionTrainedFactorTypes > div > div {
@@ -2593,7 +2664,7 @@
   border-radius: 7px;
   background: #fff;
   color: var(--uma-text);
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionTrainedFactorTypes button.selected,
@@ -2606,7 +2677,8 @@
 
 .successionTrainedFactorTypes button b {
   overflow: hidden;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2631,8 +2703,9 @@
   align-items: center;
   gap: 5px;
   color: var(--uma-muted);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionTrainedFactorModalBody > footer button {
@@ -2642,7 +2715,7 @@
   border-radius: 7px;
   background: var(--uma-accent);
   color: #fff;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionTrainedUmaSummary {
@@ -2654,8 +2727,9 @@
   padding: 5px 7px;
   border-top: 1px solid var(--uma-border);
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionTrainedFactorSummary {
@@ -2675,16 +2749,19 @@
 
 .successionTrainedFactorItem > small {
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
+  font-weight: 700;
 }
 
 .successionTrainedFactorItem .successionCandidateFactor {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionTrainedFactorItem .successionCandidateFactor b {
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionTrainedRoute {
@@ -2788,8 +2865,9 @@
 
 .successionTrainedUmaModalFooter > span {
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionTrainedUmaModalFooter > div {
@@ -2804,7 +2882,7 @@
   border-radius: 7px;
   background: var(--uma-accent);
   color: #fff;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionTrainedUmaModalFooter button.secondary {
@@ -2883,7 +2961,8 @@
   > .successionUmaSelect
   .successionUmaCompatibility
   strong {
-  font-size: 16px;
+  font-size: var(--uma-type-body);
+  line-height: 1.45;
 }
 
 .successionInheritanceAptitudes {
@@ -2905,14 +2984,16 @@
 
 .successionInheritanceAptitudes > header strong {
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionInheritanceAptitudes > header span {
   color: var(--uma-accent);
-  font-size: 10px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionInheritanceBudget {
@@ -2924,7 +3005,8 @@
 
 .successionInheritanceBudget b {
   font-family: var(--uma-mono);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionInheritanceBudget i {
@@ -2947,8 +3029,9 @@
 
 .successionInheritanceGroup > span {
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionInheritanceGroup > div {
@@ -2986,15 +3069,17 @@
 }
 
 .successionInheritanceToggle b {
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   white-space: nowrap;
 }
 
 .successionInheritanceToggle i {
   display: none;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionInheritanceToggle.selected {
@@ -3023,10 +3108,10 @@
 
 .successionInheritanceTargetSummary i {
   color: var(--uma-accent);
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-style: normal;
-  font-weight: 900;
-  line-height: 1;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .successionInheritanceTargetSummary:hover {
@@ -3036,8 +3121,9 @@
 
 .successionInheritanceTargetSummary small {
   color: var(--uma-subtle);
-  font-size: 9px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -3074,21 +3160,24 @@
 
 .successionInheritanceModal > header span {
   color: var(--uma-accent);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .successionInheritanceModal > header .successionModalChineseLabel {
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 800;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
   letter-spacing: 0;
 }
 
 .successionInheritanceModal > header h3 {
   margin: 3px 0 0;
-  font-size: 24px;
+  font-size: var(--uma-type-section);
+  line-height: 1.35;
 }
 
 .successionInheritanceModal > header > button {
@@ -3099,8 +3188,8 @@
   border-radius: 8px;
   background: transparent;
   color: #94a3b8;
-  font-size: 24px;
-  line-height: 1;
+  font-size: var(--uma-type-title);
+  line-height: 1.45;
 }
 
 .successionInheritanceModal > header > button:hover {
@@ -3121,21 +3210,24 @@
   align-items: center;
   gap: 4px;
   color: var(--uma-text);
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionInheritanceModalSummary > i {
   color: var(--uma-accent);
-  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionInheritanceModalSummary > b {
   margin-left: auto;
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionInheritanceRankChoices {
@@ -3180,67 +3272,71 @@
 
 .successionInheritanceRankChoices > button > span i {
   color: var(--uma-accent);
-  font-size: 18px;
+  font-size: var(--uma-type-section);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionInheritanceRankChoices strong {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionInheritanceRankChoices small {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionProbabilityModal {
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+  font-family: var(--uma-font-sans);
 }
 
 .successionProbabilityModal > header span {
   color: #6557b8;
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 800;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-data);
+  font-weight: 700;
   letter-spacing: 0;
   line-height: 1.45;
 }
 
 .successionProbabilityModal > header h3 {
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 23px;
-  font-weight: 900;
-  line-height: 1.3;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-section);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .successionProbabilityModal .successionInheritanceModalSummary span {
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 800;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionProbabilityModal .successionInheritanceModalSummary > b {
   color: #667085;
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 13px;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-label);
   font-weight: 700;
   line-height: 1.45;
 }
 
 .successionProbabilityModal .successionInheritanceRankChoices strong {
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1.4;
+  font-family: var(--uma-font-sans);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .successionProbabilityModal .successionInheritanceRankChoices small {
   color: #667085;
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 13px;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-label);
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.6;
 }
 
 .successionInheritanceRankChoices em {
@@ -3248,9 +3344,10 @@
   top: 6px;
   right: 7px;
   color: #b42318;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionRouteCard {
@@ -3291,7 +3388,8 @@
 .successionRouteOptionGroup > span,
 .successionMinimumOptionGroup > span {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -3338,14 +3436,16 @@
 
 .successionRouteChoices button strong {
   overflow: hidden;
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   text-overflow: ellipsis;
 }
 
 .successionMinimumChoices button {
   padding: 4px;
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteChoices button.selected,
@@ -3386,8 +3486,9 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.78);
   color: #176b82;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteNeeds i {
@@ -3407,7 +3508,8 @@
   gap: 5px;
   margin: 6px 0 0;
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -3415,7 +3517,8 @@
 .successionRouteCompatibility strong {
   color: var(--succession-paternal);
   font-family: var(--uma-mono);
-  font-size: 16px;
+  font-size: var(--uma-type-body);
+  line-height: 1.45;
 }
 
 .successionRouteCard.maternal .successionRouteCompatibility strong {
@@ -3450,10 +3553,10 @@
 }
 
 .successionRouteCard.compact .successionRouteSummaryButton {
-  height: 50px;
-  min-height: 50px;
+  height: auto;
+  min-height: 62px;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
   padding: 3px 2px 1px;
   border: 0;
   border-top: 1px solid var(--uma-border);
@@ -3491,21 +3594,25 @@
 
 .successionRouteCard.compact .successionRouteSummaryButton > header {
   margin-bottom: 2px;
+  flex-wrap: wrap;
 }
 
 .successionRouteCard.compact .successionRouteSummaryButton > header strong {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionRouteCard.compact .successionRouteSummaryButton > header span,
 .successionRouteCard.compact .successionRouteSummaryButton > header em {
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRouteCard.compact .successionRouteSummaryNeeds > span {
   flex: 0 0 auto;
   padding: 1px 4px;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRouteCard.compact .successionRouteSummaryNeeds {
@@ -3532,8 +3639,9 @@
 
 .successionRouteSummaryButton > header span {
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteCard.paternal .successionDefaultRouteLabel {
@@ -3546,8 +3654,9 @@
 
 .successionRouteSummaryButton > header strong {
   color: var(--succession-paternal);
-  font-size: 15px;
-  font-weight: 900;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteCard.maternal .successionRouteSummaryButton > header strong {
@@ -3557,9 +3666,10 @@
 .successionRouteSummaryButton > header em {
   margin-left: auto;
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionRouteSummaryNeeds {
@@ -3577,8 +3687,9 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.82);
   color: #176b82;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteCard.maternal .successionRouteSummaryNeeds > span {
@@ -3631,14 +3742,16 @@
 .successionRouteModalPresets > header strong,
 .successionRouteAptitudeMinimums > header strong {
   color: var(--uma-text);
-  font-size: 15px;
-  font-weight: 900;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteModalPresets > header span,
 .successionRouteAptitudeMinimums > header span {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -3668,12 +3781,14 @@
 }
 
 .successionRouteModalPresets button strong {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionRouteModalPresets button small {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -3693,8 +3808,9 @@
 .successionRouteAptitudeMinimums > div > section > span {
   padding-top: 8px;
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteAptitudeMinimums > div > section > div {
@@ -3716,8 +3832,9 @@
 
 .successionRouteAptitudeMinimums div > strong {
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteAptitudeMinimums [role='radiogroup'] {
@@ -3763,7 +3880,8 @@
   border-radius: 9px;
   background: #fff;
   color: var(--uma-muted);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-weight: 700;
   text-align: center;
 }
@@ -3780,7 +3898,8 @@
 
 .successionRouteModalFooter span {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -3806,8 +3925,9 @@
 .successionRouteFactorSummary > strong {
   margin-right: 2px;
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteFactorSummary > span {
@@ -3822,13 +3942,15 @@
 
 .successionRouteFactorSummary > span b {
   color: #b42361;
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRouteFactorSummary > em {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
   font-weight: 700;
 }
@@ -3881,7 +4003,8 @@
 .successionProjectedRank small,
 .successionFactorProbability small {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionFactorName {
@@ -3915,7 +4038,8 @@
   min-width: 0;
   min-height: 34px;
   padding: 2px 5px;
-  font-size: 12px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionStarChoices button.selected {
@@ -3936,7 +4060,8 @@
 .successionProjectedRank strong,
 .successionFactorProbability strong {
   font-family: var(--uma-mono);
-  font-size: 19px;
+  font-size: 1.1875rem;
+  line-height: 1.45;
 }
 
 .successionProjectedRank strong {
@@ -3966,8 +4091,8 @@
 .successionCompatibilityScore strong {
   color: #ffc857;
   font-family: var(--uma-mono);
-  font-size: 44px;
-  line-height: 1;
+  font-size: 2.75rem;
+  line-height: 1.2;
 }
 
 .successionCompatibilityScore small {
@@ -3995,7 +4120,7 @@
 .successionProbabilityCard dd {
   margin: 0;
   font-family: var(--uma-mono);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionAnyChance {
@@ -4012,13 +4137,15 @@
 .successionAnyChance strong {
   color: #ff8ebe;
   font-family: var(--uma-mono);
-  font-size: 27px;
+  font-size: 1.6875rem;
+  line-height: 1.2;
 }
 
 .successionProbabilityCard p {
   margin: 7px 0 0;
   color: #adb8c8;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCompleteDesign {
@@ -4043,13 +4170,15 @@
 }
 
 .successionCompleteDesign > header strong {
-  font-size: 15px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
 }
 
 .successionCompleteDesign > header span {
   margin-top: 2px;
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionOptimalProbability {
@@ -4075,11 +4204,11 @@
 
 .successionOptimalProbability > span i {
   color: var(--uma-text);
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 13px;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-label);
   font-style: normal;
-  font-weight: 900;
-  line-height: 1;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .successionOptimalProbability > span .successionRankIcon {
@@ -4089,8 +4218,9 @@
 
 .successionOptimalProbability small {
   color: var(--uma-muted);
-  font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
-  font-size: 12px;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -4098,8 +4228,9 @@
 .successionOptimalProbability strong {
   color: var(--uma-accent);
   font-family: var(--uma-mono);
-  font-size: 20px !important;
-  font-weight: 900;
+  font-size: 1.25rem !important;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionConfiguredSkillBadge {
@@ -4108,9 +4239,10 @@
   border-radius: 999px;
   background: #eef2ff;
   color: #4f46e5;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 850;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -4136,8 +4268,9 @@
   border-radius: 7px;
   background: #f5f3ff;
   color: #6d28d9;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -4168,13 +4301,15 @@
 }
 
 .successionCapturedReuseControls label span {
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedReuseControls label small {
   color: #7c6aa6;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   white-space: nowrap;
 }
 
@@ -4183,7 +4318,8 @@
 .successionCalculationActions .successionCalculateButton {
   min-height: 42px;
   border-radius: 7px;
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionCalculationActions .successionResetLineage {
@@ -4204,7 +4340,7 @@
   border-radius: 7px;
   background: #eef2ff;
   color: #4338ca;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionCalculationSettingsButton:hover:not(:disabled) {
@@ -4230,8 +4366,9 @@
   border-radius: 7px;
   background: var(--uma-accent);
   color: #fff;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -4250,7 +4387,8 @@
 .successionCalculationProgress span,
 .successionCalculationHint {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -4277,22 +4415,25 @@
 
 .successionCalculationProgress > header strong {
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCalculationProgress > header span {
   margin-top: 2px;
   color: var(--uma-muted);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-weight: 700;
 }
 
 .successionCalculationProgress > header b {
   color: var(--uma-accent);
   font-family: var(--uma-mono);
-  font-size: 16px;
-  font-weight: 900;
+  font-size: var(--uma-type-body);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCalculationProgress ol {
@@ -4310,7 +4451,8 @@
   gap: 7px;
   min-width: 0;
   color: #8990a0;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -4324,13 +4466,14 @@
   border-radius: 50%;
   background: #fff;
   font-family: var(--uma-mono);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
 }
 
 .successionCalculationProgress li.active {
   color: var(--uma-text);
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionCalculationProgress li.active i {
@@ -4413,8 +4556,9 @@
 
 .successionFactorJumpOption > header strong {
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionFactorJumpInfoButton {
@@ -4428,9 +4572,10 @@
   background: #f8f9ff;
   color: var(--uma-accent);
   font-family: Georgia, serif;
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
   font-style: italic;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionFactorJumpInfoButton:hover {
@@ -4454,8 +4599,9 @@
   background: #fff;
   color: var(--uma-muted);
   font-family: var(--uma-mono);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionFactorJumpChoices .successionFactorJumpRankChoice {
@@ -4492,13 +4638,13 @@
 .successionFactorJumpModalBody {
   padding: 17px 19px 19px;
   color: var(--uma-text);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionFactorJumpModalBody > p {
   margin: 0 0 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionFactorJumpModalBody > div {
@@ -4514,7 +4660,7 @@
 
 .successionFactorJumpModalBody > div strong {
   color: var(--uma-accent);
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionFactorJumpModalBody > div span {
@@ -4527,13 +4673,15 @@
   border-radius: 7px;
   background: #fff7e7;
   color: #76530b;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionFactorJumpModalBody small {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -4576,7 +4724,8 @@
 
 .successionCalculationControls > span {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   text-align: center;
 }
@@ -4604,8 +4753,9 @@
 
 .successionUmaExclusionList > header > span {
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionUmaExclusionList > header > button {
@@ -4613,8 +4763,9 @@
   padding: 3px 9px;
   border-color: #cbd5e1;
   background: #fff;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionUmaExclusionSummary {
@@ -4628,7 +4779,8 @@
 .successionUmaExclusionSummary > strong,
 .successionUmaExclusionSummary > em {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
   font-weight: 700;
 }
@@ -4661,7 +4813,8 @@
 .successionUmaExclusionSummary b {
   max-width: 72px;
   overflow: hidden;
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -4673,7 +4826,8 @@
   border: 0;
   background: transparent;
   color: #be123c;
-  font-size: 17px;
+  font-size: 1.0625rem;
+  line-height: 1.45;
 }
 
 .successionExclusionDialog {
@@ -4692,14 +4846,16 @@
 
 .successionExclusionToolbar > span {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .successionExclusionToolbar > span b {
   color: #be123c;
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionCapturedBlacklistRecords {
@@ -4712,7 +4868,8 @@
 
 .successionCapturedBlacklistRecords > strong {
   color: #9f1239;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedBlacklistRecords > div {
@@ -4765,19 +4922,22 @@
 
 .successionCapturedBlacklistRecords b {
   color: var(--uma-text);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedBlacklistRecords small {
   color: var(--uma-muted);
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCapturedBlacklistRecords i {
   color: #be123c;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionExclusionGrid {
@@ -4823,16 +4983,18 @@
   overflow: hidden;
   min-width: 0;
   color: var(--uma-text);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .successionExclusionGrid em {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -4842,7 +5004,8 @@
 
 .successionCalculationProbabilityTargets {
   width: 100%;
-  height: 56px;
+  height: auto;
+  min-height: 56px;
   box-sizing: border-box;
   justify-content: flex-start;
   margin: 0;
@@ -4853,7 +5016,9 @@
 }
 
 .successionCalculationProbabilityTargets.embedded {
-  height: 38px;
+  height: auto;
+
+  min-height: 38px;
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -4881,8 +5046,9 @@
 
 .successionProbabilityTargets.successionCalculationProbabilityTargets > span {
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionProbabilityTargets.successionCalculationProbabilityTargets button {
@@ -4891,20 +5057,23 @@
 }
 
 .successionProbabilityTargets.successionCalculationProbabilityTargets button b {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionProbabilityTargets.successionCalculationProbabilityTargets
   button
   em {
-  font-size: 17px;
+  font-size: 1.0625rem;
+  line-height: 1.45;
 }
 
 .successionProbabilityTargets.successionCalculationProbabilityTargets
   > div
   > strong {
   color: var(--uma-muted);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -4927,8 +5096,9 @@
 .successionProbabilityTargets > span {
   flex: 0 0 auto;
   color: var(--uma-muted);
-  font-size: 10px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionProbabilityTargets > div {
@@ -4957,14 +5127,16 @@
 }
 
 .successionProbabilityTargets button b {
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionProbabilityTargets button em {
   color: var(--uma-accent);
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionProbabilityTargetOption {
@@ -4990,11 +5162,13 @@
   border-radius: 6px;
   background: #fff4f5;
   color: #981b30;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCompleteDesignIssues strong {
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCompleteTree {
@@ -5021,7 +5195,8 @@
   padding: 0 4px;
   background: #fff;
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCompleteGeneration > div {
@@ -5107,12 +5282,14 @@
 .successionCompleteGeneration article > header b {
   color: var(--uma-accent);
   font-family: var(--uma-mono);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCompleteGeneration article > header small {
   color: var(--uma-muted);
-  font-size: 8px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCandidateHeaderMeta {
@@ -5123,8 +5300,9 @@
 }
 
 .successionCandidateHeaderMeta small {
-  font-size: 11px !important;
-  font-weight: 800;
+  font-size: var(--uma-type-caption) !important;
+  line-height: 1.6;
+  font-weight: 700;
 }
 
 .successionCandidateFactor {
@@ -5135,14 +5313,16 @@
   border-radius: 4px;
   background: #fff0f7;
   color: #a8205a;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .successionCandidateFactor b {
   font-family: var(--uma-mono);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCandidateHeaderMeta .successionCandidateCopyViewerId {
@@ -5152,8 +5332,9 @@
   border-radius: 4px;
   background: #f5f3ff;
   color: #6d28d9;
-  font-size: 10px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.6;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5172,8 +5353,9 @@
   border-radius: 999px;
   background: #fff7f8;
   color: #be123c;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5229,7 +5411,8 @@
   padding-right: 8px;
   border-right: 1px solid var(--uma-border);
   color: var(--uma-accent);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCandidateOption {
@@ -5308,12 +5491,14 @@
 
 .successionCapturedBlacklistTooltip > header strong {
   color: #9f1239;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedBlacklistTooltip > header span {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedBlacklistTooltip > div {
@@ -5356,11 +5541,13 @@
 
 .successionCapturedBlacklistTooltip small {
   color: var(--uma-muted);
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCapturedBlacklistTooltip section > div:first-child strong {
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedBlacklistTooltip .successionCapturedMemberDetails {
@@ -5374,8 +5561,9 @@
   border-radius: 999px;
   background: #eff6ff;
   color: #1d4ed8;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5399,8 +5587,9 @@
   border-radius: 999px;
   background: #fff7f8;
   color: #be123c;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5432,8 +5621,9 @@
   overflow: hidden;
   min-width: 0;
   max-width: 100%;
-  font-size: 14px;
-  font-weight: 800;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -5456,20 +5646,22 @@
   border-radius: 5px;
   background: #f1f5f9;
   color: #475569;
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   white-space: nowrap;
 }
 
 .successionCapturedResultFactors > span i {
   color: #64748b;
   font-style: normal;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .successionCapturedResultFactors > span b {
   color: inherit;
-  font-size: 11px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedResultFactors > span.stat {
@@ -5490,13 +5682,15 @@
 .successionCapturedResultFactors > span.skill {
   background: #f5f3ff;
   color: #6d28d9;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedResultFactors > span.skill b,
 .successionCapturedResultFactors > span.skill i {
-  font-size: 12px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedResultFactors > span.white {
@@ -5510,16 +5704,18 @@
   gap: 3px;
   margin-top: 2px;
   color: var(--uma-muted);
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .successionCandidateCompatibility b {
   color: var(--uma-accent);
   font-family: var(--uma-mono);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCandidateJumpRequirement {
@@ -5533,27 +5729,28 @@
   border-radius: 5px;
   background: #fff0f7;
   color: #8d3151;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1.25;
+  font-size: var(--uma-type-caption);
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .successionCandidateJumpRequirement strong {
   color: #a8205a;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionCandidateJumpRequirement b {
   color: #b42368;
   font-family: var(--uma-mono);
-  font-size: 12px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCandidateJumpRequirement i {
   color: var(--uma-accent);
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionCompleteGeneration article > span {
@@ -5566,8 +5763,9 @@
   border-radius: 4px;
   background: #fff0f7;
   color: #a8205a;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5593,8 +5791,9 @@
 .successionCompleteGeneration article .successionUpstreamRequirements small {
   width: auto;
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.6;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5610,21 +5809,24 @@
   background: #fff0f7;
   color: #a8205a;
   font-family: var(--uma-mono);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .successionCompleteGeneration article .successionUpstreamRequirements em {
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   font-style: normal;
 }
 
 .successionCompleteGeneration article > span b {
   font-family: var(--uma-mono);
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionCompleteGeneration article > span.free {
@@ -5645,7 +5847,8 @@
 }
 
 .successionCompleteGeneration.generation3 article > header b {
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCompleteGeneration.generation3 article .successionPortrait {
@@ -5654,17 +5857,20 @@
 }
 
 .successionCompleteGeneration.generation3 article > div > strong {
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCompleteGeneration.generation3 article > span {
   gap: 2px;
   padding: 2px 3px;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCompleteGeneration.generation3 article > span b {
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementBranches {
@@ -5710,8 +5916,9 @@
 
 .successionRequirementBranch > header span {
   color: var(--succession-paternal);
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRequirementBranch.maternal > header span {
@@ -5731,7 +5938,8 @@
   border-radius: 999px;
   background: #fff;
   color: var(--succession-paternal);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementBranch.maternal > header b {
@@ -5839,8 +6047,9 @@
   border-radius: 8px;
   background: #fff9e7;
   color: #76530b;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionOptimalResultsNotice.factorTargets {
@@ -5866,8 +6075,9 @@
   border-radius: 8px;
   background: var(--uma-surface-soft);
   color: var(--uma-muted);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -5888,7 +6098,8 @@
 }
 
 .successionOptimalBranch > header strong {
-  font-size: 14px;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
 }
 
 .successionOptimalBranch .successionCompleteDesignIssues {
@@ -5938,7 +6149,8 @@
   border-radius: 7px;
   background: #fff;
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   text-align: center;
 }
@@ -5966,8 +6178,9 @@
   border-bottom: 1px solid var(--uma-border);
   background: var(--succession-paternal-soft);
   color: var(--succession-paternal);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionPositionRequirement.maternal .successionRequirementSourceTitle {
@@ -5985,7 +6198,8 @@
 }
 
 .successionRequirementPositionMeta > strong {
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionRequirementUma {
@@ -6005,14 +6219,16 @@
   max-width: 110px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementState {
   margin: 7px;
   padding: 7px;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementState.muted {
@@ -6035,8 +6251,8 @@
 }
 
 .successionRequirementState.impossible > strong {
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .successionImpossibleRequirements {
@@ -6057,13 +6273,15 @@
 
 .successionImpossibleRequirements > span > strong {
   color: #8f1d31;
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionImpossibleRequirements > span > b {
   color: #8f1d31;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionImpossibleRequirements > span > i {
@@ -6077,10 +6295,10 @@
   color: #b94b5d;
   width: 9px;
   margin: 0;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-style: normal;
-  font-weight: 900;
-  line-height: 0.8;
+  font-weight: 700;
+  line-height: 1.45;
   text-align: center;
 }
 
@@ -6091,7 +6309,8 @@
 .successionRequirementNeeds > small,
 .successionRequirementCandidates > small {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -6110,15 +6329,17 @@
   border-radius: 5px;
   background: #fff0f7;
   color: #a8205a;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionRequirementStarCount {
   flex: 0 0 auto;
   color: #b42368;
   font-family: var(--uma-mono);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementNeeds > div > span > b {
@@ -6127,7 +6348,8 @@
   gap: 2px;
   color: #c45782;
   font-family: var(--uma-mono);
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementNeeds > div > span > b i {
@@ -6156,7 +6378,8 @@
 .successionRequirementSources > div > span {
   grid-column: 1 / -1;
   color: var(--uma-muted);
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementSources .successionPortrait {
@@ -6168,7 +6391,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementSources small {
@@ -6184,7 +6408,8 @@
   gap: 2px;
   padding: 2px 4px;
   border-radius: 3px;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionRequirementSources small b.ready {
@@ -6200,7 +6425,8 @@
 .successionRequirementSources em {
   grid-column: 1 / -1;
   color: var(--uma-subtle);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-style: normal;
 }
 
@@ -6245,12 +6471,14 @@
 }
 
 .successionRequirementCandidates article strong {
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementCandidates article small {
   color: var(--uma-accent);
-  font-size: 8px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionRequirementCandidates article > div {
@@ -6264,13 +6492,15 @@
   align-items: center;
   gap: 2px;
   color: #a8205a;
-  font-size: 8px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementCandidates p {
   margin: 5px 0 0;
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionRequirementFreeFill {
@@ -6283,12 +6513,14 @@
   border-radius: 5px;
   background: #f8f5ff;
   color: #5d4b8b;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionRequirementFreeFill strong {
   flex: 0 0 auto;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCandidateLegend {
@@ -6307,8 +6539,9 @@
   border-radius: 999px;
   background: #fff0f7;
   color: #b42368;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCandidateGrid {
@@ -6350,8 +6583,9 @@
   flex: 0 0 auto;
   color: var(--uma-accent);
   font-family: var(--uma-mono);
-  font-size: 10px;
-  font-weight: 800;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCandidateTags {
@@ -6365,7 +6599,8 @@
 .successionCandidateTags span {
   padding: 2px 5px;
   border-radius: 3px;
-  font-size: 9px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCandidateTags b {
@@ -6445,21 +6680,24 @@
 
 .successionCalculationSettingsDialog > header span {
   color: var(--uma-accent);
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.14em;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .successionCalculationSettingsDialog > header h2 {
   margin: 3px 0 0;
   color: var(--uma-text);
-  font-size: 24px;
+  font-size: var(--uma-type-title);
+  line-height: 1.35;
 }
 
 .successionCalculationSettingsDialog > header p {
   margin: 5px 0 0;
   color: var(--uma-muted);
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .successionCalculationSettingsDialog > header > button {
@@ -6470,8 +6708,8 @@
   border-radius: 8px;
   background: transparent;
   color: #94a3b8;
-  font-size: 24px;
-  line-height: 1;
+  font-size: var(--uma-type-title);
+  line-height: 1.45;
 }
 
 .successionCalculationSettingsDialog > header > button:hover {
@@ -6504,13 +6742,15 @@
 
 .successionCalculationSettingsBody > section > header strong {
   color: var(--uma-text);
-  font-size: 15px;
-  font-weight: 900;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCalculationSettingsBody > section > header span {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
   text-align: right;
 }
@@ -6623,13 +6863,15 @@
 
 .successionSettingsSwitchCopy strong {
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.6;
+  font-weight: 700;
 }
 
 .successionSettingsSwitchCopy small {
   color: var(--uma-muted) !important;
-  font-size: 11px !important;
+  font-size: var(--uma-type-caption) !important;
+  line-height: 1.6;
   font-weight: 700;
   white-space: normal !important;
 }
@@ -6664,21 +6906,23 @@
   border-radius: 999px;
   background: #ede9fe;
   color: #6d28d9;
-  font-size: 11px;
-  font-weight: 900;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedBlueRequirements > header strong {
   color: var(--uma-text);
-  font-size: 15px;
-  font-weight: 900;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedBlueRequirements > header small {
   color: var(--uma-muted);
-  font-size: 12px;
-  font-weight: 650;
-  line-height: 1.5;
+  font-size: var(--uma-type-caption);
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .successionCapturedBlueRequirementGrid {
@@ -6702,8 +6946,9 @@
 .successionCapturedBlueRequirement > span {
   min-width: 0;
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -6717,8 +6962,9 @@
 
 .successionCapturedBlueRequirement > div b {
   color: var(--uma-text);
-  font-size: 13px;
-  font-weight: 900;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -6732,8 +6978,9 @@
   border-radius: 6px;
   background: #f5f3ff;
   color: #6d28d9;
-  font-size: 16px;
-  font-weight: 900;
+  font-size: var(--uma-type-body);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedBlueRequirement > div button:hover:not(:disabled) {
@@ -6760,7 +7007,8 @@
 
 .successionCalculationSettingsDialog > footer span {
   color: var(--uma-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
   font-weight: 700;
 }
 
@@ -6775,7 +7023,7 @@
   border-radius: 7px;
   background: var(--uma-accent);
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .successionCalculationSettingsFooterActions {
@@ -6833,8 +7081,9 @@
   background: rgba(15, 23, 42, 0.96);
   color: #fff;
   content: '开启“只使用已育成马娘”后设置技能优先级';
-  font-size: 13px;
-  font-weight: 850;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -6852,15 +7101,16 @@
 
 .successionCapturedSkillPriority > header strong {
   color: var(--uma-text);
-  font-size: 14px;
-  font-weight: 900;
+  font-size: var(--uma-type-data);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedSkillPriority > header small {
   color: var(--uma-muted);
-  font-size: 11px;
-  font-weight: 650;
-  line-height: 1.5;
+  font-size: var(--uma-type-caption);
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .successionCapturedSkillPriority > header > button {
@@ -6874,8 +7124,9 @@
   border-radius: 8px;
   background: #6366f1;
   color: #fff;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedSkillPriority > header > button:hover:not(:disabled) {
@@ -6931,7 +7182,8 @@
   background: #eef2ff;
   color: #4338ca;
   font-family: var(--uma-mono);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionCapturedSkillPriorityList > div > svg {
@@ -6966,8 +7218,9 @@
   border-radius: 9px;
   background: #fff;
   color: #64748b;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionCapturedSkillPriorityList > button:hover:not(:disabled) {
@@ -6995,9 +7248,10 @@
 
 .successionCapturedSkillIcon i {
   color: #6366f1;
-  font-size: 13px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .successionCapturedSkillCopy {
@@ -7009,15 +7263,17 @@
 .successionCapturedSkillCopy strong {
   overflow: hidden;
   color: var(--uma-text);
-  font-size: 12px;
-  font-weight: 850;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .successionCapturedSkillCopy small {
   color: var(--uma-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 700;
 }
 
@@ -7430,7 +7686,8 @@
   .successionCalculationActions .successionCalculateButton {
     padding-right: 8px;
     padding-left: 8px;
-    font-size: 12px;
+    font-size: var(--uma-type-label);
+    line-height: 1.45;
     white-space: nowrap;
   }
 
@@ -7577,7 +7834,8 @@
   }
 
   .successionPickerHeader h3 {
-    font-size: 20px;
+    font-size: var(--uma-type-section);
+    line-height: 1.35;
   }
 
   .successionPickerToolbar {
@@ -7651,14 +7909,15 @@
   }
 
   .successionStarChoices {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(3.25rem, 1fr));
     gap: 3px;
   }
 
   .successionStarChoices button {
     padding-right: 2px;
     padding-left: 2px;
-    font-size: 10px;
+    font-size: var(--uma-type-label);
+    line-height: 1.45;
   }
 
   .successionProjectedRank {

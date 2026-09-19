@@ -196,17 +196,19 @@ export default function AutomationControlCard({
                   : '正在暂停…'
                 : runnerPaused
                   ? '已暂停'
-                  : observation?.phase === 'blocked'
-                    ? '需要处理'
-                    : observation?.phase === 'recovering'
-                      ? '正在恢复'
-                      : observation?.phase === 'waiting'
-                        ? '等待调度'
-                        : observation?.phase === 'completed'
-                          ? '已完成'
-                          : schedule && schedule.items.length > 1
-                            ? `计划 ${Math.min(activeItemIndex + 1, schedule.items.length)}/${schedule.items.length}`
-                            : runModeLabel(activeItem?.goal)}
+                  : observation?.phase === 'daily_tasks'
+                    ? '正在执行日常'
+                    : observation?.phase === 'blocked'
+                      ? '需要处理'
+                      : observation?.phase === 'recovering'
+                        ? '正在恢复'
+                        : observation?.phase === 'waiting'
+                          ? '等待调度'
+                          : observation?.phase === 'completed'
+                            ? '已完成'
+                            : schedule && schedule.items.length > 1
+                              ? `计划 ${Math.min(activeItemIndex + 1, schedule.items.length)}/${schedule.items.length}`
+                              : runModeLabel(activeItem?.goal)}
             </span>
             {countProgress ? (
               <span className={statusBadgeClass('sky')}>
@@ -307,7 +309,7 @@ export default function AutomationControlCard({
                   onClick={() => {
                     setRunMode(option.id);
                   }}
-                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-left text-xs font-semibold transition-all duration-150 sm:h-7 ${
+                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-left text-xs font-semibold transition-ui duration-150 sm:h-7 ${
                     runMode === option.id
                       ? 'bg-indigo-600 text-white shadow-sm'
                       : 'text-slate-500 hover:bg-white/90 hover:text-slate-800'
@@ -361,7 +363,7 @@ export default function AutomationControlCard({
                 <button
                   type="button"
                   onClick={() => setScheduleTiming('now')}
-                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-semibold transition-all duration-150 sm:h-7 ${
+                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-semibold transition-ui duration-150 sm:h-7 ${
                     scheduleTiming === 'now'
                       ? 'bg-indigo-600 text-white shadow-sm'
                       : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
@@ -377,7 +379,7 @@ export default function AutomationControlCard({
                       setScheduledStartAt(defaultScheduledDateTime());
                     }
                   }}
-                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-semibold transition-all duration-150 sm:h-7 ${
+                  className={`flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-semibold transition-ui duration-150 sm:h-7 ${
                     scheduleTiming === 'scheduled'
                       ? 'bg-indigo-600 text-white shadow-sm'
                       : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'

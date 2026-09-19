@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors');
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   // eslint-disable-next-line prettier/prettier
@@ -15,10 +16,28 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', 'sans-serif'],
-      mono: ['Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'monospace'],
+      sans: ['var(--uma-font-sans)'],
+      mono: ['var(--uma-font-mono)'],
     },
     extend: {
+      transitionProperty: {
+        ui: 'color, background-color, border-color, box-shadow, opacity, transform',
+      },
+      transitionDuration: {
+        DEFAULT: 'var(--uma-motion-fast, 160ms)',
+      },
+      transitionTimingFunction: {
+        DEFAULT: 'var(--uma-ease-out, cubic-bezier(0.23, 1, 0.32, 1))',
+      },
+      fontSize: {
+        caption: ['var(--uma-type-caption)', { lineHeight: '1.5' }],
+        label: ['var(--uma-type-label)', { lineHeight: '1.5' }],
+        data: ['var(--uma-type-data)', { lineHeight: '1.5' }],
+        body: ['var(--uma-type-body)', { lineHeight: '1.65' }],
+        section: ['var(--uma-type-section)', { lineHeight: '1.4' }],
+        title: ['var(--uma-type-title)', { lineHeight: '1.35' }],
+        display: ['var(--uma-type-display)', { lineHeight: '1.2' }],
+      },
       colors: {
         sky: colors.sky,
         cyan: colors.cyan,
@@ -35,5 +54,9 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant('fine-hover', '@media (hover: hover) and (pointer: fine) { &:hover }');
+    }),
+  ],
 };

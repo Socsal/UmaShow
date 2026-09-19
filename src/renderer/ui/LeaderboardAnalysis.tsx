@@ -585,7 +585,7 @@ function RankDistributionSparkline({ row }: { row: LineupRow }) {
           strokeLinejoin="round"
         />
       </svg>
-      <div className="mt-0.5 flex justify-between text-[9px] leading-none text-gray-400">
+      <div className="mt-0.5 flex justify-between text-caption leading-none text-gray-500">
         <span className="font-mono">1</span>
         <span className="font-mono">150</span>
         <span className="font-mono">300</span>

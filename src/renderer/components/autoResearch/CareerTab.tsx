@@ -24,8 +24,6 @@ import {
 } from 'renderer/components/succession/PlannerComponents';
 import { loadUMDB, UMDB } from 'renderer/utils/umdb';
 import OfflineCareerSettings from './OfflineCareerSettings';
-import AppMenuPortal from '../AppMenuPortal';
-import AppSideNotch from '../AppSideNotch';
 import {
   DeckChoiceCard,
   isRentalParent,
@@ -51,6 +49,8 @@ import {
 
 type CareerTabProps = {
   readOnly?: boolean;
+  careerDirty?: boolean;
+  validationErrors?: Record<string, string>;
   dashboard: Dashboard;
   careerSaveOpen: boolean;
   accountCareerSettings: CareerSetting[];
@@ -241,6 +241,8 @@ export default function CareerTab(props: CareerTabProps) {
     continuingCurrentCareer,
     canContinueCurrentCareer,
     saveCareerSetting,
+    careerDirty = false,
+    validationErrors = {},
     saveAndApplyCareerSetting,
     saveAndRunCareer,
     careerPresetName,
@@ -498,11 +500,11 @@ export default function CareerTab(props: CareerTabProps) {
             )}
           </span>
           <div>
-            <h2 className="text-lg font-bold">进行中的育成</h2>
+            <h2 className="text-section font-semibold">进行中的育成</h2>
             <p className="mt-1 font-medium text-gray-800">
               {activeCareer.name}
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="uma-prose text-data text-gray-500">
               第 {activeCareer.turn || 0} 回合
             </p>
           </div>
@@ -512,7 +514,7 @@ export default function CareerTab(props: CareerTabProps) {
             type="button"
             onClick={abandonCareer}
             disabled={busy === 'abandon'}
-            className="flex items-center gap-2 rounded-md border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-md border border-red-200 bg-white px-4 py-2 text-data font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
           >
             <Trash2 size={16} />
             {busy === 'abandon' ? '正在放弃…' : '放弃本次育成'}
@@ -520,7 +522,7 @@ export default function CareerTab(props: CareerTabProps) {
         </div>
       </div>
       <div className="mt-5 border-t border-slate-100 pt-4">
-        <h3 className="text-sm font-semibold text-slate-800">
+        <h3 className="text-data font-semibold text-slate-800">
           符合当前育成的养马详设
         </h3>
         {matchingCareerSettings.length ? (
@@ -530,17 +532,17 @@ export default function CareerTab(props: CareerTabProps) {
                 key={setting.id}
                 className="rounded-lg border border-slate-200 bg-slate-50/70 p-3"
               >
-                <strong className="block truncate text-sm text-slate-800">
+                <strong className="block truncate text-data text-slate-800">
                   {setting.name}
                 </strong>
-                <span className="mt-0.5 block truncate text-xs text-slate-500">
+                <span className="mt-0.5 block truncate text-caption text-slate-500">
                   {setting.preset_name}
                 </span>
                 <div className="mt-3 flex gap-2">
                   <button
                     type="button"
                     onClick={() => editPresetForCareerSetting(setting.id)}
-                    className="rounded-md border border-indigo-200 bg-white px-3 py-2 text-xs font-medium text-indigo-700 hover:bg-indigo-50"
+                    className="rounded-md border border-indigo-200 bg-white px-3 py-2 text-caption font-medium text-indigo-700 hover:bg-indigo-50"
                   >
                     编辑预设
                   </button>
@@ -548,7 +550,7 @@ export default function CareerTab(props: CareerTabProps) {
                     type="button"
                     onClick={() => continueWithSetting(setting.id)}
                     disabled={Boolean(busy)}
-                    className="flex flex-1 items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-3 py-2 text-caption font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
                   >
                     <Play size={14} />
                     {busy === `resume-${setting.id}` ? '正在继续…' : '继续育成'}
@@ -558,7 +560,7 @@ export default function CareerTab(props: CareerTabProps) {
             ))}
           </div>
         ) : (
-          <p className="mt-3 rounded-lg bg-slate-50 px-3 py-4 text-sm text-slate-500">
+          <p className="uma-prose mt-3 rounded-lg bg-slate-50 px-3 py-4 text-data text-slate-500">
             没有找到与当前育成匹配的养马详设。请放弃当前育成后重新选择。
           </p>
         )}
@@ -569,8 +571,8 @@ export default function CareerTab(props: CareerTabProps) {
       <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 text-amber-950">
         <AlertTriangle size={20} className="mt-0.5 flex-none text-amber-600" />
         <div>
-          <h2 className="font-semibold">当前普通育成尚未结束</h2>
-          <p className="mt-1 text-sm leading-6 text-amber-800">
+          <h2 className="text-section font-semibold">当前普通育成尚未结束</h2>
+          <p className="uma-prose mt-1 text-data leading-6 text-amber-800">
             游戏仍报告“{activeCareer?.name || '当前育成'}
             ”正在进行，不能启动离线育成详设。
             请先放弃当前育成，或返回详设选择界面。
@@ -579,7 +581,7 @@ export default function CareerTab(props: CareerTabProps) {
             <button
               type="button"
               onClick={closeCareerEditor}
-              className="rounded-md border border-amber-300 bg-white px-3 py-2 text-sm font-medium text-amber-900 hover:bg-amber-100"
+              className="rounded-md border border-amber-300 bg-white px-3 py-2 text-data font-medium text-amber-900 hover:bg-amber-100"
             >
               返回详设选择界面
             </button>
@@ -587,7 +589,7 @@ export default function CareerTab(props: CareerTabProps) {
               type="button"
               onClick={abandonCareer}
               disabled={busy === 'abandon'}
-              className="flex items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-data font-medium text-white hover:bg-red-700 disabled:opacity-50"
             >
               <Trash2 size={15} />
               {busy === 'abandon' ? '正在放弃…' : '放弃当前育成'}
@@ -597,14 +599,14 @@ export default function CareerTab(props: CareerTabProps) {
       </div>
     </section>
   ) : !careerSaveOpen && !automationActive ? (
-    <>
+    <div className="autoResearchForm contents">
       <section className="flex-1">
         <div className="mb-3 flex justify-end">
           <button
             type="button"
             onClick={pullCloudConfiguration}
             disabled={busy === 'cloud-config-pull'}
-            className="autoResearchCloudPullAction inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-50"
+            className="autoResearchCloudPullAction inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-2 text-caption font-medium text-slate-600 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-50"
             title="拉取云端"
           >
             <CloudDownload size={15} />
@@ -654,14 +656,14 @@ export default function CareerTab(props: CareerTabProps) {
                   </span>
                   <div className="min-w-0 flex-1 pr-14">
                     {readOnly ? (
-                      <div className="block text-xs text-gray-500">
+                      <div className="block text-caption text-gray-500">
                         详设名称
-                        <strong className="mt-1 block truncate py-1.5 text-sm text-gray-800">
+                        <strong className="mt-1 block truncate py-1.5 text-data text-gray-800">
                           {setting.name}
                         </strong>
                       </div>
                     ) : (
-                      <label className="block text-xs text-gray-500">
+                      <label className="block text-label text-gray-500">
                         详设名称
                         <input
                           key={`${setting.id}-${setting.name}`}
@@ -674,18 +676,18 @@ export default function CareerTab(props: CareerTabProps) {
                               event.currentTarget.blur();
                             }
                           }}
-                          className="mt-1 w-full rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-800"
+                          className="mt-1 w-full rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-data font-semibold text-gray-800"
                         />
                       </label>
                     )}
-                    <p className="mt-1 truncate text-xs text-gray-500">
+                    <p className="mt-1 truncate text-label text-gray-500">
                       {uma?.name || '尚未选择育成马娘'} ·{' '}
                       {offline
                         ? `游戏离线育成 · 槽位 ${setting.offline_race_deck_num || '-'}`
                         : setting.preset_name}
                     </p>
                     {!presetExists ? (
-                      <span className="mt-1 block text-xs font-medium text-red-600">
+                      <span className="mt-1 block text-caption font-medium text-red-600">
                         绑定预设不存在
                       </span>
                     ) : null}
@@ -700,7 +702,7 @@ export default function CareerTab(props: CareerTabProps) {
                         : applyCareerSetting(setting.id)
                     }
                     disabled={!presetExists}
-                    className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-data font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {readOnly ? '选择并设置运行方式' : '进入详设'}
                   </button>
@@ -710,7 +712,7 @@ export default function CareerTab(props: CareerTabProps) {
                         type="button"
                         onClick={() => uploadCareerSetting(setting.id)}
                         disabled={busy === `career-cloud-upload:${setting.id}`}
-                        className="inline-flex items-center gap-1.5 rounded-md border border-indigo-200 bg-white px-3 py-2 text-xs font-medium text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 rounded-md border border-indigo-200 bg-white px-3 py-2 text-caption font-medium text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
                         title={
                           cloudCareerConfigIds.has(setting.id)
                             ? '更新云端详设'
@@ -718,14 +720,12 @@ export default function CareerTab(props: CareerTabProps) {
                         }
                       >
                         <CloudUpload size={15} />
-                        {cloudCareerConfigIds.has(setting.id)
-                          ? '更新'
-                          : '上传'}
+                        {cloudCareerConfigIds.has(setting.id) ? '更新' : '上传'}
                       </button>
                       <button
                         type="button"
                         onClick={() => deleteCareerSetting(setting.id)}
-                        className="rounded-md border border-red-200 bg-white px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                        className="rounded-md border border-red-200 bg-white px-3 py-2 text-data text-red-600 hover:bg-red-50"
                         aria-label={`删除详设${setting.name}`}
                       >
                         <Trash2 size={15} />
@@ -746,7 +746,7 @@ export default function CareerTab(props: CareerTabProps) {
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm">
                 <Plus size={22} />
               </span>
-              <strong className="mt-3 text-sm text-indigo-950">
+              <strong className="mt-3 text-data text-indigo-950">
                 新建养马详设
               </strong>
             </button>
@@ -769,13 +769,19 @@ export default function CareerTab(props: CareerTabProps) {
             className="autoResearchCreateDialog successionPickerDialog relative max-h-[90vh] w-full max-w-lg"
           >
             <div className="space-y-4 overflow-y-auto p-5">
+              <h2
+                id="new-career-dialog-title"
+                className="text-section font-semibold text-slate-900"
+              >
+                新建养马详设
+              </h2>
               <div className="grid grid-cols-2 gap-2">
                 {(['online', 'offline'] as const).map((mode) => (
                   <button
                     key={mode}
                     type="button"
                     onClick={() => setNewCareerMode(mode)}
-                    className={`rounded-md border px-3 py-2 text-sm font-medium ${
+                    className={`rounded-md border px-3 py-2 text-data font-medium ${
                       newCareerMode === mode
                         ? 'border-indigo-400 bg-indigo-100 text-indigo-900'
                         : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
@@ -787,14 +793,14 @@ export default function CareerTab(props: CareerTabProps) {
               </div>
 
               {newCareerMode === 'online' ? (
-                <label className="block text-sm font-medium text-slate-700">
+                <label className="block text-label font-medium text-slate-700">
                   绑定预设
                   <select
                     value={newCareerPresetName}
                     onChange={(event) =>
                       setNewCareerPresetName(event.target.value)
                     }
-                    className="mt-1.5 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800"
+                    className="mt-1.5 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data text-slate-800"
                   >
                     <option value="">请手动选择预设</option>
                     {presets.map((preset) => (
@@ -805,12 +811,12 @@ export default function CareerTab(props: CareerTabProps) {
                   </select>
                 </label>
               ) : (
-                <p className="rounded-md bg-indigo-50 px-3 py-2 text-xs leading-5 text-indigo-700">
+                <p className="rounded-md bg-indigo-50 px-3 py-2 text-label leading-5 text-indigo-700">
                   离线详设不绑定预设。
                 </p>
               )}
 
-              <label className="block text-sm font-medium text-slate-700">
+              <label className="block text-label font-medium text-slate-700">
                 详设名称
                 <input
                   value={newCareerSaveName}
@@ -819,7 +825,7 @@ export default function CareerTab(props: CareerTabProps) {
                     if (event.key === 'Enter') createCareerSaveFromDialog();
                   }}
                   placeholder={`例如：URA 详设 ${accountCareerSettings.length + 1}`}
-                  className="mt-1.5 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
+                  className="mt-1.5 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data"
                 />
               </label>
             </div>
@@ -828,7 +834,7 @@ export default function CareerTab(props: CareerTabProps) {
               <button
                 type="button"
                 onClick={() => setNewCareerDialogOpen(false)}
-                className="rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                className="rounded-md border border-slate-200 bg-white px-4 py-2 text-data font-medium text-slate-600 hover:bg-slate-50"
               >
                 取消
               </button>
@@ -836,7 +842,7 @@ export default function CareerTab(props: CareerTabProps) {
                 type="button"
                 onClick={createCareerSaveFromDialog}
                 disabled={!canCreateCareerSave}
-                className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md bg-indigo-600 px-4 py-2 text-data font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 新建并进入
               </button>
@@ -844,109 +850,147 @@ export default function CareerTab(props: CareerTabProps) {
           </section>
         </div>
       ) : null}
-    </>
+    </div>
   ) : (
-    <>
-      <AppMenuPortal targetId="app-page-secondary-tabs">
-        <AppSideNotch side="left">
-          <nav className="autoResearchEditorTabs flex h-10 items-center gap-1 px-2">
-            {(careerMode === 'offline'
-              ? [
-                  ['career-scenario', '基础'],
-                  ['career-uma', '马娘'],
-                  ['career-support', '支援卡'],
-                  ['offline-career-setup', '赛程'],
-                  ['career-factor-options', '因子'],
-                  ['career-options', '技能'],
-                  ['career-other-options', '其他'],
-                ]
-              : [
-                  ['career-uma', '马娘'],
-                  ['career-support', '支援卡'],
-                  ['career-factor-options', '因子'],
-                  ['career-other-options', '其他'],
-                ]
-            ).map(([target, label]) => (
-              <button
-                key={target}
-                type="button"
-                onClick={() => scrollToSection(target)}
-                className="whitespace-nowrap rounded-md px-2.5 py-1.5 text-xs font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
-        </AppSideNotch>
-      </AppMenuPortal>
+    <div className="autoResearchForm contents">
+      <header className="autoResearchEditorToolbar">
+        <nav className="autoResearchEditorTabs">
+          {(careerMode === 'offline'
+            ? [
+                ['career-scenario', '基础'],
+                ['career-uma', '马娘'],
+                ['career-support', '支援卡'],
+                ['offline-career-setup', '赛程'],
+                ['career-factor-options', '因子'],
+                ['career-options', '技能'],
+                ['career-other-options', '其他'],
+              ]
+            : [
+                ['career-uma', '马娘'],
+                ['career-support', '支援卡'],
+                ['career-factor-options', '因子'],
+                ['career-other-options', '其他'],
+              ]
+          ).map(([target, label]) => (
+            <button
+              key={target}
+              type="button"
+              onClick={() => scrollToSection(target)}
+              className="whitespace-nowrap rounded-md px-2.5 py-1.5 text-caption font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
 
-      <AppMenuPortal targetId="app-page-context-actions">
-        <AppSideNotch side="right">
-          <div className="autoResearchEditorActions flex h-10 items-center gap-1.5 px-2">
+        <div className="autoResearchEditorActions">
+          <button
+            type="button"
+            onClick={closeCareerEditor}
+            className="h-7 whitespace-nowrap rounded-md px-2 text-caption font-medium text-gray-600 hover:bg-slate-100"
+          >
+            返回
+          </button>
+          {automationActive && careerMode === 'online' ? (
             <button
               type="button"
-              onClick={closeCareerEditor}
-              className="h-7 whitespace-nowrap rounded-md px-2 text-xs font-medium text-gray-600 hover:bg-slate-100"
+              onClick={saveAndApplyCareerSetting}
+              disabled={Boolean(busy)}
+              className="flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md bg-indigo-600 px-2 text-caption font-medium text-white disabled:opacity-50"
             >
-              返回
+              {busy === 'update-schedule' ? (
+                <RefreshCw size={14} className="animate-spin" />
+              ) : (
+                <Save size={14} />
+              )}
+              {busy === 'update-schedule' ? '正在应用…' : '保存并应用'}
             </button>
-            {automationActive && careerMode === 'online' ? (
+          ) : (
+            <>
               <button
                 type="button"
-                onClick={saveAndApplyCareerSetting}
-                disabled={Boolean(busy)}
-                className="flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md bg-indigo-600 px-2 text-xs font-medium text-white disabled:opacity-50"
+                onClick={saveCareerSetting}
+                disabled={busy === 'run'}
+                className="flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-caption font-medium text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
               >
-                {busy === 'update-schedule' ? (
-                  <RefreshCw size={14} className="animate-spin" />
-                ) : (
-                  <Save size={14} />
-                )}
-                {busy === 'update-schedule' ? '正在应用…' : '保存并应用'}
+                <Save size={14} />
+                {careerDirty ? '保存修改' : '已保存'}
               </button>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  onClick={saveCareerSetting}
-                  disabled={busy === 'run'}
-                  className="flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-xs font-medium text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
-                >
-                  <Save size={14} />
-                  保存
-                </button>
-                <button
-                  type="button"
-                  onClick={saveAndRunCareer}
-                  disabled={
-                    Boolean(busy) ||
-                    (continuingCurrentCareer && !canContinueCurrentCareer) ||
-                    (careerMode === 'offline' && !offlineRaceDeckNum)
-                  }
-                  className="flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md bg-indigo-600 px-2 text-xs font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
-                >
-                  <Play size={14} />
-                  {busy === 'run' || busy === 'idle-start'
-                    ? dashboard.account.career?.active
-                      ? '保存并继续中…'
-                      : careerMode === 'offline'
-                        ? '启动中…'
-                        : '保存并开始中…'
-                    : careerMode === 'offline' && !offlineRaceDeckNum
-                      ? '请选择赛程槽位'
-                      : continuingCurrentCareer
-                        ? canContinueCurrentCareer
-                          ? '保存并继续'
-                          : '详设不匹配'
-                        : '保存并开始'}
-                </button>
-              </>
-            )}
-          </div>
-        </AppSideNotch>
-      </AppMenuPortal>
+              <button
+                type="button"
+                onClick={saveAndRunCareer}
+                disabled={
+                  Boolean(busy) ||
+                  (continuingCurrentCareer && !canContinueCurrentCareer) ||
+                  (careerMode === 'offline' && !offlineRaceDeckNum)
+                }
+                className="flex h-7 items-center gap-1.5 whitespace-nowrap rounded-md bg-indigo-600 px-2 text-caption font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+              >
+                <Play size={14} />
+                {busy === 'run' || busy === 'idle-start'
+                  ? dashboard.account.career?.active
+                    ? '保存并继续中…'
+                    : careerMode === 'offline'
+                      ? '启动中…'
+                      : '保存并开始中…'
+                  : careerMode === 'offline' && !offlineRaceDeckNum
+                    ? '请选择赛程槽位'
+                    : continuingCurrentCareer
+                      ? canContinueCurrentCareer
+                        ? '保存并继续'
+                        : '详设不匹配'
+                      : '保存并开始'}
+              </button>
+            </>
+          )}
+        </div>
+      </header>
 
       <section id="career-task" className="scroll-mt-28">
+        {!readOnly ? (
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 text-label">
+            <span
+              role="status"
+              className={
+                careerDirty ? 'font-medium text-amber-800' : 'text-slate-600'
+              }
+            >
+              {careerDirty ? '有未保存的修改' : '当前详设已保存'}
+            </span>
+            <span className="text-slate-500">
+              配置保存在本地，上传云端需单独操作
+            </span>
+          </div>
+        ) : null}
+        {Object.keys(validationErrors).length ? (
+          <div
+            role="alert"
+            className="mb-4 rounded-lg border border-rose-200 bg-rose-50 p-4 text-data text-rose-800"
+          >
+            <p className="font-semibold">请补全以下配置</p>
+            <ul className="mt-2 space-y-1">
+              {Object.entries(validationErrors).map(([target, message]) => (
+                <li key={target}>
+                  <button
+                    type="button"
+                    className="min-h-8 text-left underline underline-offset-4"
+                    onClick={() => {
+                      scrollToSection(target);
+                      document
+                        .getElementById(target)
+                        ?.querySelector<HTMLElement>(
+                          'button:not(:disabled), input:not(:disabled), select:not(:disabled)',
+                        )
+                        ?.focus({ preventScroll: true });
+                    }}
+                  >
+                    {message}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         {!dashboard.account.career?.active ? (
           <div id="career-selection" className="scroll-mt-28 space-y-5">
             {careerMode === 'offline' ? (
@@ -955,14 +999,16 @@ export default function CareerTab(props: CareerTabProps) {
                 className="scroll-mt-28 rounded-lg border border-gray-200 bg-gray-50/60 p-4"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                  <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                     1
                   </span>
-                  <h3 className="font-semibold text-gray-800">基础设置</h3>
+                  <h3 className="text-section font-semibold text-gray-800">
+                    基础设置
+                  </h3>
                 </div>
                 <div className="mt-3 grid max-w-xl gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="text-sm">
+                    <label className="text-label">
                       育成剧本
                       <select
                         value={offlineScenarioId}
@@ -981,7 +1027,7 @@ export default function CareerTab(props: CareerTabProps) {
                       </select>
                     </label>
                     {offlineSetup ? (
-                      <p className="mt-2 text-xs text-slate-500">
+                      <p className="mt-2 text-label text-slate-500">
                         当前主剧本：
                         <strong className="ml-1 text-slate-800">
                           {offlineSetup.scenario_name ||
@@ -990,7 +1036,7 @@ export default function CareerTab(props: CareerTabProps) {
                       </p>
                     ) : null}
                   </div>
-                  <label className="text-sm">
+                  <label className="text-label">
                     跑法
                     <select
                       value={offlineRunningStyle}
@@ -1015,13 +1061,18 @@ export default function CareerTab(props: CareerTabProps) {
               className="scroll-mt-28 grid gap-5 xl:grid-cols-3"
             >
               <section className="rounded-lg border border-gray-200 bg-gray-50/60 p-4">
+                {validationErrors['career-uma'] ? (
+                  <p className="mb-3 text-data font-medium text-rose-700">
+                    {validationErrors['career-uma']}
+                  </p>
+                ) : null}
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                       {careerMode === 'offline' ? 2 : 1}
                     </span>
                     <div>
-                      <h3 className="font-semibold text-gray-800">
+                      <h3 className="text-section font-semibold text-gray-800">
                         选择育成马娘
                       </h3>
                     </div>
@@ -1137,6 +1188,7 @@ export default function CareerTab(props: CareerTabProps) {
               ) : null}
 
               <section
+                id="career-parents"
                 className={`rounded-lg border p-4 xl:col-span-2 ${
                   selectedUma
                     ? 'border-gray-200 bg-gray-50/60'
@@ -1145,19 +1197,24 @@ export default function CareerTab(props: CareerTabProps) {
               >
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                       {careerMode === 'offline' ? 2 : 1}
                     </span>
                     <div>
-                      <h3 className="font-semibold text-gray-800">
+                      <h3 className="text-section font-semibold text-gray-800">
                         选择继承马娘
                       </h3>
                     </div>
                   </div>
                 </div>
 
+                {validationErrors['career-parents'] ? (
+                  <p className="mt-3 text-data font-medium text-rose-700">
+                    {validationErrors['career-parents']}
+                  </p>
+                ) : null}
                 {!selectedUma ? (
-                  <div className="py-12 text-center text-sm text-gray-500">
+                  <div className="py-12 text-center text-data text-gray-500">
                     请先完成第 1 步，选择要养的马娘。
                   </div>
                 ) : (
@@ -1266,190 +1323,103 @@ export default function CareerTab(props: CareerTabProps) {
                     }}
                   >
                     <div className="successionCapturedPickerFilters border-b border-slate-200 bg-slate-50/80 px-3 py-2">
-                    <div className="grid gap-2 xl:grid-cols-[minmax(280px,0.85fr)_minmax(440px,1.35fr)]">
-                      <section className="rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
-                        <div className="mb-1.5 flex items-center justify-between gap-2">
-                          <strong className="text-xs text-slate-700">
-                            基础筛选
-                          </strong>
-                          <span className="text-[11px] text-slate-400">
-                            属性可多选
-                          </span>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          <span className="w-12 text-[11px] font-medium text-slate-500">
-                            来源
-                          </span>
-                          {(
-                            [
-                              ['all', '全部'],
-                              ['own', '自己的'],
-                              ['rental', '玩家借用'],
-                            ] as const
-                          ).map(([value, label]) => (
-                            <button
-                              key={value}
-                              type="button"
-                              aria-pressed={parentPickerSource === value}
-                              onClick={() => setParentPickerSource(value)}
-                              className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                                parentPickerSource === value
-                                  ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
-                                  : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                              }`}
-                            >
-                              {label}
-                            </button>
-                          ))}
-                        </div>
-                        <div className="my-2 border-t border-slate-100" />
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          <span className="w-12 text-[11px] font-medium text-slate-500">
-                            属性
-                          </span>
-                          <button
-                            type="button"
-                            aria-pressed={!parentPickerBlueFactors.length}
-                            onClick={() => setParentPickerBlueFactors([])}
-                            className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                              !parentPickerBlueFactors.length
-                                ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
-                                : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                            }`}
-                          >
-                            任意
-                          </button>
-                          {PARENT_BLUE_FACTOR_OPTIONS.map((factor) => {
-                            const selected = parentPickerBlueFactors.includes(
-                              factor.factor_group_id,
-                            );
-                            return (
+                      <div className="autoResearchAdaptiveColumns grid gap-2">
+                        <section className="rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
+                          <div className="mb-1.5 flex items-center justify-between gap-2">
+                            <strong className="text-caption text-slate-700">
+                              基础筛选
+                            </strong>
+                            <span className="text-caption text-slate-500">
+                              属性可多选
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="w-12 text-caption font-medium text-slate-500">
+                              来源
+                            </span>
+                            {(
+                              [
+                                ['all', '全部'],
+                                ['own', '自己的'],
+                                ['rental', '玩家借用'],
+                              ] as const
+                            ).map(([value, label]) => (
                               <button
-                                key={factor.factor_group_id}
+                                key={value}
                                 type="button"
-                                aria-label={factor.name}
-                                title={factor.name}
-                                aria-pressed={selected}
-                                onClick={() =>
-                                  setParentPickerBlueFactors((current) =>
-                                    selected
-                                      ? current.filter(
-                                          (id) => id !== factor.factor_group_id,
-                                        )
-                                      : [...current, factor.factor_group_id],
-                                  )
-                                }
-                                className={`rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
-                                  selected
+                                aria-pressed={parentPickerSource === value}
+                                onClick={() => setParentPickerSource(value)}
+                                className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                  parentPickerSource === value
                                     ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
                                     : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
                                 }`}
                               >
-                                {factor.abbreviation}
+                                {label}
                               </button>
-                            );
-                          })}
-                        </div>
-                        <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                          <span className="w-12 text-[11px] font-medium text-slate-500">
-                            星级
-                          </span>
-                          {[0, 1, 2, 3].map((stars) => (
+                            ))}
+                          </div>
+                          <div className="my-2 border-t border-slate-100" />
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="w-12 text-caption font-medium text-slate-500">
+                              属性
+                            </span>
                             <button
-                              key={stars}
                               type="button"
-                              aria-pressed={parentPickerBlueStars === stars}
-                              onClick={() => setParentPickerBlueStars(stars)}
-                              className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                                parentPickerBlueStars === stars
+                              aria-pressed={!parentPickerBlueFactors.length}
+                              onClick={() => setParentPickerBlueFactors([])}
+                              className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                !parentPickerBlueFactors.length
                                   ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
                                   : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
                               }`}
                             >
-                              {stars ? `${stars}★` : '不限'}
+                              任意
                             </button>
-                          ))}
-                        </div>
-                      </section>
-
-                      <section className="rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
-                        <div className="mb-1.5 flex items-center justify-between gap-2">
-                          <strong className="text-xs text-slate-700">
-                            本体适应性因子
-                          </strong>
-                          <button
-                            type="button"
-                            onClick={() => setParentPickerAptitudeFactors([])}
-                            className={`successionCapturedPickerCompactControl rounded-md border px-2 py-0.5 text-[11px] font-medium transition-colors ${
-                              !parentPickerAptitudeFactors.length
-                                ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
-                                : 'border-slate-200 bg-white text-slate-500 hover:border-indigo-200'
-                            }`}
-                          >
-                            任意类型
-                          </button>
-                        </div>
-                        <div className="space-y-2">
-                          {PARENT_APTITUDE_FACTOR_GROUPS.map((group) => (
-                            <div
-                              key={group.label}
-                              className="flex flex-wrap items-center gap-1.5"
-                            >
-                              <span className="w-12 text-[11px] font-medium text-slate-500">
-                                {group.label}
-                              </span>
-                              {group.factors.map((factor) => {
-                                const selected =
-                                  parentPickerAptitudeFactors.includes(
-                                    factor.factor_group_id,
-                                  );
-                                return (
-                                  <button
-                                    key={factor.factor_group_id}
-                                    type="button"
-                                    aria-pressed={selected}
-                                    onClick={() =>
-                                      setParentPickerAptitudeFactors(
-                                        (current) =>
-                                          selected
-                                            ? current.filter(
-                                                (id) =>
-                                                  id !== factor.factor_group_id,
-                                              )
-                                            : [
-                                                ...current,
-                                                factor.factor_group_id,
-                                              ],
-                                      )
-                                    }
-                                    className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
+                            {PARENT_BLUE_FACTOR_OPTIONS.map((factor) => {
+                              const selected = parentPickerBlueFactors.includes(
+                                factor.factor_group_id,
+                              );
+                              return (
+                                <button
+                                  key={factor.factor_group_id}
+                                  type="button"
+                                  aria-label={factor.name}
+                                  title={factor.name}
+                                  aria-pressed={selected}
+                                  onClick={() =>
+                                    setParentPickerBlueFactors((current) =>
                                       selected
-                                        ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
-                                        : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                                    }`}
-                                  >
-                                    {factor.name}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          ))}
-                          <div className="flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-2">
-                            <span className="w-12 text-[11px] font-medium text-slate-500">
+                                        ? current.filter(
+                                            (id) =>
+                                              id !== factor.factor_group_id,
+                                          )
+                                        : [...current, factor.factor_group_id],
+                                    )
+                                  }
+                                  className={`rounded-md border px-2 py-1 text-caption font-medium transition-colors ${
+                                    selected
+                                      ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
+                                      : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                                  }`}
+                                >
+                                  {factor.abbreviation}
+                                </button>
+                              );
+                            })}
+                          </div>
+                          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                            <span className="w-12 text-caption font-medium text-slate-500">
                               星级
                             </span>
                             {[0, 1, 2, 3].map((stars) => (
                               <button
                                 key={stars}
                                 type="button"
-                                aria-pressed={
-                                  parentPickerAptitudeStars === stars
-                                }
-                                onClick={() =>
-                                  setParentPickerAptitudeStars(stars)
-                                }
-                                className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                                  parentPickerAptitudeStars === stars
+                                aria-pressed={parentPickerBlueStars === stars}
+                                onClick={() => setParentPickerBlueStars(stars)}
+                                className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                  parentPickerBlueStars === stars
                                     ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
                                     : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
                                 }`}
@@ -1458,60 +1428,151 @@ export default function CareerTab(props: CareerTabProps) {
                               </button>
                             ))}
                           </div>
-                        </div>
-                      </section>
-                    </div>
+                        </section>
 
-                    <section className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2 py-2 shadow-sm">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <strong className="mr-1 text-xs text-slate-700">
-                          排序
-                        </strong>
-                        {(
-                          [
-                            ['score', '养成评价'],
-                            ['compatibility', '契合度'],
-                            ['blue', '属性星级'],
-                            ['aptitude', '适应性星级'],
-                          ] as const
-                        ).map(([value, label]) => (
-                          <button
-                            key={value}
-                            type="button"
-                            aria-pressed={parentPickerSort === value}
-                            onClick={() => setParentPickerSort(value)}
-                            className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                              parentPickerSort === value
-                                ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
-                                : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                            }`}
-                          >
-                            {label}
-                          </button>
-                        ))}
+                        <section className="rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
+                          <div className="mb-1.5 flex items-center justify-between gap-2">
+                            <strong className="text-caption text-slate-700">
+                              本体适应性因子
+                            </strong>
+                            <button
+                              type="button"
+                              onClick={() => setParentPickerAptitudeFactors([])}
+                              className={`successionCapturedPickerCompactControl rounded-md border px-2 py-0.5 text-caption font-medium transition-colors ${
+                                !parentPickerAptitudeFactors.length
+                                  ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
+                                  : 'border-slate-200 bg-white text-slate-500 hover:border-indigo-200'
+                              }`}
+                            >
+                              任意类型
+                            </button>
+                          </div>
+                          <div className="space-y-2">
+                            {PARENT_APTITUDE_FACTOR_GROUPS.map((group) => (
+                              <div
+                                key={group.label}
+                                className="flex flex-wrap items-center gap-1.5"
+                              >
+                                <span className="w-12 text-caption font-medium text-slate-500">
+                                  {group.label}
+                                </span>
+                                {group.factors.map((factor) => {
+                                  const selected =
+                                    parentPickerAptitudeFactors.includes(
+                                      factor.factor_group_id,
+                                    );
+                                  return (
+                                    <button
+                                      key={factor.factor_group_id}
+                                      type="button"
+                                      aria-pressed={selected}
+                                      onClick={() =>
+                                        setParentPickerAptitudeFactors(
+                                          (current) =>
+                                            selected
+                                              ? current.filter(
+                                                  (id) =>
+                                                    id !==
+                                                    factor.factor_group_id,
+                                                )
+                                              : [
+                                                  ...current,
+                                                  factor.factor_group_id,
+                                                ],
+                                        )
+                                      }
+                                      className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                        selected
+                                          ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
+                                          : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                                      }`}
+                                    >
+                                      {factor.name}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            ))}
+                            <div className="flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-2">
+                              <span className="w-12 text-caption font-medium text-slate-500">
+                                星级
+                              </span>
+                              {[0, 1, 2, 3].map((stars) => (
+                                <button
+                                  key={stars}
+                                  type="button"
+                                  aria-pressed={
+                                    parentPickerAptitudeStars === stars
+                                  }
+                                  onClick={() =>
+                                    setParentPickerAptitudeStars(stars)
+                                  }
+                                  className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                    parentPickerAptitudeStars === stars
+                                      ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
+                                      : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                                  }`}
+                                >
+                                  {stars ? `${stars}★` : '不限'}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </section>
                       </div>
-                      <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1">
-                        {(
-                          [
-                            ['desc', '倒序'],
-                            ['asc', '正序'],
-                          ] as const
-                        ).map(([value, label]) => (
-                          <button
-                            key={value}
-                            type="button"
-                            aria-pressed={parentPickerSortDirection === value}
-                            onClick={() => setParentPickerSortDirection(value)}
-                            className={`successionCapturedPickerCompactControl rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                              parentPickerSortDirection === value
-                                ? 'bg-white text-indigo-700 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
-                            }`}
-                          >
-                            {label}
-                          </button>
-                        ))}
-                      </div>
+
+                      <section className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2 py-2 shadow-sm">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <strong className="mr-1 text-caption text-slate-700">
+                            排序
+                          </strong>
+                          {(
+                            [
+                              ['score', '养成评价'],
+                              ['compatibility', '契合度'],
+                              ['blue', '属性星级'],
+                              ['aptitude', '适应性星级'],
+                            ] as const
+                          ).map(([value, label]) => (
+                            <button
+                              key={value}
+                              type="button"
+                              aria-pressed={parentPickerSort === value}
+                              onClick={() => setParentPickerSort(value)}
+                              className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                parentPickerSort === value
+                                  ? 'border-indigo-400 bg-indigo-50 text-indigo-700'
+                                  : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1">
+                          {(
+                            [
+                              ['desc', '倒序'],
+                              ['asc', '正序'],
+                            ] as const
+                          ).map(([value, label]) => (
+                            <button
+                              key={value}
+                              type="button"
+                              aria-pressed={parentPickerSortDirection === value}
+                              onClick={() =>
+                                setParentPickerSortDirection(value)
+                              }
+                              className={`successionCapturedPickerCompactControl rounded-md px-2.5 py-1 text-caption font-medium transition-colors ${
+                                parentPickerSortDirection === value
+                                  ? 'bg-white text-indigo-700 shadow-sm'
+                                  : 'text-slate-500 hover:text-slate-700'
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
                       </section>
                     </div>
                   </SuccessionPickerFilterSheet>
@@ -1572,13 +1633,20 @@ export default function CareerTab(props: CareerTabProps) {
               className="scroll-mt-28 rounded-lg border border-gray-200 bg-gray-50/60 p-4"
             >
               <div className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                   {careerMode === 'offline' ? 3 : 2}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-800">选择支援卡组</h3>
+                  <h3 className="text-section font-semibold text-gray-800">
+                    选择支援卡组
+                  </h3>
                 </div>
               </div>
+              {validationErrors['career-support'] ? (
+                <p className="mt-3 text-data font-medium text-rose-700">
+                  {validationErrors['career-support']}
+                </p>
+              ) : null}
               <div className="mt-3 flex flex-wrap content-start gap-3">
                 {dashboard.decks.map((deck) => {
                   const deckCharaIds = deck.cards.map(
@@ -1610,17 +1678,25 @@ export default function CareerTab(props: CareerTabProps) {
               </div>
             </section>
 
-            <section className="rounded-lg border border-gray-200 bg-gray-50/60 p-4">
+            <section
+              id="career-friend-support"
+              className="scroll-mt-28 rounded-lg border border-gray-200 bg-gray-50/60 p-4"
+            >
+              {validationErrors['career-friend-support'] ? (
+                <p className="mb-3 text-data font-medium text-rose-700">
+                  {validationErrors['career-friend-support']}
+                </p>
+              ) : null}
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                     {careerMode === 'offline' ? 3 : 2}
                   </span>
                   <div>
-                    <h3 className="font-semibold text-gray-800">
+                    <h3 className="text-section font-semibold text-gray-800">
                       选择好友支援卡
                     </h3>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-label text-gray-500">
                       只允许借用满破满级支援。
                     </p>
                   </div>
@@ -1634,7 +1710,7 @@ export default function CareerTab(props: CareerTabProps) {
                     value={supportSearch}
                     onChange={(event) => setSupportSearch(event.target.value)}
                     placeholder="搜索支援卡名称或类型"
-                    className="w-full cursor-text select-text rounded-md border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm"
+                    className="w-full cursor-text select-text rounded-md border border-gray-200 bg-white py-2 pl-9 pr-3 text-data"
                   />
                 </label>
               </div>
@@ -1643,7 +1719,7 @@ export default function CareerTab(props: CareerTabProps) {
                   type="button"
                   onClick={refreshOptionsIndex}
                   disabled={!selectedAccountId || busy === 'options-index'}
-                  className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 disabled:opacity-50"
+                  className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-caption text-gray-600 disabled:opacity-50"
                 >
                   <RefreshCw
                     size={13}
@@ -1672,14 +1748,14 @@ export default function CareerTab(props: CareerTabProps) {
                 })}
               </div>
               {!visibleFriendSupports.length && busy !== 'options-index' ? (
-                <div className="py-8 text-center text-sm text-gray-500">
+                <div className="py-8 text-center text-data text-gray-500">
                   当前没有找到符合条件的满破满级好友支援。
                 </div>
               ) : null}
             </section>
 
             {selectionConflict ? (
-              <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-data text-amber-800">
                 {selectionConflict}
               </div>
             ) : null}
@@ -1691,11 +1767,13 @@ export default function CareerTab(props: CareerTabProps) {
               className="mt-5 scroll-mt-28 rounded-lg border border-gray-200 bg-gray-50/60 p-4"
             >
               <div className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
                   {careerMode === 'online' ? 4 : 7}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-800">编辑其他设置</h3>
+                  <h3 className="text-section font-semibold text-gray-800">
+                    编辑其他设置
+                  </h3>
                 </div>
               </div>
 
@@ -1711,18 +1789,18 @@ export default function CareerTab(props: CareerTabProps) {
                     <button
                       type="button"
                       onClick={editCareerPreset}
-                      className="flex min-h-20 items-start rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-left text-sm text-slate-700 hover:border-indigo-200 hover:bg-indigo-50/40"
+                      className="flex min-h-20 items-start rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-left text-data text-slate-700 hover:border-indigo-200 hover:bg-indigo-50/40"
                     >
                       <span>
                         <strong className="block font-medium text-slate-800">
                           {careerPresetName}
                         </strong>
-                        <span className="mt-0.5 block text-xs font-medium text-indigo-600">
+                        <span className="mt-0.5 block text-caption font-medium text-indigo-600">
                           编辑“{careerPresetName}”的预设配置 →
                         </span>
                       </span>
                     </button>
-                    <div className="flex min-h-20 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700">
+                    <div className="flex min-h-20 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-data text-slate-700">
                       <input
                         id="career-burn-clocks"
                         type="checkbox"
@@ -1737,13 +1815,13 @@ export default function CareerTab(props: CareerTabProps) {
                           <strong className="block font-medium text-slate-800">
                             比赛失败时使用闹钟
                           </strong>
-                          <span className="mt-0.5 block text-xs text-slate-500">
+                          <span className="mt-0.5 block text-caption text-slate-500">
                             失败后有可用闹钟时自动继续；当前有{' '}
                             {dashboard.account.clocks || 0} 个
                           </span>
                         </label>
                         {burnClocks ? (
-                          <label className="mt-2 flex items-center gap-2 text-xs text-slate-600">
+                          <label className="mt-2 flex items-center gap-2 text-label text-slate-600">
                             每次育成最多使用
                             <input
                               type="number"
@@ -1751,13 +1829,10 @@ export default function CareerTab(props: CareerTabProps) {
                               value={clockUseLimit}
                               onChange={(event) =>
                                 setClockUseLimit(
-                                  Math.max(
-                                    1,
-                                    Number(event.target.value) || 1,
-                                  ),
+                                  Math.max(1, Number(event.target.value) || 1),
                                 )
                               }
-                              className="w-16 rounded border border-slate-300 px-2 py-1 text-center text-sm text-slate-800"
+                              className="w-16 rounded border border-slate-300 px-2 py-1 text-center text-data text-slate-800"
                             />
                             次
                           </label>
@@ -1766,7 +1841,7 @@ export default function CareerTab(props: CareerTabProps) {
                     </div>
                   </>
                 ) : null}
-                <label className="flex min-h-20 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700">
+                <label className="flex min-h-20 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-label text-slate-700">
                   <input
                     type="checkbox"
                     checked={recoverTpWithItem}
@@ -1779,13 +1854,13 @@ export default function CareerTab(props: CareerTabProps) {
                     <strong className="block font-medium text-slate-800">
                       TP不足时使用体力药
                     </strong>
-                    <span className="mt-0.5 block text-xs text-slate-500">
+                    <span className="mt-0.5 block text-caption text-slate-500">
                       优先使用能量饮料30；当前有{' '}
                       {dashboard.account.energy_drinks || 0} 个
                     </span>
                   </span>
                 </label>
-                <label className="flex min-h-20 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700">
+                <label className="flex min-h-20 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-label text-slate-700">
                   <input
                     type="checkbox"
                     checked={recoverTpWithJewels}
@@ -1798,7 +1873,7 @@ export default function CareerTab(props: CareerTabProps) {
                     <strong className="block font-medium text-slate-800">
                       仍不足时允许使用宝石
                     </strong>
-                    <span className="mt-0.5 block text-xs text-slate-500">
+                    <span className="mt-0.5 block text-caption text-slate-500">
                       会实际消耗宝石恢复TP，默认关闭
                     </span>
                   </span>
@@ -1808,6 +1883,6 @@ export default function CareerTab(props: CareerTabProps) {
           </div>
         ) : null}
       </section>
-    </>
+    </div>
   );
 }

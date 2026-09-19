@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { motionScrollBehavior } from 'renderer/utils/motion';
 import {
   ArrowLeft,
   CheckSquare,
@@ -786,7 +787,7 @@ function TrainingEntryCard({ entry }: { entry: TrainingHistoryTurnEntry }) {
             <span>result_state: {resultState ?? '-'}</span>
             <span>{formatDate(entry.receivedAt)}</span>
           </div>
-          <pre className="overflow-x-auto rounded bg-white/70 p-2 text-[11px] leading-5 text-blue-950">
+          <pre className="overflow-x-auto rounded bg-white/70 p-2 text-caption leading-5 text-blue-950">
             {JSON.stringify(commandResult, null, 2)}
           </pre>
         </div>
@@ -816,7 +817,7 @@ function TrainingEntryCard({ entry }: { entry: TrainingHistoryTurnEntry }) {
           <span>chara_id: {event?.chara_id ?? '-'}</span>
           <span>{formatDate(entry.receivedAt)}</span>
         </div>
-        <pre className="overflow-x-auto rounded bg-white/70 p-2 text-[11px] leading-5 text-amber-950">
+        <pre className="overflow-x-auto rounded bg-white/70 p-2 text-caption leading-5 text-amber-950">
           {JSON.stringify(event, null, 2)}
         </pre>
       </div>
@@ -1201,9 +1202,8 @@ export default function TrainingHistory() {
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-sky-100">
               <div
-                className={`h-full rounded-full bg-sky-500 transition-all duration-300 ease-out ${
-                  selectedLoading ? 'w-2/3' : 'w-full'
-                }`}
+                className="uma-progress-fill h-full rounded-full bg-sky-500"
+                style={{ transform: `scaleX(${selectedLoading ? 2 / 3 : 1})` }}
               />
             </div>
           </div>
@@ -1416,7 +1416,7 @@ export default function TrainingHistory() {
                   onClick={() =>
                     document
                       .getElementById(anchor.anchorId)
-                      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      ?.scrollIntoView({ behavior: motionScrollBehavior(), block: 'start' })
                   }
                 >
                   {anchor.label}
@@ -1537,8 +1537,8 @@ export default function TrainingHistory() {
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-sky-100">
               <div
-                className="h-full rounded-full bg-sky-500 transition-all duration-300 ease-out"
-                style={{ width: `${loadingProgress}%` }}
+                className="uma-progress-fill h-full rounded-full bg-sky-500"
+                style={{ transform: `scaleX(${Math.max(0, Math.min(1, loadingProgress / 100))})` }}
               />
             </div>
           </div>

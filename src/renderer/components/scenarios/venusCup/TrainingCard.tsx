@@ -251,7 +251,7 @@ function StatTile({ value }: { value: number }) {
   return (
     <div className="flex min-w-[64px] flex-col">
       <div className="flex h-12 items-center justify-end rounded-lg px-2 py-1">
-        <span className="text-xl font-bold leading-none text-gray-700">
+        <span className="text-xl font-bold tabular-nums leading-none text-gray-700">
           {value}
         </span>
       </div>
@@ -354,7 +354,7 @@ function FragmentSlot({ slot }: { slot?: FragmentSlotData }) {
         <div className="absolute inset-0 bg-gradient-to-tr from-fuchsia-300/45 via-transparent to-pink-300/70" />
       ) : null}
       {slot.showDoubleBadge ? (
-        <div className="absolute right-0 top-0 z-10 rounded-bl-md bg-fuchsia-600 px-1 py-[1px] text-[9px] font-black leading-none text-white shadow-sm">
+        <div className="absolute right-0 top-0 z-10 rounded-bl-md bg-fuchsia-600 px-1 py-[1px] text-[9px] font-bold leading-none text-white shadow-sm">
           x2
         </div>
       ) : null}
@@ -403,7 +403,7 @@ function TrainingFragmentPreview({
                 alt={`fragment-${spiritId}`}
                 className="relative z-10 h-8 w-8 object-contain"
               />
-              <div className="absolute -bottom-1 -right-1 z-20 rounded-full bg-fuchsia-600 px-1 py-[1px] text-[9px] font-black leading-none text-white shadow-sm">
+              <div className="absolute -bottom-1 -right-1 z-20 rounded-full bg-fuchsia-600 px-1 py-[1px] text-[9px] font-bold leading-none text-white shadow-sm">
                 x{count}
               </div>
             </div>
@@ -490,14 +490,14 @@ export default function VenusCupTrainingCard({
       disabled={isDisabled}
       type="button"
       className={[
-        'relative flex w-[224px] shrink-0 flex-col items-stretch rounded-xl border-4 text-left transition-all duration-150 transform active:scale-95',
+        'relative flex w-[224px] shrink-0 flex-col items-stretch rounded-xl border-4 text-left transition-ui duration-150',
         isDisabled
           ? 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-60 grayscale'
           : `border-white bg-gradient-to-br from-gray-50 to-gray-100 shadow-md hover:-translate-y-1 hover:border-${mainConfig.color}-300 hover:shadow-xl`,
       ].join(' ')}
     >
       {command.level > 0 && (
-        <div className="absolute -left-3 -top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-yellow-400 text-sm font-bold text-yellow-900 shadow">
+        <div className="absolute -left-3 -top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-yellow-400 text-data font-bold text-yellow-900 shadow">
           Lv{command.level}
         </div>
       )}
@@ -510,7 +510,7 @@ export default function VenusCupTrainingCard({
         className={`relative flex h-20 items-center justify-center overflow-hidden rounded-t-lg ${mainConfig.bg} bg-opacity-10`}
       >
         {currentTrainingBonus > 0 ? (
-          <div className="pointer-events-none absolute left-4 top-1 z-10 text-[30px] font-black leading-none text-black/80 drop-shadow-[0_2px_6px_rgba(255,255,255,0.25)]">
+          <div className="pointer-events-none absolute left-4 top-1 z-10 text-display font-bold leading-none text-black/80 drop-shadow-[0_2px_6px_rgba(255,255,255,0.25)]">
             +{currentTrainingBonus}
           </div>
         ) : null}
@@ -519,12 +519,12 @@ export default function VenusCupTrainingCard({
         activeModifierSummary.trainingVitalCostCutPercent > 0 ? (
           <div className="absolute left-4 top-10 z-10 flex max-w-[168px] flex-wrap gap-1.5">
             {activeModifierSummary.skillPointBonus > 0 ? (
-              <div className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-black text-amber-800 ring-1 ring-amber-200">
+              <div className="rounded-full bg-amber-100 px-2.5 py-0.5 text-caption font-bold text-amber-800 ring-1 ring-amber-200">
                 PT +{activeModifierSummary.skillPointBonus}
               </div>
             ) : null}
             {activeModifierSummary.trainingVitalCostCutPercent > 0 ? (
-              <div className="rounded-full bg-sky-100 px-2.5 py-0.5 text-[11px] font-black text-sky-800 ring-1 ring-sky-200">
+              <div className="rounded-full bg-sky-100 px-2.5 py-0.5 text-caption font-bold text-sky-800 ring-1 ring-sky-200">
                 体耗 -{activeModifierSummary.trainingVitalCostCutPercent}%
               </div>
             ) : null}
@@ -548,11 +548,11 @@ export default function VenusCupTrainingCard({
         <div className="min-w-0 space-y-2">
           <div className="space-y-1">
             {fiveStatStrength > 0 ? (
-              <div className="flex items-center justify-between rounded-md border border-sky-100 bg-sky-50/70 px-2 py-1 text-sm">
+              <div className="flex items-center justify-between rounded-md border border-sky-100 bg-sky-50/70 px-2 py-1 text-data">
                 <div className="flex items-center gap-1 text-sky-700">
-                  <span className="text-xs font-semibold">总</span>
+                  <span className="text-caption font-semibold">总</span>
                 </div>
-                <span className="text-base font-black text-sky-700 tabular-nums">
+                <span className="text-base font-bold text-sky-700 tabular-nums">
                   {formatSigned(fiveStatStrength)}
                 </span>
               </div>
@@ -562,26 +562,26 @@ export default function VenusCupTrainingCard({
               return (
                 <div
                   key={`gain-${index}`}
-                  className="flex items-center justify-between text-sm"
+                  className="flex items-center justify-between text-data"
                 >
                   <div className="flex items-center text-gray-600">
-                    <span className="text-xs">{conf.label}</span>
+                    <span className="text-caption">{conf.label}</span>
                   </div>
                   {param.bonusValue !== 0 ? (
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xs font-semibold text-[#AA6533] tabular-nums">
+                      <span className="text-caption font-semibold text-[#AA6533] tabular-nums">
                         {formatSigned(param.baseValue)}
                       </span>
-                      <span className="text-xs font-semibold text-[#9673D7] tabular-nums">
+                      <span className="text-caption font-semibold text-[#9673D7] tabular-nums">
                         {formatSigned(param.bonusValue)}
                       </span>
-                      <span className="text-[10px] text-gray-400">=</span>
-                      <span className="text-base font-black text-green-600 tabular-nums">
+                      <span className="text-caption text-gray-400">=</span>
+                      <span className="text-base font-bold text-green-600 tabular-nums">
                         {formatSigned(param.finalValue)}
                       </span>
                     </div>
                   ) : (
-                    <span className="font-bold text-green-600">
+                    <span className="font-bold tabular-nums text-green-600">
                       {formatSigned(param.finalValue)}
                     </span>
                   )}
@@ -600,24 +600,24 @@ export default function VenusCupTrainingCard({
               return (
                 <div
                   key={`cost-${index}`}
-                  className="flex items-center justify-between text-xs"
+                  className="flex items-center justify-between text-caption"
                 >
                   <span className="text-gray-500">{conf.label}</span>
                   {param.bonusValue !== 0 ? (
                     <div className="flex items-baseline gap-1">
-                      <span className="text-[10px] font-semibold text-[#AA6533] tabular-nums">
+                      <span className="text-caption font-semibold text-[#AA6533] tabular-nums">
                         {formatSigned(param.baseValue)}
                       </span>
-                      <span className="text-[10px] font-semibold text-[#9673D7] tabular-nums">
+                      <span className="text-caption font-semibold text-[#9673D7] tabular-nums">
                         {formatSigned(param.bonusValue)}
                       </span>
-                      <span className="text-[10px] text-gray-400">=</span>
-                      <span className="font-bold text-red-500">
+                      <span className="text-caption text-gray-400">=</span>
+                      <span className="font-bold tabular-nums text-red-500">
                         {param.finalValue}
                       </span>
                     </div>
                   ) : (
-                    <span className="font-bold text-red-500">
+                    <span className="font-bold tabular-nums text-red-500">
                       {param.finalValue}
                     </span>
                   )}
@@ -625,23 +625,23 @@ export default function VenusCupTrainingCard({
               );
             })}
             {recovery.length > 0 ? (
-              <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center justify-between text-caption">
                 <span className="text-gray-500">体力</span>
                 {recovery[0].bonusValue !== 0 ? (
                   <div className="flex items-baseline gap-1">
-                    <span className="text-[10px] font-semibold text-[#AA6533] tabular-nums">
+                    <span className="text-caption font-semibold text-[#AA6533] tabular-nums">
                       {formatSigned(recovery[0].baseValue)}
                     </span>
-                    <span className="text-[10px] font-semibold text-[#9673D7] tabular-nums">
+                    <span className="text-caption font-semibold text-[#9673D7] tabular-nums">
                       {formatSigned(recovery[0].bonusValue)}
                     </span>
-                    <span className="text-[10px] text-gray-400">=</span>
-                    <span className="font-bold text-green-500">
+                    <span className="text-caption text-gray-400">=</span>
+                    <span className="font-bold tabular-nums text-green-500">
                       +{recovery[0].finalValue}
                     </span>
                   </div>
                 ) : (
-                  <span className="font-bold text-green-500">
+                  <span className="font-bold tabular-nums text-green-500">
                     +{recovery[0].finalValue}
                   </span>
                 )}
@@ -719,11 +719,11 @@ export default function VenusCupTrainingCard({
               className="relative flex flex-col items-center group/partner"
             >
               {isMotivated ? (
-                <div className="absolute -top-[3px] z-0 h-[38px] w-[38px] animate-spin-slow rounded-full">
+                <div className="absolute -top-[3px] z-0 h-[38px] w-[38px] rounded-full">
                   <div className="h-full w-full rounded-full bg-[conic-gradient(from_0deg,theme(colors.blue.400),theme(colors.green.400),theme(colors.yellow.400),theme(colors.red.400),theme(colors.pink.500),theme(colors.blue.400))] opacity-90 blur-[1px]" />
                 </div>
               ) : null}
-              <div className="relative z-10 flex h-8 w-8 items-center justify-center text-[10px] transition-transform hover:scale-110">
+              <div className="relative z-10 flex h-8 w-8 items-center justify-center text-caption transition-transform fine-hover:scale-110">
                 {partner?.charaPath ? (
                   <img
                     src={partner.charaPath}
@@ -740,8 +740,8 @@ export default function VenusCupTrainingCard({
               {progress !== null && (
                 <div className="-mt-1 relative z-20 box-border h-1.5 w-7 overflow-hidden rounded-[3px] border border-gray-600 bg-gray-700">
                   <div
-                    className={`h-full ${progressColor}`}
-                    style={{ width: `${progress}%` }}
+                    className={`uma-progress-fill h-full ${progressColor}`}
+                    style={{ transform: `scaleX(${Math.max(0, Math.min(1, progress / 100))})` }}
                   />
                   <div className="pointer-events-none absolute inset-0 grid h-full w-full grid-cols-5">
                     <div className="h-full border-r border-black/20" />
@@ -753,14 +753,14 @@ export default function VenusCupTrainingCard({
                 </div>
               )}
               {partnerProbabilityLabel ? (
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-1 hidden -translate-x-1/2 whitespace-pre rounded bg-gray-900/90 px-2 py-1 text-[10px] font-semibold leading-snug text-white shadow-lg group-hover/partner:block">
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-1 hidden -translate-x-1/2 whitespace-pre rounded bg-gray-900/90 px-2 py-1 text-caption font-semibold text-white shadow-lg group-hover/partner:block">
                   {partnerProbabilityLabel}
                 </div>
               ) : null}
 
               {isTip ? (
                 <div className="absolute -right-0.5 -top-0.5 z-20 flex h-4 w-4 items-center justify-center rounded-full border-[1.5px] border-white bg-red-500 shadow-sm">
-                  <span className="text-[10px] font-black text-white">!</span>
+                  <span className="text-[10px] font-bold text-white">!</span>
                 </div>
               ) : null}
             </div>

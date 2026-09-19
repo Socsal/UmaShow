@@ -42,6 +42,7 @@ import {
   RaceOption,
 } from './types';
 import RaceSchedulePicker from './RaceSchedulePicker';
+import ReorderControls from './ReorderControls';
 
 type Props = {
   factorOnly?: boolean;
@@ -688,7 +689,7 @@ export default function OfflineCareerSettings({
       >
         <div className="flex items-center justify-between gap-2">
           <strong
-            className={`text-sm ${
+            className={`text-data ${
               tone === 'parent' ? 'text-sky-950' : 'text-rose-950'
             }`}
           >
@@ -698,7 +699,7 @@ export default function OfflineCareerSettings({
             <button
               type="button"
               onClick={() => updateLineageTreeSlot(slot, { chara_id: 0 })}
-              className="text-xs text-slate-400 hover:text-red-600"
+              className="text-label text-slate-500 hover:text-red-600"
             >
               清除
             </button>
@@ -724,7 +725,7 @@ export default function OfflineCareerSettings({
             )}
           </span>
           <span className="min-w-0 flex-1">
-            <strong className="block truncate text-sm text-slate-800">
+            <strong className="block truncate text-data text-slate-800">
               {uma?.name || '不固定马娘类型'}
             </strong>
           </span>
@@ -747,11 +748,11 @@ export default function OfflineCareerSettings({
                   : 'border-slate-200 bg-white hover:border-rose-200'
               }`}
             >
-              <span className="flex items-center gap-1 text-[11px] font-medium text-slate-500">
+              <span className="flex items-center gap-1 text-caption font-medium text-slate-500">
                 <Star size={12} /> 红因子
               </span>
               {redFactor ? (
-                <strong className="mt-1 flex items-center gap-1.5 text-sm text-rose-800">
+                <strong className="mt-1 flex items-center gap-1.5 text-data text-rose-800">
                   <AssetIcon
                     path={RED_FACTOR_ICON_PATHS[redFactor.factor_group_id]}
                     alt={`${redFactor.name}因子`}
@@ -763,7 +764,7 @@ export default function OfflineCareerSettings({
                   </b>
                 </strong>
               ) : (
-                <strong className="mt-1 block text-sm text-slate-500">
+                <strong className="mt-1 block text-data text-slate-500">
                   点击设置
                 </strong>
               )}
@@ -778,23 +779,23 @@ export default function OfflineCareerSettings({
                   : 'border-slate-200 bg-white hover:border-sky-200'
               }`}
             >
-              <span className="flex items-center gap-1 text-[11px] font-medium text-slate-500">
+              <span className="flex items-center gap-1 text-caption font-medium text-slate-500">
                 <CalendarDays size={12} /> 育成赛程
               </span>
               <strong
-                className={`mt-1 block truncate text-sm ${
+                className={`mt-1 block truncate text-data ${
                   route.id !== 'none' ? 'text-sky-800' : 'text-slate-500'
                 }`}
               >
                 {route.name}
               </strong>
-              <span className="mt-0.5 block text-[10px] text-slate-400">
+              <span className="mt-0.5 block text-caption text-slate-500">
                 {route.g1Count ? `${route.g1Count} 场 G1` : '不限制胜鞍'}
               </span>
             </button>
           </div>
         ) : (
-          <p className="mt-2 rounded-lg border border-dashed border-slate-200 bg-white/60 px-2 py-2 text-center text-[11px] text-slate-400">
+          <p className="mt-2 rounded-lg border border-dashed border-slate-200 bg-white/60 px-2 py-2 text-center text-label text-slate-500">
             选择马娘后设置红因子与赛程
           </p>
         )}
@@ -803,19 +804,21 @@ export default function OfflineCareerSettings({
   };
 
   return (
-    <>
+    <div className="autoResearchForm contents">
       <section
         id="career-factor-options"
         className="order-2 mt-5 scroll-mt-28 rounded-lg border border-gray-200 bg-gray-50/60 p-4"
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
               {factorOnly ? 3 : 5}
             </span>
-            <h3 className="font-semibold text-gray-800">免费因子重抽与筛选</h3>
+            <h3 className="text-section font-semibold text-gray-800">
+              免费因子重抽与筛选
+            </h3>
           </div>
-          <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+          <label className="flex items-center gap-2 text-label font-medium text-slate-700">
             <input
               type="checkbox"
               checked={factorSelection.enabled}
@@ -828,13 +831,13 @@ export default function OfflineCareerSettings({
         </div>
 
         {!factorSelection.enabled ? (
-          <p className="mt-3 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-600">
+          <p className="mt-3 rounded-md bg-slate-50 px-3 py-2 text-label text-slate-600">
             已关闭筛选：仍会抽完所有免费次数，然后从候选中随机选择。
           </p>
         ) : (
-          <div className="mt-4 grid items-start gap-x-6 gap-y-5 lg:grid-cols-[minmax(340px,0.9fr)_minmax(460px,1.1fr)]">
+          <div className="mt-4 autoResearchAdaptiveColumns grid items-start gap-x-6 gap-y-5">
             <div className="max-w-2xl">
-              <strong className="text-sm text-slate-800">使用场景</strong>
+              <strong className="text-data text-slate-800">使用场景</strong>
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 {(
                   [
@@ -863,10 +866,10 @@ export default function OfflineCareerSettings({
                         : 'border-slate-200 bg-white hover:border-indigo-200'
                     }`}
                   >
-                    <strong className="block text-sm text-slate-800">
+                    <strong className="block text-data text-slate-800">
                       {label}
                     </strong>
-                    <span className="mt-0.5 block text-xs text-slate-500">
+                    <span className="mt-0.5 block text-caption text-slate-500">
                       {description}
                     </span>
                   </button>
@@ -875,12 +878,12 @@ export default function OfflineCareerSettings({
             </div>
 
             <div className="max-w-3xl">
-              <strong className="text-sm text-slate-800">
+              <strong className="text-data text-slate-800">
                 属性因子最低星数
               </strong>
-              <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-5">
+              <div className="mt-2 autoResearchStatFields grid gap-2">
                 {BLUE_FACTORS.map(([key, label]) => (
-                  <label key={key} className="text-xs text-slate-600">
+                  <label key={key} className="text-label text-slate-600">
                     {label}
                     <select
                       value={factorSelection.blue_factor_minimums[key]}
@@ -892,7 +895,7 @@ export default function OfflineCareerSettings({
                           },
                         })
                       }
-                      className="mt-1 w-full rounded-md border border-slate-200 px-2 py-1.5 text-sm"
+                      className="mt-1 w-full rounded-md border border-slate-200 px-2 py-1.5 text-data"
                     >
                       {[0, 1, 2, 3].map((stars) => (
                         <option key={stars} value={stars}>
@@ -908,12 +911,12 @@ export default function OfflineCareerSettings({
             <div className="lg:col-span-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <strong className="text-sm text-slate-800">
+                  <strong className="text-data text-slate-800">
                     {factorSelection.evaluation_mode === 'ancestor'
                       ? '适应性与技能因子权重'
                       : '适应性与技能优先级'}
                   </strong>
-                  <p className="mt-0.5 text-xs text-slate-500">
+                  <p className="mt-0.5 text-label text-slate-500">
                     {factorSelection.evaluation_mode === 'ancestor'
                       ? '每个因子的两次继承判定分别计入期望跳数，再乘对应权重累加。'
                       : '先比较所选适应性与技能至少继承一次的综合概率，最后以全部白因子的逐次继承概率兜底。'}
@@ -922,7 +925,7 @@ export default function OfflineCareerSettings({
                 <button
                   type="button"
                   onClick={() => setFactorSkillPickerOpen(true)}
-                  className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700"
+                  className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-caption font-semibold text-white hover:bg-indigo-700"
                 >
                   <Plus size={14} /> 添加技能
                 </button>
@@ -937,7 +940,7 @@ export default function OfflineCareerSettings({
                       key={target.factor_group_id}
                       type="button"
                       onClick={() => toggleTarget(target)}
-                      className={`rounded-full border px-2.5 py-1 text-xs ${
+                      className={`rounded-full border px-2.5 py-1 text-caption ${
                         selected
                           ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
                           : 'border-slate-200 text-slate-600'
@@ -948,7 +951,7 @@ export default function OfflineCareerSettings({
                   );
                 })}
               </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+              <div className="mt-3 grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))]">
                 {factorSelection.targets.map((target, index) => {
                   const targetKey = `${target.kind}:${target.factor_group_id}`;
                   const iconPath =
@@ -996,7 +999,7 @@ export default function OfflineCareerSettings({
                           : 'border-slate-200'
                       }`}
                     >
-                      <b className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-slate-100 text-xs text-slate-600">
+                      <b className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-slate-100 text-caption text-slate-600">
                         {index + 1}
                       </b>
                       <span className="flex h-9 w-9 flex-none items-center justify-center overflow-hidden rounded-md border border-slate-200 bg-slate-100 shadow-sm">
@@ -1011,23 +1014,23 @@ export default function OfflineCareerSettings({
                             }`}
                           />
                         ) : (
-                          <span className="text-xs font-bold text-slate-400">
+                          <span className="text-caption font-bold text-slate-500">
                             ?
                           </span>
                         )}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm font-semibold text-slate-800">
+                        <span className="block truncate text-data font-semibold text-slate-800">
                           {target.name}
                         </span>
-                        <span className="mt-0.5 block truncate text-[11px] text-slate-500">
+                        <span className="mt-0.5 block truncate text-caption text-slate-500">
                           {target.kind === 'aptitude'
                             ? '适应性因子'
                             : '技能因子'}
                         </span>
                       </span>
                       {factorSelection.evaluation_mode === 'ancestor' ? (
-                        <label className="flex flex-none flex-col text-[10px] text-slate-500">
+                        <label className="flex flex-none flex-col text-label text-slate-500">
                           权重
                           <input
                             type="number"
@@ -1040,15 +1043,30 @@ export default function OfflineCareerSettings({
                                 Number(event.target.value),
                               )
                             }
-                            className="mt-0.5 w-16 rounded border border-slate-200 px-1.5 py-1 text-xs text-slate-700"
+                            className="mt-0.5 w-16 rounded border border-slate-200 px-1.5 py-1 text-caption text-slate-700"
                           />
                         </label>
                       ) : (
-                        <GripVertical
-                          size={17}
-                          className="flex-none text-slate-300"
-                          aria-label="拖动调整顺序"
-                        />
+                        <>
+                          <ReorderControls
+                            label={`因子：${target.name}`}
+                            index={index}
+                            count={factorSelection.targets.length}
+                            onMove={(targetIndex) => {
+                              const destination =
+                                factorSelection.targets[targetIndex];
+                              reorderTarget(
+                                targetKey,
+                                `${destination.kind}:${destination.factor_group_id}`,
+                              );
+                            }}
+                          />
+                          <GripVertical
+                            size={17}
+                            className="flex-none text-slate-300"
+                            aria-label="拖动调整顺序"
+                          />
+                        </>
                       )}
                       <button
                         type="button"
@@ -1065,7 +1083,7 @@ export default function OfflineCareerSettings({
                   <button
                     type="button"
                     onClick={() => setFactorSkillPickerOpen(true)}
-                    className="flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-slate-300 text-xs text-slate-400 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 sm:col-span-2 lg:col-span-3 2xl:col-span-4"
+                    className="col-span-full flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-slate-300 text-label text-slate-500 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
                   >
                     <Plus size={15} className="mr-1" />
                     选择适应性或添加技能
@@ -1076,7 +1094,7 @@ export default function OfflineCareerSettings({
 
             {factorSelection.evaluation_mode === 'parent' ? (
               <div className="max-w-5xl lg:col-span-2">
-                <strong className="text-sm text-slate-800">
+                <strong className="text-data text-slate-800">
                   兄弟辈 / 另一侧谱系
                 </strong>
                 <div className="mt-3 grid gap-2 sm:grid-cols-3">
@@ -1102,10 +1120,10 @@ export default function OfflineCareerSettings({
                           : 'border-slate-200 bg-white hover:border-indigo-200'
                       }`}
                     >
-                      <strong className="block text-sm text-slate-800">
+                      <strong className="block text-data text-slate-800">
                         {label}
                       </strong>
-                      <span className="mt-0.5 block text-xs text-slate-500">
+                      <span className="mt-0.5 block text-caption text-slate-500">
                         {description}
                       </span>
                     </button>
@@ -1166,7 +1184,7 @@ export default function OfflineCareerSettings({
                     </SuccessionPickerTrigger>
                     {!selectedLineageParent &&
                     factorSelection.lineage.selection_id ? (
-                      <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                      <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-label text-amber-800">
                         已保存的马娘当前不在自己或好友列表中，请重新选择。
                       </p>
                     ) : null}
@@ -1201,12 +1219,14 @@ export default function OfflineCareerSettings({
       >
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
               4
             </span>
             <div>
-              <h3 className="font-semibold text-gray-800">赛程设置</h3>
-              <p className="text-xs text-gray-500">
+              <h3 className="text-section font-semibold text-gray-800">
+                赛程设置
+              </h3>
+              <p className="text-label text-gray-500">
                 详设只保存游戏赛程槽位 ID，启动时直接使用服务器上的槽位内容。
               </p>
             </div>
@@ -1221,7 +1241,7 @@ export default function OfflineCareerSettings({
                 return (
                   <article
                     key={deck.deck_num}
-                    className={`flex min-h-16 min-w-0 items-center gap-2 rounded-lg border bg-white p-2.5 text-sm transition ${
+                    className={`flex min-h-16 min-w-0 items-center gap-2 rounded-lg border bg-white p-2.5 text-data transition ${
                       selected
                         ? 'border-indigo-400 ring-2 ring-indigo-100'
                         : 'border-slate-200'
@@ -1244,12 +1264,15 @@ export default function OfflineCareerSettings({
                       </span>
                       <span className="min-w-0 flex-1">
                         <strong className="block truncate">
-                          槽位 {deck.deck_num} · {deck.deck_name || '空槽位'}
+                          槽位 {deck.deck_num} ·{' '}
+                          {setup ? deck.deck_name || '空槽位' : '待读取'}
                         </strong>
-                        <span className="text-xs text-slate-500">
-                          {setup
-                            ? `${deck.race_array.length} 场比赛`
-                            : '暂无数据'}
+                        <span className="text-caption text-slate-500">
+                          {busy === 'idle-prepare'
+                            ? '正在读取赛程…'
+                            : setup
+                              ? `${deck.race_array.length} 场比赛`
+                              : '暂无数据'}
                         </span>
                       </span>
                     </button>
@@ -1257,7 +1280,7 @@ export default function OfflineCareerSettings({
                       type="button"
                       onClick={() => editDeck(deck.deck_num)}
                       disabled={Boolean(busy)}
-                      className="flex flex-none items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-xs font-medium text-slate-600 hover:border-indigo-200 hover:text-indigo-700 disabled:opacity-50"
+                      className="flex flex-none items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-caption font-medium text-slate-600 hover:border-indigo-200 hover:text-indigo-700 disabled:opacity-50"
                     >
                       <Pencil size={12} /> 编辑
                     </button>
@@ -1285,11 +1308,11 @@ export default function OfflineCareerSettings({
             className="successionPickerDialog relative max-h-[92vh] w-full max-w-6xl"
           >
             <header className="successionPickerHeader flex-wrap items-end">
-              <label className="min-w-64 flex-1 text-sm text-slate-700">
-                <strong className="block text-lg text-slate-900">
+              <label className="min-w-0 flex-1 text-label text-slate-700">
+                <strong className="block text-section text-slate-900">
                   编辑游戏赛程槽位 {editingDeckNum}
                 </strong>
-                <span className="mt-1 block text-xs text-slate-500">
+                <span className="mt-1 block text-caption text-slate-500">
                   保存后会覆盖游戏服务器上对应槽位的名称与赛程。
                 </span>
                 <input
@@ -1324,7 +1347,7 @@ export default function OfflineCareerSettings({
               />
 
               <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50/60 p-3">
-                <p className="text-sm font-medium text-amber-950">
+                <p className="text-data font-medium text-amber-950">
                   必跑比赛（自动加入）
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -1332,7 +1355,7 @@ export default function OfflineCareerSettings({
                     requiredRaces.map((item) => (
                       <span
                         key={item.id}
-                        className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-xs text-amber-800"
+                        className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-caption text-amber-800"
                       >
                         <Check size={12} />{' '}
                         {item.race
@@ -1341,7 +1364,7 @@ export default function OfflineCareerSettings({
                       </span>
                     ))
                   ) : (
-                    <span className="text-xs text-amber-700/60">
+                    <span className="text-caption text-amber-700/60">
                       暂无固定比赛
                     </span>
                   )}
@@ -1354,7 +1377,7 @@ export default function OfflineCareerSettings({
                 type="button"
                 onClick={() => setEditingDeckNum(0)}
                 disabled={Boolean(busy)}
-                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 disabled:opacity-50"
+                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-data text-slate-600 hover:bg-slate-100 disabled:opacity-50"
               >
                 取消
               </button>
@@ -1369,7 +1392,7 @@ export default function OfflineCareerSettings({
                   if (saved) setEditingDeckNum(0);
                 }}
                 disabled={Boolean(busy)}
-                className="flex items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-data font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
               >
                 <Save size={15} />
                 {busy === 'idle-race-deck'
@@ -1385,14 +1408,16 @@ export default function OfflineCareerSettings({
         id="career-options"
         className={`${factorOnly ? 'hidden' : 'order-3'} mt-5 scroll-mt-28 rounded-lg border border-gray-200 bg-gray-50/60 p-4`}
       >
-        <div className="flex items-start justify-between gap-3">
+        <div className="autoResearchSectionHeader">
           <div className="flex items-start gap-2">
-            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
               6
             </span>
             <div>
-              <h3 className="font-semibold text-gray-800">优先技能</h3>
-              <p className="mt-1 text-xs text-slate-500">
+              <h3 className="text-section font-semibold text-gray-800">
+                优先技能
+              </h3>
+              <p className="mt-1 text-label text-slate-500">
                 育成事件会优先选择能够获得这些技能启发的选项，越靠前优先级越高。
               </p>
             </div>
@@ -1400,14 +1425,14 @@ export default function OfflineCareerSettings({
           <button
             type="button"
             onClick={() => setPrioritySkillPickerOpen(true)}
-            className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700"
+            className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-caption font-semibold text-white hover:bg-indigo-700"
           >
             <Plus size={14} />
             追加优先技能
           </button>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2 xl:grid-cols-3">
+        <div className="mt-4 grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))]">
           {prioritySkillIds.map((skillId, index) => {
             const skill = skillById.get(skillId);
             const name = skill?.name || `技能 ${skillId}`;
@@ -1452,7 +1477,7 @@ export default function OfflineCareerSettings({
                     : 'border-slate-200'
                 }`}
               >
-                <b className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-xs text-indigo-700">
+                <b className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-caption text-indigo-700">
                   {index + 1}
                 </b>
                 <span className="h-9 w-9 flex-none overflow-hidden rounded-md border border-slate-200 bg-slate-100">
@@ -1463,14 +1488,22 @@ export default function OfflineCareerSettings({
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <span className="flex h-full items-center justify-center text-xs font-bold text-slate-400">
+                    <span className="flex h-full items-center justify-center text-caption font-bold text-slate-500">
                       ?
                     </span>
                   )}
                 </span>
-                <strong className="min-w-0 flex-1 truncate text-sm text-slate-800">
+                <strong className="min-w-0 flex-1 truncate text-data text-slate-800">
                   {name}
                 </strong>
+                <ReorderControls
+                  label={`优先技能：${name}`}
+                  index={index}
+                  count={prioritySkillIds.length}
+                  onMove={(targetIndex) =>
+                    reorderPrioritySkill(index, targetIndex)
+                  }
+                />
                 <GripVertical
                   size={17}
                   className="flex-none text-slate-300"
@@ -1495,7 +1528,7 @@ export default function OfflineCareerSettings({
             <button
               type="button"
               onClick={() => setPrioritySkillPickerOpen(true)}
-              className="col-span-2 flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-slate-300 text-xs text-slate-400 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 xl:col-span-3"
+              className="col-span-full flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-slate-300 text-label text-slate-500 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
             >
               <Plus size={15} className="mr-1" />
               暂无优先技能，点击追加
@@ -1507,22 +1540,24 @@ export default function OfflineCareerSettings({
       <section
         className={`${factorOnly ? 'hidden' : 'order-4'} mt-5 rounded-lg border border-gray-200 bg-gray-50/60 p-4`}
       >
-        <div className="flex items-start justify-between gap-3">
+        <div className="autoResearchSectionHeader">
           <div className="flex items-start gap-2">
-            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
+            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-indigo-600 text-caption font-semibold text-white">
               6
             </span>
             <div>
-              <h3 className="font-semibold text-gray-800">结束自动点技能</h3>
-              <p className="mt-1 text-xs text-slate-500">
-                越靠前优先级越高，可直接拖动调整顺序。
+              <h3 className="text-section font-semibold text-gray-800">
+                结束自动点技能
+              </h3>
+              <p className="mt-1 text-label text-slate-500">
+                越靠前优先级越高，可拖动或使用上下移按钮调整顺序。
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={() => setFinalSkillPickerOpen(true)}
-            className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700"
+            className="flex flex-none items-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-caption font-semibold text-white hover:bg-indigo-700"
           >
             <Plus size={14} />
             添加技能
@@ -1530,10 +1565,10 @@ export default function OfflineCareerSettings({
         </div>
 
         <div className="mt-4 space-y-3">
-          <div className="grid grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))]">
             {skillSettings.learn_skill_list.map((group, index) => (
               <div
-                key={`${index}:${group.join('|')}`}
+                key={JSON.stringify(group)}
                 draggable
                 onDragStart={(event) => {
                   setDraggedFinalSkillIndex(index);
@@ -1571,7 +1606,7 @@ export default function OfflineCareerSettings({
                     : 'border-slate-200'
                 }`}
               >
-                <b className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-violet-50 text-xs text-violet-700">
+                <b className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-violet-50 text-caption text-violet-700">
                   {index + 1}
                 </b>
                 <span className="relative h-9 w-12 flex-none">
@@ -1594,7 +1629,7 @@ export default function OfflineCareerSettings({
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <span className="flex h-full items-center justify-center text-xs font-bold text-slate-400">
+                          <span className="flex h-full items-center justify-center text-caption font-bold text-slate-500">
                             ?
                           </span>
                         )}
@@ -1603,12 +1638,12 @@ export default function OfflineCareerSettings({
                   })}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold text-slate-800">
+                  <span className="block truncate text-data font-semibold text-slate-800">
                     {skillSettings.learn_skill_group_labels[index] ||
                       group.join(' / ')}
                   </span>
                   <span
-                    className="mt-0.5 block truncate text-[11px] text-slate-500"
+                    className="mt-0.5 block truncate text-caption text-slate-500"
                     title={group.join('、')}
                   >
                     {group.length > 1
@@ -1617,6 +1652,14 @@ export default function OfflineCareerSettings({
                   </span>
                 </span>
                 <span className="flex flex-none items-center gap-0.5">
+                  <ReorderControls
+                    label={`结束技能：${skillSettings.learn_skill_group_labels[index] || group.join('、')}`}
+                    index={index}
+                    count={skillSettings.learn_skill_list.length}
+                    onMove={(targetIndex) =>
+                      reorderFinalSkillGroup(index, targetIndex)
+                    }
+                  />
                   <GripVertical
                     size={17}
                     className="text-slate-300"
@@ -1637,7 +1680,7 @@ export default function OfflineCareerSettings({
               <button
                 type="button"
                 onClick={() => setFinalSkillPickerOpen(true)}
-                className="col-span-2 flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-slate-300 text-xs text-slate-400 hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 lg:col-span-3 xl:col-span-4"
+                className="col-span-full flex min-h-[72px] items-center justify-center rounded-lg border border-dashed border-slate-300 text-label text-slate-500 hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700"
               >
                 <Plus size={15} className="mr-1" />
                 暂无技能，点击添加
@@ -1663,13 +1706,13 @@ export default function OfflineCareerSettings({
           >
             <header className="successionPickerHeader">
               <div>
-                <span className="text-[11px] font-bold tracking-[0.18em] text-rose-500">
+                <span className="text-label font-semibold text-rose-600">
                   TRAINED RED FACTOR
                 </span>
-                <h3 className="mt-1 text-lg font-semibold text-slate-900">
+                <h3 className="mt-1 text-section font-semibold text-slate-900">
                   {LINEAGE_TREE_SLOT_LABELS[lineageFactorPicker]}的红因子
                 </h3>
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="uma-prose mt-1 text-data text-slate-500">
                   选择这匹已育成马娘实际持有的红因子及最低星级。
                 </p>
               </div>
@@ -1684,11 +1727,11 @@ export default function OfflineCareerSettings({
             </header>
             <div className="space-y-5 p-5">
               <section>
-                <strong className="text-sm text-slate-800">因子属性</strong>
+                <strong className="text-data text-slate-800">因子属性</strong>
                 <div className="mt-2 space-y-3">
                   {RED_FACTOR_GROUPS.map((group) => (
                     <div key={group.label}>
-                      <span className="text-xs font-medium text-slate-500">
+                      <span className="text-caption font-medium text-slate-500">
                         {group.label}
                       </span>
                       <div className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -1720,7 +1763,7 @@ export default function OfflineCareerSettings({
                                 alt={`${factor.name}因子`}
                                 className="h-7 w-7 flex-none object-contain"
                               />
-                              <strong className="truncate text-sm text-slate-800">
+                              <strong className="truncate text-data text-slate-800">
                                 {factor.name}
                               </strong>
                             </button>
@@ -1732,7 +1775,7 @@ export default function OfflineCareerSettings({
                 </div>
               </section>
               <section>
-                <strong className="text-sm text-slate-800">因子星级</strong>
+                <strong className="text-data text-slate-800">因子星级</strong>
                 <div
                   role="radiogroup"
                   aria-label="红因子最低星级"
@@ -1750,7 +1793,7 @@ export default function OfflineCareerSettings({
                           stars,
                         }))
                       }
-                      className={`rounded-xl border px-3 py-2.5 text-sm font-bold transition ${
+                      className={`rounded-xl border px-3 py-2.5 text-data font-semibold transition ${
                         lineageFactorDraft.stars === stars
                           ? 'border-rose-400 bg-rose-50 text-rose-700 ring-2 ring-rose-100'
                           : 'border-slate-200 text-slate-600 hover:border-rose-200'
@@ -1763,7 +1806,7 @@ export default function OfflineCareerSettings({
               </section>
             </div>
             <footer className="successionPickerFooter flex items-center justify-between gap-3">
-              <span className="flex items-center gap-2 text-sm text-slate-600">
+              <span className="flex items-center gap-2 text-data text-slate-600">
                 <AssetIcon
                   path={
                     RED_FACTOR_ICON_PATHS[lineageFactorDraft.factor_group_id]
@@ -1785,7 +1828,7 @@ export default function OfflineCareerSettings({
                 <button
                   type="button"
                   onClick={() => setLineageFactorPicker('')}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                  className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-data font-medium text-slate-600 hover:bg-slate-50"
                 >
                   取消
                 </button>
@@ -1799,7 +1842,7 @@ export default function OfflineCareerSettings({
                     });
                     setLineageFactorPicker('');
                   }}
-                  className="rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700"
+                  className="rounded-lg bg-rose-600 px-4 py-2 text-data font-semibold text-white hover:bg-rose-700"
                 >
                   保存
                 </button>
@@ -1825,13 +1868,13 @@ export default function OfflineCareerSettings({
           >
             <header className="successionPickerHeader">
               <div>
-                <span className="text-[11px] font-bold tracking-[0.18em] text-sky-500">
+                <span className="text-label font-semibold text-sky-600">
                   RACE SCHEDULE
                 </span>
-                <h3 className="mt-1 text-lg font-semibold text-slate-900">
+                <h3 className="mt-1 text-section font-semibold text-slate-900">
                   {LINEAGE_TREE_SLOT_LABELS[lineageRoutePicker]}赛程设置
                 </h3>
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="uma-prose mt-1 text-data text-slate-500">
                   按已育成马娘的实际胜鞍赛程筛选完整谱系。
                 </p>
               </div>
@@ -1875,13 +1918,13 @@ export default function OfflineCareerSettings({
                       size={22}
                       className={selected ? 'text-sky-600' : 'text-slate-400'}
                     />
-                    <strong className="mt-3 block text-sm text-slate-900">
+                    <strong className="mt-3 block text-data text-slate-900">
                       {route.name}
                     </strong>
-                    <span className="mt-1 block text-xs leading-5 text-slate-500">
+                    <span className="mt-1 block text-caption leading-5 text-slate-500">
                       {route.description}
                     </span>
-                    <b className="mt-2 block text-xs text-sky-700">
+                    <b className="mt-2 block text-caption text-sky-700">
                       {route.g1Count ? `${route.g1Count} 场 G1` : '不限制胜鞍'}
                     </b>
                   </button>
@@ -1903,15 +1946,11 @@ export default function OfflineCareerSettings({
           searchPlaceholder="搜索马娘、因子、玩家或评价"
           searchAriaLabel="搜索已有马娘"
           onSearchChange={setSpecificLineageSearch}
-          meta={
-            <span>找到 {filteredLineageParents.length} 个已有实例</span>
-          }
+          meta={<span>找到 {filteredLineageParents.length} 个已有实例</span>}
         >
           <SuccessionPickerFilterSheet
             title="筛选已有马娘"
-            summary={
-              specificLineageHasFilters ? '已启用筛选' : '全部已有马娘'
-            }
+            summary={specificLineageHasFilters ? '已启用筛选' : '全部已有马娘'}
             onClear={() => {
               setSpecificLineageSource('all');
               setSpecificLineageBlueFactors([]);
@@ -1923,30 +1962,210 @@ export default function OfflineCareerSettings({
             }}
           >
             <div className="successionCapturedPickerFilters border-b border-slate-200 bg-slate-50/80 px-4 py-3">
-            <div className="grid gap-3 xl:grid-cols-[minmax(280px,0.85fr)_minmax(440px,1.35fr)]">
-              <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <strong className="text-xs text-slate-700">基础筛选</strong>
-                  <span className="text-[11px] text-slate-400">属性可多选</span>
-                </div>
+              <div className="autoResearchAdaptiveColumns grid gap-3">
+                <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <strong className="text-caption text-slate-700">
+                      基础筛选
+                    </strong>
+                    <span className="text-caption text-slate-500">
+                      属性可多选
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="w-12 text-caption font-medium text-slate-500">
+                      来源
+                    </span>
+                    {(
+                      [
+                        ['all', '全部'],
+                        ['own', '自己的'],
+                        ['rental', '玩家借用'],
+                      ] as const
+                    ).map(([value, label]) => (
+                      <button
+                        key={value}
+                        type="button"
+                        aria-pressed={specificLineageSource === value}
+                        onClick={() => setSpecificLineageSource(value)}
+                        className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                          specificLineageSource === value
+                            ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="my-2 border-t border-slate-100" />
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="w-12 text-caption font-medium text-slate-500">
+                      属性
+                    </span>
+                    <button
+                      type="button"
+                      aria-pressed={!specificLineageBlueFactors.length}
+                      onClick={() => setSpecificLineageBlueFactors([])}
+                      className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                        !specificLineageBlueFactors.length
+                          ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                      }`}
+                    >
+                      任意
+                    </button>
+                    {BLUE_FACTOR_FILTERS.map((factor) => {
+                      const selected = specificLineageBlueFactors.includes(
+                        factor.factor_group_id,
+                      );
+                      return (
+                        <button
+                          key={factor.factor_group_id}
+                          type="button"
+                          aria-pressed={selected}
+                          onClick={() =>
+                            setSpecificLineageBlueFactors((current) =>
+                              selected
+                                ? current.filter(
+                                    (id) => id !== factor.factor_group_id,
+                                  )
+                                : [...current, factor.factor_group_id],
+                            )
+                          }
+                          className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                            selected
+                              ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
+                              : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                          }`}
+                        >
+                          {factor.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    <span className="w-12 text-caption font-medium text-slate-500">
+                      星级
+                    </span>
+                    {[0, 1, 2, 3].map((stars) => (
+                      <button
+                        key={stars}
+                        type="button"
+                        aria-pressed={specificLineageBlueStars === stars}
+                        onClick={() => setSpecificLineageBlueStars(stars)}
+                        className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                          specificLineageBlueStars === stars
+                            ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                        }`}
+                      >
+                        {stars ? `${stars}★${stars < 3 ? '+' : ''}` : '不限'}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <strong className="text-caption text-slate-700">
+                      适应性因子
+                    </strong>
+                    <button
+                      type="button"
+                      onClick={() => setSpecificLineageAptitudeFactors([])}
+                      className={`successionCapturedPickerCompactControl rounded-md border px-2 py-0.5 text-caption font-medium transition-colors ${
+                        !specificLineageAptitudeFactors.length
+                          ? 'border-pink-300 bg-pink-50 text-pink-700'
+                          : 'border-slate-200 bg-white text-slate-500 hover:border-pink-200'
+                      }`}
+                    >
+                      任意类型
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {RED_FACTOR_GROUPS.map((group) => (
+                      <div
+                        key={group.label}
+                        className="flex flex-wrap items-center gap-1.5"
+                      >
+                        <span className="w-12 text-caption font-medium text-slate-500">
+                          {group.label}
+                        </span>
+                        {group.factors.map((factor) => {
+                          const selected =
+                            specificLineageAptitudeFactors.includes(
+                              factor.factor_group_id,
+                            );
+                          return (
+                            <button
+                              key={factor.factor_group_id}
+                              type="button"
+                              aria-pressed={selected}
+                              onClick={() =>
+                                setSpecificLineageAptitudeFactors((current) =>
+                                  selected
+                                    ? current.filter(
+                                        (id) => id !== factor.factor_group_id,
+                                      )
+                                    : [...current, factor.factor_group_id],
+                                )
+                              }
+                              className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                                selected
+                                  ? 'border-pink-300 bg-pink-50 text-pink-700'
+                                  : 'border-slate-200 bg-white text-slate-600 hover:border-pink-200'
+                              }`}
+                            >
+                              {factor.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ))}
+                    <div className="flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-2">
+                      <span className="w-12 text-caption font-medium text-slate-500">
+                        星级
+                      </span>
+                      {[0, 1, 2, 3].map((stars) => (
+                        <button
+                          key={stars}
+                          type="button"
+                          aria-pressed={specificLineageAptitudeStars === stars}
+                          onClick={() => setSpecificLineageAptitudeStars(stars)}
+                          className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                            specificLineageAptitudeStars === stars
+                              ? 'border-pink-300 bg-pink-50 text-pink-700'
+                              : 'border-slate-200 bg-white text-slate-600 hover:border-pink-200'
+                          }`}
+                        >
+                          {stars ? `${stars}★${stars < 3 ? '+' : ''}` : '不限'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <section className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="w-12 text-[11px] font-medium text-slate-500">
-                    来源
-                  </span>
+                  <strong className="mr-1 text-caption text-slate-700">
+                    排序
+                  </strong>
                   {(
                     [
-                      ['all', '全部'],
-                      ['own', '自己的'],
-                      ['rental', '玩家借用'],
+                      ['score', '养成评价'],
+                      ['blue', '属性星级'],
+                      ['aptitude', '适应性星级'],
                     ] as const
                   ).map(([value, label]) => (
                     <button
                       key={value}
                       type="button"
-                      aria-pressed={specificLineageSource === value}
-                      onClick={() => setSpecificLineageSource(value)}
-                      className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                        specificLineageSource === value
+                      aria-pressed={specificLineageSort === value}
+                      onClick={() => setSpecificLineageSort(value)}
+                      className={`rounded-md border px-2.5 py-1 text-caption font-medium transition-colors ${
+                        specificLineageSort === value
                           ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
                           : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
                       }`}
@@ -1955,200 +2174,28 @@ export default function OfflineCareerSettings({
                     </button>
                   ))}
                 </div>
-                <div className="my-2 border-t border-slate-100" />
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="w-12 text-[11px] font-medium text-slate-500">
-                    属性
-                  </span>
-                  <button
-                    type="button"
-                    aria-pressed={!specificLineageBlueFactors.length}
-                    onClick={() => setSpecificLineageBlueFactors([])}
-                    className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                      !specificLineageBlueFactors.length
-                        ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
-                        : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                    }`}
-                  >
-                    任意
-                  </button>
-                  {BLUE_FACTOR_FILTERS.map((factor) => {
-                    const selected = specificLineageBlueFactors.includes(
-                      factor.factor_group_id,
-                    );
-                    return (
-                      <button
-                        key={factor.factor_group_id}
-                        type="button"
-                        aria-pressed={selected}
-                        onClick={() =>
-                          setSpecificLineageBlueFactors((current) =>
-                            selected
-                              ? current.filter(
-                                  (id) => id !== factor.factor_group_id,
-                                )
-                              : [...current, factor.factor_group_id],
-                          )
-                        }
-                        className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                          selected
-                            ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
-                            : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                        }`}
-                      >
-                        {factor.name}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                  <span className="w-12 text-[11px] font-medium text-slate-500">
-                    星级
-                  </span>
-                  {[0, 1, 2, 3].map((stars) => (
+                <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1">
+                  {(
+                    [
+                      ['desc', '倒序'],
+                      ['asc', '正序'],
+                    ] as const
+                  ).map(([value, label]) => (
                     <button
-                      key={stars}
+                      key={value}
                       type="button"
-                      aria-pressed={specificLineageBlueStars === stars}
-                      onClick={() => setSpecificLineageBlueStars(stars)}
-                      className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                        specificLineageBlueStars === stars
-                          ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
-                          : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
+                      aria-pressed={specificLineageSortDirection === value}
+                      onClick={() => setSpecificLineageSortDirection(value)}
+                      className={`successionCapturedPickerCompactControl rounded-md px-2.5 py-1 text-caption font-medium transition-colors ${
+                        specificLineageSortDirection === value
+                          ? 'bg-white text-indigo-700 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-700'
                       }`}
                     >
-                      {stars ? `${stars}★${stars < 3 ? '+' : ''}` : '不限'}
+                      {label}
                     </button>
                   ))}
                 </div>
-              </section>
-
-              <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <strong className="text-xs text-slate-700">适应性因子</strong>
-                  <button
-                    type="button"
-                    onClick={() => setSpecificLineageAptitudeFactors([])}
-                    className={`successionCapturedPickerCompactControl rounded-md border px-2 py-0.5 text-[11px] font-medium transition-colors ${
-                      !specificLineageAptitudeFactors.length
-                        ? 'border-pink-300 bg-pink-50 text-pink-700'
-                        : 'border-slate-200 bg-white text-slate-500 hover:border-pink-200'
-                    }`}
-                  >
-                    任意类型
-                  </button>
-                </div>
-                <div className="space-y-2">
-                  {RED_FACTOR_GROUPS.map((group) => (
-                    <div
-                      key={group.label}
-                      className="flex flex-wrap items-center gap-1.5"
-                    >
-                      <span className="w-12 text-[11px] font-medium text-slate-500">
-                        {group.label}
-                      </span>
-                      {group.factors.map((factor) => {
-                        const selected =
-                          specificLineageAptitudeFactors.includes(
-                            factor.factor_group_id,
-                          );
-                        return (
-                          <button
-                            key={factor.factor_group_id}
-                            type="button"
-                            aria-pressed={selected}
-                            onClick={() =>
-                              setSpecificLineageAptitudeFactors((current) =>
-                                selected
-                                  ? current.filter(
-                                      (id) => id !== factor.factor_group_id,
-                                    )
-                                  : [...current, factor.factor_group_id],
-                              )
-                            }
-                            className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                              selected
-                                ? 'border-pink-300 bg-pink-50 text-pink-700'
-                                : 'border-slate-200 bg-white text-slate-600 hover:border-pink-200'
-                            }`}
-                          >
-                            {factor.name}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  ))}
-                  <div className="flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-2">
-                    <span className="w-12 text-[11px] font-medium text-slate-500">
-                      星级
-                    </span>
-                    {[0, 1, 2, 3].map((stars) => (
-                      <button
-                        key={stars}
-                        type="button"
-                        aria-pressed={specificLineageAptitudeStars === stars}
-                        onClick={() => setSpecificLineageAptitudeStars(stars)}
-                        className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                          specificLineageAptitudeStars === stars
-                            ? 'border-pink-300 bg-pink-50 text-pink-700'
-                            : 'border-slate-200 bg-white text-slate-600 hover:border-pink-200'
-                        }`}
-                      >
-                        {stars ? `${stars}★${stars < 3 ? '+' : ''}` : '不限'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            </div>
-
-            <section className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
-              <div className="flex flex-wrap items-center gap-1.5">
-                <strong className="mr-1 text-xs text-slate-700">排序</strong>
-                {(
-                  [
-                    ['score', '养成评价'],
-                    ['blue', '属性星级'],
-                    ['aptitude', '适应性星级'],
-                  ] as const
-                ).map(([value, label]) => (
-                  <button
-                    key={value}
-                    type="button"
-                    aria-pressed={specificLineageSort === value}
-                    onClick={() => setSpecificLineageSort(value)}
-                    className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
-                      specificLineageSort === value
-                        ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
-                        : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-              <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1">
-                {(
-                  [
-                    ['desc', '倒序'],
-                    ['asc', '正序'],
-                  ] as const
-                ).map(([value, label]) => (
-                  <button
-                    key={value}
-                    type="button"
-                    aria-pressed={specificLineageSortDirection === value}
-                    onClick={() => setSpecificLineageSortDirection(value)}
-                    className={`successionCapturedPickerCompactControl rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                      specificLineageSortDirection === value
-                        ? 'bg-white text-indigo-700 shadow-sm'
-                        : 'text-slate-500 hover:text-slate-700'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
               </section>
             </div>
           </SuccessionPickerFilterSheet>
@@ -2311,6 +2358,6 @@ export default function OfflineCareerSettings({
         }
         onClose={() => setFactorSkillPickerOpen(false)}
       />
-    </>
+    </div>
   );
 }

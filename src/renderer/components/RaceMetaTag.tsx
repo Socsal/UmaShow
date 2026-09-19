@@ -143,7 +143,7 @@ export default function RaceMetaTag({
     return (
       <div className="w-64 h-36 flex flex-col items-center justify-center bg-gray-50 rounded-lg border border-gray-200 animate-pulse">
         <Loader2 className="animate-spin text-gray-400 mb-2" />
-        <span className="text-xs text-gray-400">Loading DB...</span>
+        <span className="text-caption text-gray-400">Loading DB...</span>
       </div>
     );
   }
@@ -152,8 +152,8 @@ export default function RaceMetaTag({
     <div
       className={`
         w-64 h-36 flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden
-        transition-all duration-200 select-none group
-        ${onClick ? 'cursor-pointer hover:border-blue-400 hover:shadow-md active:scale-[0.98]' : ''}
+        transition-ui duration-200 select-none group
+        ${onClick ? 'cursor-pointer hover:border-blue-400 hover:shadow-md' : ''}
       `}
       onClick={(e) => {
         if (onClick) {
@@ -177,7 +177,7 @@ export default function RaceMetaTag({
         </div>
       </div>
 
-      <div className="px-3 py-2 bg-white grid grid-cols-2 gap-y-2 gap-x-2 text-xs text-gray-600 border-t border-gray-100">
+      <div className="px-3 py-2 bg-white grid grid-cols-2 gap-y-2 gap-x-2 text-caption text-gray-600 border-t border-gray-100">
         <div className="col-span-2 flex items-center justify-between">
           <div
             className={`flex items-center gap-1.5 px-2 py-0.5 rounded border ${surfaceStyle}`}
@@ -185,7 +185,7 @@ export default function RaceMetaTag({
             <SurfaceIcon size={12} />
             <span className="font-bold">{surfaceText}</span>
             <span className="w-[1px] h-3 bg-current opacity-30" />
-            <span className="font-mono font-bold">{distance}m</span>
+            <span className="font-mono tabular-nums font-bold">{distance}m</span>
           </div>
 
           {/* 右上：参赛人数 */}
@@ -194,7 +194,7 @@ export default function RaceMetaTag({
             title="参赛人数"
           >
             <Users size={12} />
-            <span className="font-mono">{entryText}</span>
+            <span className="font-mono tabular-nums">{entryText}</span>
           </div>
         </div>
 
@@ -223,7 +223,7 @@ export default function RaceMetaTag({
       <div className="bg-gray-50 px-3 py-1.5 flex items-center gap-1.5 border-t border-gray-100">
         <Hash size={10} className="text-gray-400" />
         <span
-          className="text-[10px] text-gray-400 font-mono truncate w-full"
+          className="text-caption text-gray-400 font-mono tabular-nums truncate w-full"
           title={`Seed: ${meta.random_seed}`}
         >
           Seed: {meta.random_seed}

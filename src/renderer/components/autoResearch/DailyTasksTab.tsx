@@ -66,7 +66,7 @@ const editableConfigKey = (config: DailyTasksConfig) =>
   });
 
 const toggleClass = (enabled: boolean) =>
-  `relative h-6 w-11 rounded-full transition-colors ${
+  `relative h-6 w-11 shrink-0 rounded-full transition-colors ${
     enabled ? 'bg-indigo-600' : 'bg-slate-300'
   }`;
 
@@ -101,7 +101,7 @@ function Toggle({
 }
 
 const fieldClass =
-  'w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-100 disabled:text-slate-400';
+  'min-w-0 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-100 disabled:text-slate-400';
 
 const taskNames: Record<string, string> = {
   daily_race: '每日竞赛',
@@ -149,7 +149,7 @@ function HorseSelectButton({
       <span className="min-w-0 flex-1">
         <span className="block truncate">{label}</span>
         {horse && race ? (
-          <span className="block text-xs text-slate-400">
+          <span className="block text-caption text-slate-500">
             评分 {horse.rank_score} · 距离{' '}
             {aptitudeLabel(distanceAptitude(horse, race))}
             {' · '}
@@ -212,16 +212,18 @@ function ResultCard({
       }`}
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="text-sm font-semibold text-slate-700">
+        <span className="text-data font-semibold text-slate-700">
           {taskNames[name] || name}
         </span>
         <span
-          className={`text-xs font-medium ${bad ? 'text-red-600' : 'text-slate-500'}`}
+          className={`text-caption font-medium ${bad ? 'text-red-600' : 'text-slate-500'}`}
         >
           {statusLabel[result.status] || result.status}
         </span>
       </div>
-      <p className="mt-1 text-xs leading-5 text-slate-500">{result.detail}</p>
+      <p className="mt-1 text-label leading-5 text-slate-500">
+        {result.detail}
+      </p>
     </div>
   );
 }
@@ -257,7 +259,7 @@ export default function DailyTasksTab({
 
   if (locked) {
     return (
-      <section className="flex min-h-48 items-center justify-center p-10 text-center text-sm text-slate-500">
+      <section className="flex min-h-48 items-center justify-center p-10 text-center text-data text-slate-500">
         <div>
           <CalendarCheck className="mx-auto text-violet-300" size={30} />
           <p className="mt-3 font-medium text-slate-700">
@@ -276,7 +278,7 @@ export default function DailyTasksTab({
     return (
       <section
         className={panelClass(
-          'flex min-h-48 items-center justify-center p-10 text-center text-sm text-slate-500',
+          'flex min-h-48 items-center justify-center p-10 text-center text-data text-slate-500',
         )}
       >
         <div>
@@ -291,13 +293,13 @@ export default function DailyTasksTab({
           <p className="mt-3 font-medium text-slate-700">{loadStatus}</p>
           {loadError ? (
             <>
-              <p className="mt-1 max-w-xl text-xs leading-5 text-red-600">
+              <p className="mt-1 max-w-xl text-label leading-5 text-red-600">
                 {formatAccountError(loadError)}
               </p>
               <button
                 type="button"
                 onClick={onRetry}
-                className="mt-4 inline-flex items-center gap-2 rounded-md border border-indigo-200 bg-white px-3 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-50"
+                className="mt-4 inline-flex items-center gap-2 rounded-md border border-indigo-200 bg-white px-3 py-2 text-caption font-semibold text-indigo-700 hover:bg-indigo-50"
               >
                 <RefreshCw size={14} />
                 重新加载
@@ -355,10 +357,10 @@ export default function DailyTasksTab({
   };
 
   return (
-    <div className="space-y-4">
-      <section className={panelClass('p-5')}>
+    <div className="autoResearchForm autoResearchDaily space-y-4">
+      <section className={panelClass('dailyTaskPanel p-4 sm:p-5')}>
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <p className="text-sm text-slate-500">
+          <p className="uma-prose text-data text-slate-500">
             启动后，养马过程中会完成任务。
           </p>
           <div className="flex items-center gap-3">
@@ -376,14 +378,16 @@ export default function DailyTasksTab({
         </div>
       </section>
 
-      <div className="grid gap-4 xl:grid-cols-2">
-        <section className={panelClass('p-5')}>
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Swords className="text-slate-400" size={19} />
+      <div className="dailyTasksColumns">
+        <section className={panelClass('dailyTaskPanel p-4 sm:p-5')}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-2">
+              <Swords className="mt-1 shrink-0 text-slate-400" size={19} />
               <div>
-                <h3 className="font-semibold text-slate-800">每日竞赛</h3>
-                <p className="text-xs text-slate-500">
+                <h3 className="text-section font-semibold text-slate-800">
+                  每日竞赛
+                </h3>
+                <p className="text-label text-slate-500">
                   使用所选马娘，一次打完全部现有入场券。
                 </p>
               </div>
@@ -404,7 +408,7 @@ export default function DailyTasksTab({
             reason={dailyRaceAvailability?.reason}
             readyDetail={`当前有 ${dailyRaceAvailability?.ticket_count || 0} 张每日竞赛入场券`}
           />
-          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+          <div className="dailyTaskFields mt-4">
             <select
               className={fieldClass}
               value={draft.daily_race.daily_race_id}
@@ -459,13 +463,18 @@ export default function DailyTasksTab({
           </div>
         </section>
 
-        <section className={panelClass('p-5')}>
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="text-slate-400" size={19} />
+        <section className={panelClass('dailyTaskPanel p-4 sm:p-5')}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-2">
+              <CheckCircle2
+                className="mt-1 shrink-0 text-slate-400"
+                size={19}
+              />
               <div>
-                <h3 className="font-semibold text-slate-800">每日传奇赛事</h3>
-                <p className="text-xs text-slate-500">
+                <h3 className="text-section font-semibold text-slate-800">
+                  每日传奇赛事
+                </h3>
+                <p className="text-label text-slate-500">
                   选择赛事与马娘，每个游戏日参加一次。
                 </p>
               </div>
@@ -486,7 +495,7 @@ export default function DailyTasksTab({
             reason={legendRaceAvailability?.reason}
             readyDetail={`当前有 ${legendRaceAvailability?.ticket_count || 0} 张传奇赛事入场券`}
           />
-          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+          <div className="dailyTaskFields mt-4">
             <select
               className={fieldClass}
               value={draft.daily_legend_race.daily_legend_race_id}
@@ -542,14 +551,16 @@ export default function DailyTasksTab({
         </section>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-2">
-        <section className={panelClass('p-5')}>
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Swords className="text-slate-400" size={19} />
+      <div className="dailyTasksColumns">
+        <section className={panelClass('dailyTaskPanel p-4 sm:p-5')}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-2">
+              <Swords className="mt-1 shrink-0 text-slate-400" size={19} />
               <div>
-                <h3 className="font-semibold text-slate-800">竞技场</h3>
-                <p className="text-xs text-slate-500">
+                <h3 className="text-section font-semibold text-slate-800">
+                  竞技场
+                </h3>
+                <p className="text-label text-slate-500">
                   清空已有 RP，之后按每 2 小时一次的恢复事件继续处理。
                 </p>
               </div>
@@ -577,13 +588,15 @@ export default function DailyTasksTab({
           />
         </section>
 
-        <section className={panelClass('p-5')}>
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="text-slate-400" size={19} />
+        <section className={panelClass('dailyTaskPanel p-4 sm:p-5')}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-2">
+              <ShoppingBag className="mt-1 shrink-0 text-slate-400" size={19} />
               <div>
-                <h3 className="font-semibold text-slate-800">限时商店</h3>
-                <p className="text-xs text-slate-500">
+                <h3 className="text-section font-semibold text-slate-800">
+                  限时商店
+                </h3>
+                <p className="text-label text-slate-500">
                   每次赛事或竞技场结束后检查，达到该来源每日刷新上限后停止。
                 </p>
               </div>
@@ -609,11 +622,13 @@ export default function DailyTasksTab({
         </section>
       </div>
 
-      <section className={panelClass('p-5')}>
+      <section className={panelClass('dailyTaskPanel p-4 sm:p-5')}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 className="font-semibold text-slate-800">本地单次执行结果</h3>
-            <p className="mt-1 text-sm text-slate-500">
+            <h3 className="text-section font-semibold text-slate-800">
+              本地单次执行结果
+            </h3>
+            <p className="uma-prose mt-1 text-data text-slate-500">
               {statusLabel[overview.daily_tasks.status || ''] ||
                 overview.daily_tasks.status ||
                 '尚未执行'}
@@ -622,17 +637,17 @@ export default function DailyTasksTab({
                 : ''}
             </p>
             {overview.daily_tasks.last_error ? (
-              <p className="mt-1 text-sm text-red-600">
+              <p className="uma-prose mt-1 text-data text-red-600">
                 {formatAccountError(overview.daily_tasks.last_error)}
               </p>
             ) : null}
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="dailyTaskActions">
             <button
               type="button"
               disabled={disabled}
               onClick={() => onSave(draft)}
-              className="inline-flex items-center gap-2 rounded-md border border-indigo-200 bg-white px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-md border border-indigo-200 bg-white px-4 py-2 text-data font-semibold text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
             >
               <Save size={16} />
               {busy === 'daily-save' ? '保存中…' : '保存本地配置'}
@@ -641,7 +656,7 @@ export default function DailyTasksTab({
               type="button"
               disabled={disabled}
               onClick={() => onRun(draft)}
-              className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-data font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
             >
               <Play size={16} />
               {busy === 'daily-run' ? '执行中…' : '单次完成日常'}

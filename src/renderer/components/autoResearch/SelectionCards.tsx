@@ -31,7 +31,7 @@ export function isRentalParent(parent?: RentalParentLike | null) {
 export function RentalParentBadge({ className = '' }: { className?: string }) {
   return (
     <span
-      className={`inline-flex flex-none items-center rounded-full bg-violet-100 px-1.5 py-0.5 text-[10px] font-bold leading-none text-violet-700 ring-1 ring-inset ring-violet-200 ${className}`.trim()}
+      className={`inline-flex flex-none items-center rounded-full bg-violet-100 px-1.5 py-0.5 text-caption font-bold leading-none text-violet-700 ring-1 ring-inset ring-violet-200 ${className}`.trim()}
       title="借用继承马娘"
     >
       借用
@@ -83,7 +83,7 @@ export function UmaChoiceCard({
       title={uma.name}
       aria-label={`选择${uma.name}`}
       aria-pressed={selected}
-      className={`relative h-16 w-16 flex-none transition-transform ${selected ? 'scale-105' : 'hover:scale-105'}`}
+      className={`relative h-16 w-16 flex-none transition-transform ${selected ? 'scale-105' : 'fine-hover:scale-105'}`}
     >
       {iconPath ? (
         <AssetIcon
@@ -358,7 +358,7 @@ export function SupportChoiceCard({
       title={support.name}
       aria-label={`选择好友支援卡${support.name}`}
       aria-pressed={selected}
-      className={`relative h-14 w-14 flex-none overflow-hidden rounded-md border bg-gray-100 transition-all disabled:cursor-not-allowed disabled:opacity-25 ${
+      className={`relative h-14 w-14 flex-none overflow-hidden rounded-md border bg-gray-100 transition-ui disabled:cursor-not-allowed disabled:opacity-25 ${
         selected
           ? 'border-indigo-500 ring-2 ring-indigo-200'
           : 'border-gray-200 hover:border-gray-400 hover:shadow-sm'
@@ -395,7 +395,7 @@ export function DeckChoiceCard({
       onClick={onSelect}
       disabled={disabled}
       aria-pressed={selected}
-      className={`w-fit max-w-full flex-none rounded-lg border p-3 text-left transition-all disabled:cursor-not-allowed disabled:opacity-30 ${
+      className={`w-fit max-w-full flex-none rounded-lg border p-3 text-left transition-ui disabled:cursor-not-allowed disabled:opacity-30 ${
         selected
           ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-100'
           : 'border-gray-200 bg-white hover:border-gray-400'

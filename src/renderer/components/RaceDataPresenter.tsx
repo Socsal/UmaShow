@@ -562,10 +562,10 @@ class RaceDataPresenter extends React.PureComponent<
         className="cursor-help py-1 text-center"
         title={tooltipLines.join('\n')}
       >
-        <div className="font-mono text-base font-semibold text-gray-900">
+        <div className="font-mono tabular-nums text-base font-semibold text-gray-900">
           {rawValue}
         </div>
-        <div className="text-[11px] font-medium text-blue-600">
+        <div className="text-caption font-medium text-blue-600">
           {formatStatValue(adjustedStats.adjusted[statKey])}
         </div>
       </div>
@@ -1017,24 +1017,24 @@ class RaceDataPresenter extends React.PureComponent<
     // Remove FoldCard, just return div
     return (
       <div className="overflow-x-auto rounded-lg border border-gray-200 mt-4">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full tabular-nums divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-caption font-medium text-gray-500 uppercase tracking-normal"
               >
                 Time
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-caption font-medium text-gray-500 uppercase tracking-normal"
               >
                 Type
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-caption font-medium text-gray-500 uppercase tracking-normal"
               >
                 Charas
               </th>
@@ -1043,13 +1043,13 @@ class RaceDataPresenter extends React.PureComponent<
           <tbody className="bg-white divide-y divide-gray-200">
             {data.map((row) => (
               <tr key={row.time} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-data text-gray-500">
                   {row.time}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-data text-gray-900">
                   {row.type}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500">
+                <td className="px-6 py-4 text-data text-gray-500">
                   {row.charas.map((c, idx) => (
                     <div key={idx}>{c.displayName}</div>
                   ))}
@@ -1134,12 +1134,12 @@ class RaceDataPresenter extends React.PureComponent<
     // Remove FoldCard, just return the table wrapper
     return (
       <div className="mt-4">
-        <div className="mb-3 rounded-lg border border-blue-100 bg-blue-50/70 px-4 py-3 text-xs text-gray-700">
+        <div className="mb-3 rounded-lg border border-blue-100 bg-blue-50/70 px-4 py-3 text-caption text-gray-700">
           当前赛道门槛属性：
           <span className="font-medium">{speedCourseText}</span>
         </div>
         <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
+          <table className="min-w-full tabular-nums divide-y divide-gray-200 text-data">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-3 py-3 text-left font-medium text-gray-500 uppercase">
@@ -1211,7 +1211,7 @@ class RaceDataPresenter extends React.PureComponent<
                           <div className="truncate font-medium">
                             {row.chara.name}
                           </div>
-                          <div className="truncate text-xs text-gray-500">
+                          <div className="truncate text-caption text-gray-500">
                             {
                               this.props.umdb.cards[row.trainedChara.cardId]
                                 ?.name
@@ -1231,18 +1231,18 @@ class RaceDataPresenter extends React.PureComponent<
                       : '-'}
                   </td>
                   <td className="px-3 py-2 text-gray-600">
-                    <div className="font-mono">
+                    <div className="font-mono tabular-nums">
                       {UMDatabaseUtils.formatTime(
                         row.horseResultData.finishTime!,
                       )}
                     </div>
-                    <div className="text-xs text-gray-400 font-mono">
+                    <div className="text-caption text-gray-400 font-mono tabular-nums">
                       {UMDatabaseUtils.formatTime(
                         row.horseResultData.finishTimeRaw!,
                       )}
                     </div>
                   </td>
-                  <td className="px-2 py-2 text-center text-gray-600 font-mono">
+                  <td className="px-2 py-2 text-center text-gray-600 font-mono tabular-nums">
                     {Math.round(row.finalHp)}
                   </td>
                   <td className="px-3 py-2 text-gray-600">
@@ -1252,13 +1252,13 @@ class RaceDataPresenter extends React.PureComponent<
                         row.activatedSkills,
                       )}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-caption text-gray-500">
                       {UMDatabaseUtils.motivationLabels[row.motivation]}
                     </div>
                   </td>
                   <td className="px-3 py-2 text-gray-600">
                     <span className="font-medium mr-1">{row.popularity}</span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-caption text-gray-400">
                       {row.popularityMarks
                         .map(UMDatabaseUtils.getPopularityMark)
                         .join(', ')}
@@ -1370,7 +1370,7 @@ class RaceDataPresenter extends React.PureComponent<
                 this.setState({ diffGraphUseDistanceAsXAxis: e.target.checked })
               }
             />
-            <span className="ml-2 text-sm text-gray-700">
+            <span className="ml-2 text-data text-gray-700">
               Use Base Distance as X Axis
             </span>
           </label>
@@ -1443,7 +1443,7 @@ class RaceDataPresenter extends React.PureComponent<
                 this.setState({ diffGraphUseDistanceAsXAxis: e.target.checked })
               }
             />
-            <span className="ml-2 text-sm text-gray-700">
+            <span className="ml-2 text-data text-gray-700">
               Use Base Distance as X Axis
             </span>
           </label>
@@ -1516,7 +1516,7 @@ class RaceDataPresenter extends React.PureComponent<
                 this.setState({ diffGraphUseDistanceAsXAxis: e.target.checked })
               }
             />
-            <span className="ml-2 text-sm text-gray-700">
+            <span className="ml-2 text-data text-gray-700">
               Use Base Distance as X Axis
             </span>
           </label>
@@ -1539,16 +1539,16 @@ class RaceDataPresenter extends React.PureComponent<
         {this.renderCourseProfile()}
 
         <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <h3 className="text-section font-semibold text-gray-900 mb-4">
             Detailed Analysis Controls
           </h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-data font-medium text-gray-700 mb-1">
                 Select Chara to View Detail
               </label>
               <select
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-data rounded-md border"
                 onChange={(e) =>
                   this.setState({
                     selectedCharaFrameOrder: e.target.value
@@ -1594,7 +1594,7 @@ class RaceDataPresenter extends React.PureComponent<
                       this.setState({ [item.key]: e.target.checked })
                     }
                   />
-                  <span className="ml-2 text-sm text-gray-600">
+                  <span className="ml-2 text-data text-gray-600">
                     {item.label}
                   </span>
                 </label>
@@ -1635,7 +1635,7 @@ class RaceDataPresenter extends React.PureComponent<
               key={tab.id}
               onClick={() => this.setState({ activeTab: tab.id })}
               className={`
-                whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-150
+                whitespace-nowrap py-4 px-1 border-b-2 font-medium text-data transition-colors duration-150
                 ${
                   this.state.activeTab === tab.id
                     ? 'border-indigo-500 text-indigo-600'
@@ -1671,7 +1671,7 @@ class RaceDataPresenter extends React.PureComponent<
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-yellow-700">
+                <p className="text-data text-yellow-700">
                   RaceData version {this.props.raceData.header!.version!} higher
                   than supported version {supportedRaceDataVersion}, use at your
                   own risk!

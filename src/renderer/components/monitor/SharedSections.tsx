@@ -167,14 +167,14 @@ function RecommendationActivitiesCard({
         <div className="flex items-center justify-between border-b border-slate-200 bg-slate-100 px-3 py-2">
           <div
             title={recommendationTitle}
-            className={`flex h-6 min-w-0 items-center gap-1 rounded-md border px-2 text-[11px] font-bold ${recommendationTone}`}
+            className={`flex h-6 min-w-0 items-center gap-1 rounded-md border px-2 text-label font-semibold ${recommendationTone}`}
           >
             <RecommendationIcon
               size={12}
               strokeWidth={2.5}
               className={busy ? 'animate-spin' : undefined}
             />
-            <span className="truncate font-black">{recommendationLabel}</span>
+            <span className="truncate font-bold">{recommendationLabel}</span>
           </div>
         </div>
       ) : null}
@@ -184,7 +184,7 @@ function RecommendationActivitiesCard({
             key={reminder.label}
             className="rounded-lg border-2 border-rose-400 bg-rose-50 p-1.5 text-rose-950 ring-2 ring-rose-100"
           >
-            <div className="flex items-center gap-1 text-xs font-black">
+            <div className="flex items-center gap-1 text-label font-semibold">
               <ClockAlert size={14} strokeWidth={2.5} />
               {reminder.label}
             </div>
@@ -192,7 +192,7 @@ function RecommendationActivitiesCard({
               {reminder.purchases.map((purchase) => (
                 <span
                   key={purchase.id}
-                  className="rounded-md border border-rose-300 bg-white/85 px-1.5 py-1 text-[10px] font-black"
+                  className="rounded-md border border-rose-300 bg-white/85 px-1.5 py-1 text-label font-semibold"
                 >
                   购买 {purchase.name} Lv{purchase.targetLevel}
                   {purchase.cost ? ` · ${purchase.cost}Pt` : ''}
@@ -203,7 +203,7 @@ function RecommendationActivitiesCard({
         ))}
         {recommendedPurchases.length > 0 ? (
           <div className="rounded-lg border-2 border-amber-400 bg-amber-50 p-1.5 text-amber-950 ring-2 ring-amber-100">
-            <div className="flex items-center gap-1 text-xs font-black">
+            <div className="flex items-center gap-1 text-label font-semibold">
               <ShoppingCart size={14} strokeWidth={2.5} />
               建议先购买
             </div>
@@ -220,10 +220,10 @@ function RecommendationActivitiesCard({
                     className="h-7 w-7 shrink-0 object-contain"
                   />
                   <span className="min-w-0">
-                    <span className="block whitespace-nowrap text-xs font-black leading-tight">
+                    <span className="block whitespace-nowrap text-label font-semibold">
                       {purchase.effect}
                     </span>
-                    <span className="block whitespace-nowrap text-[9px] font-bold leading-tight text-amber-800/70">
+                    <span className="block whitespace-nowrap text-caption font-medium tabular-nums text-amber-800/70">
                       {purchase.name} Lv{purchase.targetLevel}
                       {purchase.cost ? ` · ${purchase.cost}Pt` : ''}
                     </span>
@@ -249,28 +249,28 @@ function RecommendationActivitiesCard({
               className={`flex min-w-0 items-center gap-1.5 rounded-lg border px-2 py-1.5 ${tone.footer}`}
             >
               <span
-                className={`shrink-0 rounded px-1.5 py-1 text-xs font-black tabular-nums ${tone.badge}`}
+                className={`shrink-0 rounded px-1.5 py-1 text-label font-semibold tabular-nums ${tone.badge}`}
               >
                 #{rank}
               </span>
               <Icon size={16} className="shrink-0 opacity-75" />
               <span className={`min-w-0 flex-1 ${activityTextColor ?? ''}`}>
-                <span className="block truncate text-xs font-black">
+                <span className="block truncate text-label font-semibold">
                   {label}
                 </span>
                 {modifiers.length > 0 ? (
-                  <span className="block truncate text-[9px] font-semibold opacity-65">
+                  <span className="block truncate text-caption font-semibold opacity-65">
                     {modifiers.join(' · ')}
                   </span>
                 ) : null}
               </span>
               <span className="shrink-0 text-right tabular-nums">
-                <span className="block whitespace-nowrap text-sm font-black leading-none">
+                <span className="block whitespace-nowrap text-data font-bold leading-snug">
                   {Math.round(action.scoreMean)}
-                  <span className="ml-0.5 text-[9px] opacity-60">分</span>
+                  <span className="ml-0.5 text-caption opacity-60">分</span>
                 </span>
                 <span
-                  className={`mt-1 inline-block min-w-10 rounded px-1 py-0.5 text-center text-[10px] font-black ${tone.delta}`}
+                  className={`mt-1 inline-block min-w-10 rounded px-1 py-0.5 text-center text-label font-semibold ${tone.delta}`}
                 >
                   {deltaLabel}
                 </span>
@@ -281,10 +281,10 @@ function RecommendationActivitiesCard({
       </div>
       <div className="flex items-center gap-3 border-t border-slate-200 px-3 py-2.5">
         <span className="min-w-0 flex-1">
-          <span className="block text-xs font-bold text-slate-700">
+          <span className="block text-label font-semibold text-slate-700">
             增加计算
           </span>
-          <span className="block truncate text-[10px] text-slate-400">
+          <span className="block truncate text-caption text-slate-400">
             {refinementLabel}
           </span>
         </span>
@@ -294,7 +294,7 @@ function RecommendationActivitiesCard({
           disabled={!settings.enabled}
           title="重新计算最近一次训练状态并开启持续计算"
           aria-label="重新计算最近一次训练状态并开启持续计算"
-          className="inline-flex h-7 shrink-0 items-center gap-1 rounded-md border border-slate-300 bg-white px-2 text-[11px] font-bold text-slate-600 transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex h-7 shrink-0 items-center gap-1 rounded-md border border-slate-300 bg-white px-2 text-label font-semibold text-slate-600 transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <RefreshCw size={13} />
           重算
@@ -556,16 +556,16 @@ export function VitalPanel({
 
           <div className="flex-1 relative h-5 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
             <div
-              className={`absolute top-0 left-0 h-full transition-all duration-300 ${vitalBarClass}`}
+              className={`uma-progress-fill absolute top-0 left-0 h-full ${vitalBarClass}`}
               style={{
-                width: `${vitalPercent}%`,
+                transform: `scaleX(${Math.max(0, Math.min(1, vitalPercent / 100))})`,
               }}
             />
           </div>
 
-          <div className="text-base font-black text-gray-700 shrink-0 min-w-[70px] text-right">
+          <div className="text-base font-bold tabular-nums text-gray-700 shrink-0 min-w-[70px] text-right">
             {charInfo.stats.vital.value}
-            <span className="text-[10px] text-gray-400 font-normal">
+            <span className="text-caption text-gray-400 font-normal">
               /{charInfo.stats.vital.max}
             </span>
           </div>
@@ -587,7 +587,7 @@ export function VitalPanel({
                   <span
                     key={effect.id}
                     title={`effect_id: ${effect.id}`}
-                    className={`rounded-full border px-2 py-0.5 text-xs font-bold text-white ${
+                    className={`rounded-full border px-2 py-0.5 text-label font-semibold text-white ${
                       NEGATIVE_CHARA_EFFECT_IDS.has(effect.id)
                         ? 'border-[#AB8ADC] bg-[#AB8ADC]'
                         : 'border-[#FF9741] bg-[#FF9741]'
@@ -603,7 +603,7 @@ export function VitalPanel({
             title="展开可学习技能"
             aria-expanded={skillHintsOpen}
             onClick={() => setSkillHintsOpen((open) => !open)}
-            className={`flex h-6 shrink-0 items-center gap-1 rounded-md px-2 text-[11px] font-bold transition-colors ${
+            className={`flex h-6 shrink-0 items-center gap-1 rounded-md px-2 text-label font-semibold transition-colors ${
               skillHintsOpen
                 ? 'bg-amber-100 text-amber-800'
                 : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
@@ -612,7 +612,7 @@ export function VitalPanel({
             <Lightbulb size={12} strokeWidth={2.5} />
             <span>技能 {learnableSkills.length}</span>
             {skillHintCount > 0 ? (
-              <span className="text-[9px] text-amber-600">
+              <span className="text-caption text-amber-600">
                 Hint {skillHintCount}
               </span>
             ) : null}
@@ -628,15 +628,15 @@ export function VitalPanel({
         {skillHintsOpen ? (
           <div className="border-t border-gray-100 pt-2">
             <div className="mb-1.5 flex items-center justify-between gap-3 px-0.5">
-              <span className="text-xs font-bold text-amber-700">
+              <span className="text-label font-semibold text-amber-700">
                 可学习技能 · {learnableSkills.length}
                 <span className="ml-2 font-medium text-gray-400">
                   Hint {skillHintCount}
                 </span>
               </span>
-              <span className="text-xs font-medium text-gray-500">
+              <span className="text-caption font-medium text-gray-500">
                 当前总 PT
-                <strong className="ml-1 text-base font-black text-indigo-600">
+                <strong className="ml-1 text-base font-bold tabular-nums text-indigo-600">
                   {charInfo.stats.skillPoint}
                 </strong>
               </span>
@@ -664,10 +664,10 @@ export function VitalPanel({
                     </span>
 
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[11px] font-bold text-slate-800">
+                      <span className="block truncate text-label font-semibold text-slate-800">
                         {skill.name}
                       </span>
-                      <span className="flex items-center gap-1 text-[9px] font-semibold text-amber-700">
+                      <span className="flex flex-wrap items-center gap-x-1 text-caption font-medium tabular-nums text-amber-700">
                         <span>Hint Lv.{skill.hintLevel}</span>
                         {skill.discountPercent > 0 ? (
                           <span>−{skill.discountPercent}%</span>
@@ -675,22 +675,22 @@ export function VitalPanel({
                       </span>
                     </span>
 
-                    <span className="flex-none text-right leading-none">
+                    <span className="flex-none text-right tabular-nums">
                       {skill.discountPercent > 0 ? (
-                        <span className="block text-[8px] text-gray-400 line-through">
+                        <span className="block text-caption text-gray-400 line-through">
                           {skill.needSkillPoint}
                         </span>
                       ) : null}
-                      <span className="block whitespace-nowrap text-xs font-black text-indigo-600">
+                      <span className="block whitespace-nowrap text-label font-semibold text-indigo-600">
                         {skill.discountedPoint}
-                        <span className="ml-0.5 text-[8px] font-bold">PT</span>
+                        <span className="ml-0.5 text-caption font-medium">PT</span>
                       </span>
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="py-1 text-center text-xs text-gray-400">
+              <div className="py-1 text-center text-caption text-gray-400">
                 当前没有可学习技能
               </div>
             )}

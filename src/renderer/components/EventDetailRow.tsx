@@ -390,13 +390,13 @@ const eventGainValueClass = (tone: EventGainSegment['tone']) => {
 
 function EventGainEffectChip({ effect }: { effect: EventGainEffect }) {
   return (
-    <span className="inline-flex min-h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-[#794016]">
+    <span className="inline-flex min-h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-slate-200 bg-white px-2 py-1 text-caption text-[#794016]">
       {effect.context ? (
         <span className="font-bold">{effect.context}</span>
       ) : null}
       <span>{effect.label}</span>
       {effect.values.length > 0 ? (
-        <span className="font-black">
+        <span className="font-bold">
           {effect.values.map((value, valueIndex) => (
             <span key={valueIndex} className={eventGainValueClass(value.tone)}>
               {value.text}
@@ -421,7 +421,7 @@ export default function EventDetailRow({
 
   return (
     <div className="w-full overflow-hidden rounded-xl border border-[#7DCB0C] bg-white shadow-sm">
-      <div className="border-b border-[#7DCB0C]/30 bg-[#7DCB0C]/10 px-4 py-2.5 text-sm font-black text-[#794016]">
+      <div className="border-b border-[#7DCB0C]/30 bg-[#7DCB0C]/10 px-4 py-2.5 text-data font-bold text-[#794016]">
         {eventName}
       </div>
       {effectGroup.options.length > 0 ? (
@@ -432,7 +432,7 @@ export default function EventDetailRow({
               className="flex min-w-0 flex-wrap items-center gap-1.5 bg-white px-4 py-3"
             >
               {shouldShowEventOptionLabel(option.option) ? (
-                <span className="mr-1 shrink-0 text-sm font-bold text-[#794016]">
+                <span className="mr-1 shrink-0 text-data font-bold text-[#794016]">
                   {option.option}
                 </span>
               ) : null}
@@ -443,7 +443,7 @@ export default function EventDetailRow({
                     className="flex min-w-0 flex-wrap items-center gap-1.5"
                   >
                     {option.branches.length > 1 ? (
-                      <span className="mr-1 shrink-0 text-[11px] font-bold text-[#794016] opacity-60">
+                      <span className="mr-1 shrink-0 text-caption font-bold text-[#794016] opacity-60">
                         可能{branchIndex + 1}
                       </span>
                     ) : null}
@@ -451,7 +451,7 @@ export default function EventDetailRow({
                       <EventGainEffectChip key={effectIndex} effect={effect} />
                     ))}
                     {branch.length === 0 ? (
-                      <span className="text-[11px] text-[#794016] opacity-60">
+                      <span className="text-caption text-[#794016] opacity-60">
                         无额外变化
                       </span>
                     ) : null}

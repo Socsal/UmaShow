@@ -164,7 +164,7 @@ const arcGainFontSize = (value: number) => {
   if (value >= 8) return 'text-xl';
   if (value >= 6) return 'text-lg';
   if (value >= 4) return 'text-base';
-  return 'text-sm';
+  return 'text-data';
 };
 
 function ArcStarGauge({
@@ -248,7 +248,7 @@ export function StatTile({ value }: { value: number }) {
   return (
     <div className="flex flex-col w-auto min-w-[64px]">
       <div className="rounded-lg px-2 py-1 h-12 flex items-center justify-end">
-        <span className="text-xl font-bold text-gray-700 leading-none">
+        <span className="text-xl font-bold tabular-nums text-gray-700 leading-none">
           {value}
         </span>
       </div>
@@ -446,13 +446,13 @@ export default function TrainingCard({
       onMouseLeave={() => onHoverChange?.(command, false)}
       className={`
         relative z-10 group flex h-full w-full flex-col items-stretch text-left
-        border-4 rounded-xl transition-all duration-150 transform active:scale-95
+        border-4 rounded-xl transition-ui duration-150
         ${cardStateClass}
       `}
     >
       {/* Level Badge */}
       {command.level > 0 && (
-        <div className="absolute -top-3 -left-3 bg-yellow-400 text-yellow-900 border-2 border-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm shadow z-10">
+        <div className="absolute -top-3 -left-3 bg-yellow-400 text-yellow-900 border-2 border-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-data shadow z-10">
           Lv{command.level}
         </div>
       )}
@@ -469,7 +469,7 @@ export default function TrainingCard({
           size={48}
           className={`opacity-20 ${mainConfig.text}`}
         />
-        <span className={`absolute bottom-1 font-bold ${mainConfig.text}`}>
+        <span className={`absolute bottom-1 text-body font-semibold ${mainConfig.text}`}>
           {name}
         </span>
         {mainStatKey && typeof mainStatValue === 'number' ? (
@@ -505,27 +505,27 @@ export default function TrainingCard({
             tooltipMode="training"
           />
           {fiveStatStrength > 0 && (
-            <div className="flex items-center justify-between rounded-md border border-sky-100 bg-sky-50/70 px-2 py-1 text-sm">
+            <div className="flex items-center justify-between rounded-md border border-sky-100 bg-sky-50/70 px-2 py-1 text-data">
               <div className="flex items-center gap-1 text-sky-700">
-                <span className="text-xs font-semibold">总</span>
+                <span className="text-caption font-semibold">总</span>
               </div>
-              <span className="text-base font-black text-sky-700 tabular-nums">
+              <span className="text-base font-bold text-sky-700 tabular-nums">
                 {formatSigned(fiveStatStrength)}
               </span>
             </div>
           )}
           {arcData ? (
             <div
-              className={`grid overflow-visible rounded-md text-sm ${
+              className={`grid overflow-visible rounded-md text-data ${
                 (arcCommand?.addGlobalExp ?? 0) > 0
                   ? 'grid-cols-3'
                   : 'grid-cols-2'
               }`}
             >
               <div className="flex items-center justify-between gap-1 bg-[#B1EE16] px-2 py-1 text-[#3CA2FF]">
-                <span className="text-xs font-semibold">充电</span>
+                <span className="text-caption font-semibold">充电</span>
                 <span
-                  className={`font-black tabular-nums text-[#FD763C] ${arcGainFontSize(
+                  className={`font-bold tabular-nums text-[#FD763C] ${arcGainFontSize(
                     arcChargeGain,
                   )}`}
                 >
@@ -533,9 +533,9 @@ export default function TrainingCard({
                 </span>
               </div>
               <div className="flex items-center justify-between gap-1 bg-[#FBD8E3] px-2 py-1 text-[#3CA2FF]">
-                <span className="text-xs font-semibold">充满</span>
+                <span className="text-caption font-semibold">充满</span>
                 <span
-                  className={`font-black tabular-nums text-[#FD763C] ${arcGainFontSize(
+                  className={`font-bold tabular-nums text-[#FD763C] ${arcGainFontSize(
                     arcFullCount,
                   )}`}
                 >
@@ -544,9 +544,9 @@ export default function TrainingCard({
               </div>
               {(arcCommand?.addGlobalExp ?? 0) > 0 ? (
                 <div className="flex items-center justify-between gap-1 bg-white px-2 py-1 text-[#3CA2FF]">
-                  <span className="text-xs font-semibold">适性</span>
+                  <span className="text-caption font-semibold">适性</span>
                   <span
-                    className={`relative z-20 whitespace-nowrap font-black tabular-nums text-[#FD763C] ${arcGainFontSize(
+                    className={`relative z-20 whitespace-nowrap font-bold tabular-nums text-[#FD763C] ${arcGainFontSize(
                       arcCommand?.addGlobalExp ?? 0,
                     )}`}
                   >
@@ -565,26 +565,26 @@ export default function TrainingCard({
             return (
               <div
                 key={idx}
-                className="flex items-center justify-between text-sm"
+                className="flex items-center justify-between text-data"
               >
                 <div className="flex items-center text-gray-600">
-                  <span className="text-xs">{conf.label}</span>
+                  <span className="text-caption">{conf.label}</span>
                 </div>
                 {scenarioValue !== 0 ? (
                   <div className="flex items-baseline gap-.5">
-                    <span className="text-xs font-semibold text-[#AA6533] tabular-nums">
+                    <span className="text-caption font-semibold text-[#AA6533] tabular-nums">
                       {formatSigned(p.value)}
                     </span>
-                    <span className="text-xs font-semibold text-[#9673D7] tabular-nums">
+                    <span className="text-caption font-semibold text-[#9673D7] tabular-nums">
                       {formatSigned(scenarioValue)}
                     </span>
-                    <span className="text-[10px] text-gray-400">=</span>
-                    <span className="text-base font-black text-green-600 tabular-nums">
+                    <span className="text-caption text-gray-400">=</span>
+                    <span className="text-base font-bold text-green-600 tabular-nums">
                       {formatSigned(finalValue)}
                     </span>
                   </div>
                 ) : (
-                  <span className="font-bold text-green-600">
+                  <span className="font-bold tabular-nums text-green-600">
                     {formatSigned(p.value)}
                   </span>
                 )}
@@ -600,11 +600,11 @@ export default function TrainingCard({
               return (
                 <div
                   key={`perf-${idx}`}
-                  className="flex items-center justify-between text-sm"
+                  className="flex items-center justify-between text-data"
                 >
                   <div className="flex items-center gap-1 text-gray-600">
                     <span
-                      className={`w-5 h-5 flex-shrink-0 rounded-full bg-white border flex items-center justify-center ring-2 text-[9px] font-black leading-none ${
+                      className={`w-5 h-5 flex-shrink-0 rounded-full bg-white border flex items-center justify-center ring-2 text-caption font-bold ${
                         style
                           ? `${style.border} ${style.ring} ${style.text}`
                           : 'border-gray-200 ring-gray-200 text-gray-500'
@@ -614,7 +614,7 @@ export default function TrainingCard({
                     </span>
                   </div>
                   <div className="flex items-baseline">
-                    <span className="text-base font-black text-green-600 tabular-nums">
+                    <span className="text-base font-bold text-green-600 tabular-nums">
                       {formatSigned(p.value)}
                     </span>
                   </div>
@@ -635,17 +635,17 @@ export default function TrainingCard({
             return (
               <div
                 key={`cost-${idx}`}
-                className="flex items-center justify-between text-xs"
+                className="flex items-center justify-between text-caption"
               >
                 <span className="text-gray-500">{conf.label}</span>
-                <span className="font-bold text-red-500">{p.value}</span>
+                <span className="font-bold tabular-nums text-red-500">{p.value}</span>
               </div>
             );
           })}
           {recovery.length > 0 && (
-            <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center justify-between text-caption">
               <span className="text-gray-500">体力</span>
-              <span className="font-bold text-green-500">
+              <span className="font-bold tabular-nums text-green-500">
                 +{recovery[0].value}
               </span>
             </div>
@@ -761,12 +761,12 @@ export default function TrainingCard({
                 <div className="relative flex flex-col items-center">
                   {/* Rainbow ring */}
                   {isMotivated && (
-                    <div className="absolute -top-[3px] left-1/2 z-0 h-[46px] w-[46px] -translate-x-1/2 rounded-full animate-spin-slow">
+                    <div className="absolute -top-[3px] left-1/2 z-0 h-[46px] w-[46px] -translate-x-1/2 rounded-full">
                       <div className="h-full w-full rounded-full bg-[conic-gradient(from_0deg,theme(colors.blue.400),theme(colors.green.400),theme(colors.yellow.400),theme(colors.red.400),theme(colors.pink.500),theme(colors.blue.400))] opacity-90 blur-[1px]" />
                     </div>
                   )}
 
-                  <div className="relative z-10 flex h-10 w-10 items-center justify-center text-[10px] transition-transform hover:scale-110">
+                  <div className="relative z-10 flex h-10 w-10 items-center justify-center text-caption transition-transform fine-hover:scale-110">
                     {charaPath ? (
                       <img
                         src={assetUrl(charaPath)}
@@ -790,8 +790,8 @@ export default function TrainingCard({
                   {progress !== null && (
                     <div className="relative z-20 -mt-1 h-2 w-9 overflow-hidden rounded-[3px] border border-gray-600 bg-gray-700 box-border">
                       <div
-                        className={`h-full ${progressColor} transition-all duration-300 ease-out`}
-                        style={{ width: `${progress}%` }}
+                        className={`uma-progress-fill h-full ${progressColor}`}
+                        style={{ transform: `scaleX(${Math.max(0, Math.min(1, progress / 100))})` }}
                       />
 
                       <div className="pointer-events-none absolute inset-0 grid h-full w-full grid-cols-5">
@@ -812,14 +812,14 @@ export default function TrainingCard({
                   {/* Exclamation Mark Alert */}
                   {isTip && (
                     <div className="absolute -right-0.5 -top-0.5 z-20 flex h-4 w-4 items-center justify-center rounded-full border-[1.5px] border-white bg-red-500 shadow-sm">
-                      <span className="text-[10px] font-black text-white">
+                      <span className="text-[10px] font-bold text-white">
                         !
                       </span>
                     </div>
                   )}
                 </div>
                 {partnerProbabilityLabel && (
-                  <div className="pointer-events-none absolute left-1/2 top-full z-30 mt-1 hidden -translate-x-1/2 whitespace-pre rounded bg-gray-900/90 px-2 py-1 text-[10px] font-semibold leading-snug text-white shadow-lg group-hover/partner:block">
+                  <div className="pointer-events-none absolute left-1/2 top-full z-30 mt-1 hidden -translate-x-1/2 whitespace-pre rounded bg-gray-900/90 px-2 py-1 text-caption font-semibold text-white shadow-lg group-hover/partner:block">
                     {partnerProbabilityLabel}
                   </div>
                 )}
@@ -847,7 +847,7 @@ export default function TrainingCard({
   return (
     <div className="relative min-w-0 rounded-xl p-[3px] shadow-[0_0_10px_rgba(217,70,239,0.65)]">
       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
-        <div className="absolute -inset-[120%] animate-spin bg-[conic-gradient(from_0deg,theme(colors.blue.400),theme(colors.green.400),theme(colors.yellow.400),theme(colors.red.400),theme(colors.pink.500),theme(colors.blue.400))] [animation-duration:2.5s]" />
+        <div className="absolute -inset-[120%] bg-[conic-gradient(from_0deg,theme(colors.blue.400),theme(colors.green.400),theme(colors.yellow.400),theme(colors.red.400),theme(colors.pink.500),theme(colors.blue.400))]" />
       </div>
       {card}
     </div>

@@ -7,11 +7,17 @@
   --planner-muted: #64748b;
   --planner-surface: #fff;
   box-sizing: border-box;
-  font-family: 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+  font-family: var(--uma-font-sans);
+  font-size: var(--uma-type-data);
+  line-height: 1.5;
 }
 
 .successionPickerOverlay.plannerElevatedOverlay {
   z-index: 1450;
+}
+
+.successionPickerOverlay.plannerNestedOverlay {
+  z-index: 1500;
 }
 
 .plannerDialogHeaderBlock {
@@ -27,14 +33,16 @@
 
 .plannerDialogHeaderBlock h3 {
   color: #1e293b;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: var(--uma-type-section);
+  line-height: 1.35;
+  font-weight: 700;
 }
 
 .plannerDialogHeaderBlock p {
   margin-top: 4px;
   color: #64748b;
-  font-size: 12px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
 }
 
 .plannerPortrait {
@@ -72,8 +80,9 @@
 
 .plannerPortrait.fallback {
   color: var(--planner-muted);
-  font-size: 18px;
-  font-weight: 800;
+  font-size: var(--uma-type-section);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .plannerFactorList {
@@ -94,26 +103,29 @@
   border-radius: 5px;
   background: #f1f5f9;
   color: #475569;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1.35;
+  font-size: var(--uma-type-caption);
+  font-weight: 700;
+  line-height: 1.45;
   white-space: nowrap;
 }
 
 .plannerFactorBadge b {
   color: inherit;
-  font-family: Consolas, 'Microsoft YaHei UI', monospace;
-  font-size: 12px;
-  font-weight: 900;
+  font-family: var(--uma-font-mono);
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .plannerFactorBadge.compact {
   padding: 2px 5px;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .plannerFactorBadge.compact b {
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .plannerFactorBadge.stat {
@@ -156,9 +168,9 @@
   padding: 7px 12px;
   border: 1px solid transparent;
   border-radius: 7px;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.2;
+  font-size: var(--uma-type-label);
+  font-weight: 700;
+  line-height: 1.45;
   cursor: pointer;
   transition:
     border-color 150ms ease,
@@ -170,7 +182,8 @@
 .plannerButton.small {
   min-height: 30px;
   padding: 5px 9px;
-  font-size: 11px;
+  font-size: var(--uma-type-label);
+  line-height: 1.6;
 }
 
 .plannerButton.primary {
@@ -220,7 +233,8 @@
   border-radius: 999px;
   background: #fff;
   color: var(--planner-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
 }
 
 .plannerButton.filter.active {
@@ -348,8 +362,9 @@
 .plannerSkillCardCopy > strong {
   overflow: hidden;
   color: var(--planner-text);
-  font-size: 14px;
-  font-weight: 800;
+  font-size: var(--uma-type-data);
+  line-height: 1.6;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -357,7 +372,8 @@
 .plannerSelectionCardCopy > small,
 .plannerSkillCardCopy > small {
   color: var(--planner-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-weight: 500;
   font-style: normal;
 }
@@ -382,10 +398,10 @@
   padding: 3px 7px;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
   font-style: normal;
-  font-weight: 800;
-  line-height: 1;
+  font-weight: 700;
+  line-height: 1.45;
   white-space: nowrap;
 }
 
@@ -491,7 +507,8 @@
   border-bottom: 1px solid var(--planner-border);
   background: #f8fafc;
   color: var(--planner-muted);
-  font-size: 11px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.45;
 }
 
 .successionPickerFilterTrigger > span {
@@ -509,8 +526,9 @@
   border-radius: 7px;
   background: #eef2ff;
   color: #4338ca;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionPickerFilterSheetOverlay {
@@ -550,7 +568,8 @@
 .successionPickerFilterSheet > header h3 {
   margin: 0;
   color: #0f172a;
-  font-size: 15px;
+  font-size: var(--uma-type-section);
+  line-height: 1.35;
 }
 
 .successionPickerFilterSheet > header button {
@@ -560,7 +579,8 @@
   border-radius: 7px;
   background: transparent;
   color: #94a3b8;
-  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.45;
 }
 
 .successionPickerFilterSheetBody {
@@ -595,8 +615,9 @@
   border-radius: 7px;
   background: #4f46e5;
   color: #fff;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .successionPickerFilterSheet > footer button.secondary {
@@ -611,14 +632,14 @@
   }
 
   .plannerDialogHeaderBlock h3 {
-    font-size: 14px;
+    font-size: var(--uma-type-section);
     line-height: 1.35;
   }
 
   .plannerDialogHeaderBlock p {
     margin-top: 2px;
-    font-size: 10px;
-    line-height: 1.4;
+    font-size: var(--uma-type-caption);
+    line-height: 1.6;
   }
 
   .successionPickerFilterSheetOverlay {
@@ -645,13 +666,15 @@
   }
 
   .successionPickerFilterSheet > header h3 {
-    font-size: 14px;
+    font-size: var(--uma-type-section);
+    line-height: 1.35;
   }
 
   .successionPickerFilterSheet > header button {
     width: 28px;
     min-height: 28px;
-    font-size: 18px;
+    font-size: var(--uma-type-section);
+    line-height: 1.45;
   }
 
   .successionPickerFilterSheetBody {
@@ -779,8 +802,9 @@
 .plannerLineageIdentity strong,
 .plannerLineageParents strong {
   color: var(--planner-text);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: var(--uma-type-label);
+  line-height: 1.45;
+  font-weight: 700;
 }
 
 .plannerLineageIdentity small,
@@ -788,7 +812,8 @@
 .plannerLineageIdentity em,
 .plannerLineageParents em {
   color: var(--planner-muted);
-  font-size: 10px;
+  font-size: var(--uma-type-caption);
+  line-height: 1.6;
   font-style: normal;
 }
 

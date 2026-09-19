@@ -30,26 +30,26 @@ function GameStartScreen() {
       </div>
 
       {/* 顶部标题 */}
-      <div className="z-10 mt-[clamp(1rem,4vh,3rem)] text-center animate-fade-in-down">
-        <h1 className="text-3xl font-extrabold text-slate-800 tracking-wider drop-shadow-sm">
+      <div className="z-10 mt-[clamp(1rem,4vh,3rem)] text-center">
+        <h1 className="text-display font-bold text-slate-800 tracking-normal drop-shadow-sm">
           READY?
         </h1>
-        <p className="text-slate-800 font-bold text-lg mt-1 tracking-widest uppercase">
+        <p className="text-slate-800 font-semibold text-section mt-1 tracking-normal uppercase">
           Uma Musume
         </p>
       </div>
 
       {/* 中间图片区 */}
       <div className="relative z-10 my-[clamp(0.5rem,2vh,1.5rem)] flex min-h-0 flex-1 flex-col items-center justify-center">
-        <div className="absolute h-52 w-52 rounded-full bg-white opacity-60 blur-2xl animate-pulse" />
-        <div className="relative transition-transform hover:scale-110 duration-300 cursor-pointer">
+        <div className="absolute h-52 w-52 rounded-full bg-white opacity-60 blur-2xl" />
+        <div className="relative">
           <img
             src={img}
             alt="Grass Wonder"
             className="h-auto max-h-[40vh] w-52 object-contain drop-shadow-2xl sm:w-64"
           />
-          <div className="absolute -top-4 -right-4 bg-white px-3 py-1 rounded-tr-xl rounded-bl-xl rounded-tl-xl border-2 border-surface shadow-lg animate-bounce">
-            <span className="text-sm font-bold text-slate-700">加油哦！</span>
+          <div className="absolute -top-4 -right-4 bg-white px-3 py-1 rounded-tr-xl rounded-bl-xl rounded-tl-xl border-2 border-surface shadow-lg">
+            <span className="text-data font-bold text-slate-700">加油哦！</span>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@ function GameStartScreen() {
             <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
           </svg>
 
-          <span className="text-slate-700 font-semibold tracking-wide">
+          <span className="text-slate-700 text-body font-medium tabular-nums">
             请先开启游戏，我们将自动开始监听数据。当前监听端口：
             {port ?? '...'}
           </span>

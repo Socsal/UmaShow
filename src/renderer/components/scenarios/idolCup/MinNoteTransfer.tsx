@@ -20,7 +20,7 @@ const renderNoteChip = (note: NoteType) => {
   return (
     <span
       key={note}
-      className={`flex h-4 w-4 items-center justify-center rounded-full border bg-white text-[8px] font-black leading-none ring-1 ${style.border} ${style.text} ${style.ring}`}
+      className={`flex h-4 w-4 items-center justify-center rounded-full border bg-white text-[8px] font-bold leading-none ring-1 ${style.border} ${style.text} ${style.ring}`}
     >
       {style.label}
     </span>
@@ -148,7 +148,7 @@ export default function MinNoteTransfer({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`inline-flex min-h-7 items-center gap-1 rounded-lg border px-2 py-1 text-[10px] font-semibold shadow-sm ${containerTone} ${tooltipText ? 'cursor-default' : ''}`}
+        className={`inline-flex min-h-7 items-center gap-1 rounded-lg border px-2 py-1 text-caption font-semibold shadow-sm ${containerTone} ${tooltipText ? 'cursor-default' : ''}`}
       >
         <div className="flex items-center gap-0.5">
           {fromNotes.map(renderNoteChip)}
@@ -162,7 +162,7 @@ export default function MinNoteTransfer({
       {tooltipText && isHovered && tooltipStyle
         ? createPortal(
             <div
-              className="pointer-events-none fixed z-[99999] w-[220px] -translate-y-full whitespace-normal break-words rounded bg-gray-800 px-2 py-1 text-[10px] font-medium leading-4 text-white shadow-2xl"
+              className="pointer-events-none fixed z-[99999] w-[220px] -translate-y-full whitespace-normal break-words rounded bg-gray-800 px-2 py-1 text-caption font-medium text-white shadow-2xl"
               style={{
                 left: tooltipStyle.left,
                 top: tooltipStyle.top,

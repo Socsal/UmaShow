@@ -1,0 +1,107 @@
+:root {
+  --uma-motion-press: 120ms;
+  --uma-motion-fast: 160ms;
+  --uma-motion-enter: 220ms;
+  --uma-motion-exit: 120ms;
+  --uma-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --uma-ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --uma-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Independent scale preserves selected-card transforms and anchored controls. */
+html :where(button, [role='button']):not(:disabled):not([aria-disabled='true']) {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform, scale;
+  transition-duration: var(--uma-motion-fast);
+  transition-timing-function: var(--uma-ease-out);
+}
+
+html[data-uma-input='pointer'] :where(button, [role='button']):not(:disabled):not([aria-disabled='true']):not([role='switch']):not(.absolute):not(.fixed):active {
+  scale: 0.98;
+  transition-duration: var(--uma-motion-press);
+}
+
+/* Transform only the surface, never its fullscreen overlay or route container:
+   those contain fixed-position elements and must not create a containing block. */
+.successionPickerOverlay,
+.successionPickerFilterSheetOverlay {
+  opacity: 1;
+  transition: opacity var(--uma-motion-enter) var(--uma-ease-out);
+}
+
+.successionPickerDialog,
+.uma-dialog-surface,
+.uma-dialog[open] {
+  opacity: 1;
+  transform: none;
+  transform-origin: center;
+  transition: opacity var(--uma-motion-enter) var(--uma-ease-out),
+    transform var(--uma-motion-enter) var(--uma-ease-out);
+}
+
+.successionPickerFilterSheet {
+  transform: none;
+  transition: transform var(--uma-motion-enter) var(--uma-ease-drawer);
+}
+
+.uma-menu {
+  opacity: 1;
+  transform: none;
+  transform-origin: top right;
+  transition: opacity var(--uma-motion-fast) var(--uma-ease-out),
+    transform var(--uma-motion-fast) var(--uma-ease-out);
+}
+
+.successionPickerOverlay[data-closing='true'] {
+  opacity: 0;
+  transition-duration: var(--uma-motion-exit);
+}
+
+.successionPickerOverlay[data-closing='true'] > .successionPickerDialog {
+  transform: translateY(4px) scale(0.99);
+  transition-duration: var(--uma-motion-exit);
+}
+
+/* Unsupported browsers simply show content immediately. No hidden fallback. */
+@starting-style {
+  .successionPickerOverlay,
+  .successionPickerFilterSheetOverlay { opacity: 0; }
+  .successionPickerDialog, .uma-dialog-surface,
+  .uma-dialog[open] { opacity: 0; transform: translateY(8px) scale(0.98); }
+  .successionPickerFilterSheet { transform: translateY(24px); }
+  .uma-menu { opacity: 0; transform: translateY(-4px) scale(0.98); }
+}
+
+.uma-progress-fill {
+  width: 100%;
+  transform-origin: left center;
+  transition: transform var(--uma-motion-enter) var(--uma-ease-out);
+}
+
+/* Keyboard navigation, shortcuts and rapid data navigation stay immediate. */
+html[data-uma-input='keyboard'] :is(button, [role='button'], input, select, summary, .successionPickerOverlay, .successionPickerDialog, .successionPickerFilterSheetOverlay, .successionPickerFilterSheet, .uma-dialog, .uma-dialog-surface, .uma-menu),
+html[data-uma-input='keyboard'] :is(button, summary) > * {
+  transition: none !important;
+}
+
+/* Pause existing decorative and loading loops while the app is backgrounded. */
+html[data-uma-background='true'] *,
+html[data-uma-background='true'] *::before,
+html[data-uma-background='true'] *::after {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    /* Keep brief color/opacity feedback, remove movement and smooth scrolling. */
+    transition-property: color, background-color, border-color, opacity !important;
+    transition-duration: 100ms !important;
+    scroll-behavior: auto !important;
+  }
+  html :is(button, [role='button']):active { scale: 1; }
+  @starting-style {
+    .successionPickerDialog, .uma-dialog-surface, .uma-dialog[open], .successionPickerFilterSheet, .uma-menu {
+      transform: none;
+    }
+  }
+}
