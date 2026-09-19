@@ -66,7 +66,7 @@ const editableConfigKey = (config: DailyTasksConfig) =>
   });
 
 const toggleClass = (enabled: boolean) =>
-  `relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+  `dailyTaskToggle relative h-6 w-11 shrink-0 rounded-full transition-colors ${
     enabled ? 'bg-indigo-600' : 'bg-slate-300'
   }`;
 
@@ -101,7 +101,7 @@ function Toggle({
 }
 
 const fieldClass =
-  'min-w-0 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-100 disabled:text-slate-400';
+  'dailyTaskField min-w-0 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-data text-slate-700 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-100 disabled:text-slate-400';
 
 const taskNames: Record<string, string> = {
   daily_race: '每日竞赛',
@@ -191,7 +191,10 @@ function AvailabilityNotice({
   const message = ready ? readyDetail : reason;
   if (!message) return null;
   return (
-    <AutoResearchNotice compact className="mt-3">
+    <AutoResearchNotice
+      compact
+      className={ready ? 'mt-3' : 'dailyTaskUnavailable mt-3'}
+    >
       {message}
     </AutoResearchNotice>
   );
@@ -647,7 +650,7 @@ export default function DailyTasksTab({
               type="button"
               disabled={disabled}
               onClick={() => onSave(draft)}
-              className="inline-flex items-center gap-2 rounded-md border border-indigo-200 bg-white px-4 py-2 text-data font-semibold text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
+              className="uma-clay-button inline-flex items-center gap-2 px-4 py-2 text-data font-semibold disabled:opacity-50"
             >
               <Save size={16} />
               {busy === 'daily-save' ? '保存中…' : '保存本地配置'}
@@ -656,7 +659,7 @@ export default function DailyTasksTab({
               type="button"
               disabled={disabled}
               onClick={() => onRun(draft)}
-              className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-data font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+              className="uma-clay-button-primary inline-flex items-center gap-2 px-4 py-2 text-data font-semibold disabled:opacity-50"
             >
               <Play size={16} />
               {busy === 'daily-run' ? '执行中…' : '单次完成日常'}

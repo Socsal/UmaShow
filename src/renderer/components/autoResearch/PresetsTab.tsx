@@ -14,8 +14,7 @@ import AssetIcon from 'renderer/components/trainingHistory/AssetIcon';
 import type { Story } from 'umdb/UMDatabaseUtils';
 import { AutoResearchSkill, skillIconPath } from './SkillSelector';
 import EditableNumberInput from './EditableNumberInput';
-import AppMenuPortal from '../AppMenuPortal';
-import AppSideNotch from '../AppSideNotch';
+import AppFloatingAction from '../AppFloatingAction';
 import {
   DEFAULT_PRESET_NAME,
   MONTH_OPTIONS,
@@ -196,29 +195,26 @@ export default function PresetsTab(props: PresetsTabProps) {
   };
   return !presetEditorOpen ? (
     <div className="autoResearchForm contents">
-      <AppMenuPortal targetId="app-page-context-actions">
-        <AppSideNotch side="right">
-          <div className="autoResearchPresetImportAction flex h-10 items-center px-2">
-            <label
-              className="inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-md px-2 text-label font-medium text-gray-700 hover:bg-slate-100"
-              title="导入预设"
-            >
-              <Upload size={15} />
-              <span className="autoResearchMobileFabLabel">导入预设</span>
-              <input
-                type="file"
-                accept=".json,application/json"
-                className="hidden"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) importPreset(file);
-                  event.target.value = '';
-                }}
-              />
-            </label>
-          </div>
-        </AppSideNotch>
-      </AppMenuPortal>
+      <AppFloatingAction>
+        <label
+          className="uma-clay-button-primary cursor-pointer text-label font-semibold"
+          title="导入预设"
+        >
+          <Upload size={15} />
+          <span>导入预设</span>
+          <input
+            type="file"
+            accept=".json,application/json"
+            className="sr-only"
+            aria-label="导入预设"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (file) importPreset(file);
+              event.target.value = '';
+            }}
+          />
+        </label>
+      </AppFloatingAction>
       <section className="autoResearchSettingsList flex-1">
         <div className="grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
           {presets.map((preset) => {

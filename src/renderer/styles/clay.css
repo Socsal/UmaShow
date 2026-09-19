@@ -177,9 +177,12 @@ html .uma-side-toolbar {
 }
 /* Sections are not a second or third layer of floating cards. */
 html .uma-clay-panel,
-html .dailyTaskPanel,
 html .successionLineagePanel,
-html .autoResearchForm > section:not(.autoResearchSettingsList),
+html
+  .autoResearchForm
+  > section:not(.autoResearchSettingsList):not(.uma-task-card):not(
+    .dailyTaskPanel
+  ),
 html .uma-clay-card,
 html .autoResearchForm section[id^='career-'] {
   border: 0;
@@ -197,6 +200,7 @@ html .autoResearchSettingsList {
 }
 /* Independent saved configurations get one card; their parent stays open. */
 html .uma-setting-card,
+html .dailyTaskPanel,
 html .uma-task-card {
   min-width: 0;
   border: 1px solid #a6afa0;
@@ -205,6 +209,37 @@ html .uma-task-card {
   box-shadow:
     2px 3px 0 #343b4924,
     inset 0 2px 0 #fff;
+}
+/* Floating actions live outside scroll containers and below modal overlays. */
+html .uma-floating-action {
+  position: fixed;
+  right: calc(24px + env(safe-area-inset-right, 0px));
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 125;
+}
+html .uma-floating-action > :is(button, label) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: 18px;
+}
+html .uma-floating-action label:focus-within {
+  outline: 2px solid var(--uma-clay-accent);
+  outline-offset: 4px;
+}
+html .autoResearchSettingsList {
+  padding-bottom: 88px;
+}
+@media (max-width: 639px) {
+  html .uma-floating-action {
+    right: calc(16px + env(safe-area-inset-right, 0px));
+  }
+  html[data-autouma] .uma-floating-action {
+    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 html .historyContent {
   display: flex;
@@ -341,6 +376,31 @@ html
 }
 html :is(input[type='checkbox'], input[type='radio']) {
   accent-color: var(--uma-clay-accent);
+}
+html .autoResearchDaily .dailyTaskField {
+  border-color: #bcc4ad;
+  border-radius: 10px;
+  background: #faf3e3;
+  color: var(--uma-clay-text);
+}
+html .autoResearchDaily .dailyTaskField:disabled {
+  background: #eae7da;
+  color: var(--uma-clay-muted);
+}
+html .autoResearchDaily aside {
+  background: var(--uma-clay-accent-soft);
+  color: #395a3d;
+}
+html .autoResearchDaily aside.dailyTaskUnavailable {
+  background: #f7e8ca;
+  color: #79551e;
+}
+html .dailyTaskToggle {
+  background: #cccdbd;
+  box-shadow: inset 0 1px 2px #343b4924;
+}
+html .dailyTaskToggle[aria-checked='true'] {
+  background: var(--uma-clay-green);
 }
 html
   :is(button, input, select, textarea, summary, [role='button']):focus-visible {

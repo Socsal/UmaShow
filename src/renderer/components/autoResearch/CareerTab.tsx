@@ -13,6 +13,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import AssetIcon from 'renderer/components/trainingHistory/AssetIcon';
+import AppFloatingAction from '../AppFloatingAction';
 import {
   SuccessionPickerDialog,
   SuccessionPickerFilterSheet,
@@ -601,20 +602,20 @@ export default function CareerTab(props: CareerTabProps) {
   ) : !careerSaveOpen && !automationActive ? (
     <div className="autoResearchForm contents">
       <section className="autoResearchSettingsList flex-1">
-        <div className="mb-3 flex justify-end">
+        <AppFloatingAction>
           <button
             type="button"
             onClick={pullCloudConfiguration}
             disabled={busy === 'cloud-config-pull'}
-            className="autoResearchCloudPullAction inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-2 text-caption font-medium text-slate-600 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-50"
+            className="uma-clay-button-primary text-label font-semibold disabled:opacity-50"
             title="拉取云端"
           >
             <CloudDownload size={15} />
-            <span className="autoResearchMobileFabLabel">
+            <span>
               {busy === 'cloud-config-pull' ? '正在拉取…' : '拉取云端'}
             </span>
           </button>
-        </div>
+        </AppFloatingAction>
         <div className="grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
           {accountCareerSettings.map((setting) => {
             const uma = dashboard.umas.find(
