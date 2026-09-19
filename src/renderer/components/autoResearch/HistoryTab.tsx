@@ -1260,7 +1260,7 @@ export default function HistoryTab({
           const planSummary =
             historyView === 'task' ? taskPlanSummary(records[0]) : '';
           return (
-            <section key={key} className="historyGroup">
+            <section key={key} className="historyGroup uma-task-card">
               <div className="historyGroupHeader">
                 <div className="min-w-0 flex-1">
                   <h3 className="historyLongText text-data font-semibold text-slate-800">

@@ -49,6 +49,7 @@ import RaceTelemetryOverview from './RaceTelemetryOverview';
 import AssetIcon from './trainingHistory/AssetIcon';
 // import FoldCard from './FoldCard'; // Removed FoldCard
 import { UMDB } from '../utils/umdb';
+import { UI_FONT_FAMILY } from '../utils/typography';
 
 const unknownCharaTag = 'Unknown Chara / Mob';
 const supportedRaceDataVersion = 100000002;
@@ -979,7 +980,11 @@ class RaceDataPresenter extends React.PureComponent<
         <div className="mb-5">{this.renderCourseProfile()}</div>
         <EChartsReactCore
           echarts={echarts}
-          option={options}
+          option={{
+            ...options,
+            textStyle: { fontFamily: UI_FONT_FAMILY },
+            animation: false,
+          }}
           style={{ height: '700px' }}
         />
       </div>
@@ -1379,7 +1384,11 @@ class RaceDataPresenter extends React.PureComponent<
           <div className="mb-5">{this.renderCourseProfile()}</div>
           <EChartsReactCore
             echarts={echarts}
-            option={options}
+            option={{
+              ...options,
+              textStyle: { fontFamily: UI_FONT_FAMILY },
+              animation: false,
+            }}
             style={{ height: '400px' }}
           />
         </div>
@@ -1452,7 +1461,11 @@ class RaceDataPresenter extends React.PureComponent<
           <div className="mb-5">{this.renderCourseProfile()}</div>
           <EChartsReactCore
             echarts={echarts}
-            option={options}
+            option={{
+              ...options,
+              textStyle: { fontFamily: UI_FONT_FAMILY },
+              animation: false,
+            }}
             style={{ height: '400px' }}
           />
         </div>
@@ -1525,7 +1538,11 @@ class RaceDataPresenter extends React.PureComponent<
           <div className="mb-5">{this.renderCourseProfile()}</div>
           <EChartsReactCore
             echarts={echarts}
-            option={options}
+            option={{
+              ...options,
+              textStyle: { fontFamily: UI_FONT_FAMILY },
+              animation: false,
+            }}
             style={{ height: '400px' }}
           />
         </div>

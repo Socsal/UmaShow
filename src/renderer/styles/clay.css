@@ -1,0 +1,404 @@
+/* LearnHub-inspired clay: warm canvas, ink outlines and small pops of color.
+   Depth belongs to chrome and dialogs; working content uses open sections. */
+:root {
+  color-scheme: light;
+  --uma-clay-canvas: #fffaf5;
+  --uma-clay-surface-rgb: 245 239 223;
+  --uma-clay-surface: rgb(var(--uma-clay-surface-rgb));
+  --uma-clay-soft: #f2eee8;
+  --uma-clay-border: #d8d5cf;
+  --uma-clay-ink: #343b49;
+  --uma-clay-text: #303744;
+  --uma-clay-muted: #626975;
+  --uma-clay-accent: #24783d;
+  --uma-clay-accent-soft: #e6f7df;
+  --uma-clay-green: #4bc65a;
+  --uma-clay-blue: #b6dce9;
+  --uma-clay-coral: #fac0b4;
+  --uma-clay-radius: 20px;
+  --uma-clay-shadow: 5px 6px 0 var(--uma-clay-ink), inset 0 -3px 0 #eceeea;
+  --uma-clay-control-shadow:
+    2px 3px 0 var(--uma-clay-ink), inset 0 2px 0 #ffffff55;
+  --uma-clay-selected-border: #65a66c;
+  --uma-clay-hover: #f0f8eb;
+}
+html,
+body,
+#root,
+html[data-autouma],
+html[data-autouma] body,
+html[data-autouma] #root {
+  background: var(--uma-clay-canvas);
+  color: var(--uma-clay-text);
+}
+html .uma-app-shell,
+html .uma-page,
+html .autouma-shell,
+html .autouma-content,
+html .successionPlannerPage {
+  background: var(--uma-clay-canvas);
+}
+html .successionPlannerPage,
+html .successionPickerTheme {
+  --uma-bg: var(--uma-clay-canvas);
+  --uma-surface: var(--uma-clay-surface);
+  --uma-surface-soft: #fffdf9;
+  --uma-surface-muted: var(--uma-clay-soft);
+  --uma-border: var(--uma-clay-border);
+  --uma-border-strong: #949b9b;
+  --uma-text: var(--uma-clay-text);
+  --uma-muted: var(--uma-clay-muted);
+  --uma-subtle: var(--uma-clay-muted);
+  --uma-accent: var(--uma-clay-accent);
+  --uma-shadow: none;
+}
+html .plannerUiTheme {
+  --planner-accent: var(--uma-clay-accent);
+  --planner-accent-soft: var(--uma-clay-accent-soft);
+  --planner-border: var(--uma-clay-border);
+  --planner-border-strong: #949b9b;
+  --planner-text: var(--uma-clay-text);
+  --planner-muted: var(--uma-clay-muted);
+  --planner-surface: var(--uma-clay-surface);
+}
+
+/* One selection language for the setup triggers and all shared pickers. */
+html .successionUmaSelect,
+html .plannerSelectionCard,
+html .plannerSkillCard,
+html .plannerLineageCard,
+html .successionPickerCard {
+  border: 1px solid var(--uma-clay-border);
+  border-radius: 10px;
+  background: var(--uma-clay-canvas);
+  color: var(--uma-clay-text);
+  box-shadow: none;
+}
+
+html .successionUmaSelect.selected,
+html .plannerSelectionCard.selected:not(.disabled):not(.occupied),
+html .plannerSkillCard.selected:not(:disabled),
+html .plannerLineageCard.selected:not(.disabled),
+html .successionPickerCard.selected:not(.occupied) {
+  border-color: var(--uma-clay-selected-border);
+  background: var(--uma-clay-accent-soft);
+  box-shadow: inset 3px 0 0 var(--uma-clay-accent);
+}
+
+html .successionUmaTrigger {
+  background: transparent;
+}
+
+html .plannerSelectionCard.disabled,
+html .plannerLineageCard.disabled,
+html .successionPickerCard.occupied {
+  border-style: dashed;
+  background: var(--uma-clay-soft);
+  box-shadow: none;
+}
+
+/* Occupied is a warning, not another selection color. */
+html .plannerSelectionCard.occupied {
+  border-color: #b77a24;
+  border-style: dashed;
+  background: #fff3d9;
+  box-shadow: none;
+}
+
+html .plannerSelectionState.selected {
+  border-color: var(--uma-clay-accent);
+  background: var(--uma-clay-accent);
+  color: #fff;
+  box-shadow: none;
+}
+
+html .successionPickerGrid,
+html .plannerSkillGridBody,
+html .plannerDailyHorseBody,
+html .autoResearchLoginSettingsBody {
+  background: var(--uma-clay-canvas);
+}
+
+html .successionPickerToolbar,
+html .plannerSkillFilters,
+html .plannerDailyHorseFilters,
+html .successionPickerFilterTrigger,
+html .successionPickerFilterSheet,
+html .successionPickerFilterSheetBody {
+  border-color: var(--uma-clay-border);
+  background: var(--uma-clay-canvas);
+}
+
+html .successionPickerHeader span,
+html .successionPickerMeta button {
+  color: var(--uma-clay-accent);
+}
+
+html .successionUmaSelectTitle,
+html .successionPickerMeta span,
+html .successionPickerHeader p {
+  color: var(--uma-clay-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html .successionUmaTrigger:hover:not(:disabled),
+  html .plannerSelectionCard:hover:not(:disabled):not(.selected),
+  html .plannerSkillCard:hover:not(:disabled):not(.selected),
+  html .plannerLineageCard:hover:not(:disabled):not(.selected),
+  html .successionPickerCard:hover:not(.occupied):not(.selected) {
+    background: var(--uma-clay-hover);
+    border-color: var(--uma-clay-selected-border);
+    transform: none;
+  }
+}
+
+@media (hover: none) {
+  html .successionUmaTrigger:hover,
+  html .plannerSelectionCard:hover,
+  html .plannerSkillCard:hover,
+  html .plannerLineageCard:hover,
+  html .successionPickerCard:hover {
+    transform: none;
+  }
+}
+html .uma-app-header,
+html .autouma-header {
+  border-bottom: 1px solid #e3dccd;
+  background: var(--uma-clay-surface);
+  box-shadow: 0 2px 8px rgb(81 70 49 / 0.05);
+  backdrop-filter: none;
+}
+html .uma-side-toolbar {
+  border: 1px solid #e3dccd;
+  border-radius: 16px;
+  background: var(--uma-clay-surface);
+  box-shadow: 0 2px 8px rgb(81 70 49 / 0.06);
+  backdrop-filter: none;
+}
+/* Sections are not a second or third layer of floating cards. */
+html .uma-clay-panel,
+html .dailyTaskPanel,
+html .successionLineagePanel,
+html .autoResearchForm > section:not(.autoResearchSettingsList),
+html .uma-clay-card,
+html .autoResearchForm section[id^='career-'] {
+  border: 0;
+  border-top: 1px solid var(--uma-clay-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+html .autoResearchSettingsList {
+  padding-block-start: 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+/* Independent saved configurations get one card; their parent stays open. */
+html .uma-setting-card,
+html .uma-task-card {
+  min-width: 0;
+  border: 1px solid #a6afa0;
+  border-radius: 16px;
+  background: var(--uma-clay-surface);
+  box-shadow:
+    2px 3px 0 #343b4924,
+    inset 0 2px 0 #fff;
+}
+html .historyContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+html .historyContent > .historyToolbar {
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+}
+html .successionIndexStatus {
+  border: 0;
+  border-bottom: 1px solid var(--uma-clay-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+html .successionPickerDialog,
+html .uma-dialog-surface,
+html .uma-dialog,
+html .uma-menu {
+  border: 2px solid var(--uma-clay-ink);
+  border-radius: var(--uma-clay-radius);
+  background: var(--uma-clay-surface);
+  box-shadow: var(--uma-clay-shadow);
+}
+html .uma-menu {
+  border-radius: 14px;
+}
+html .successionPickerOverlay {
+  background: #30374466;
+}
+html .successionPickerHeader,
+html .successionPickerFooter,
+html .historyToolbar,
+html .plannerDialogHeaderBlock,
+html .autoResearchEditorToolbar {
+  border-color: var(--uma-clay-border);
+  background: var(--uma-clay-surface);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+html .historyViewSwitch,
+html .automationControlCardModes,
+html .autoResearchDesktopTabGroup {
+  border: 0;
+  border-radius: 10px;
+  background: var(--uma-clay-soft);
+  box-shadow: none;
+}
+/* Tactile actions, without turning rows, portraits and calendar cells into cards. */
+html .plannerButton,
+html .uma-app-header button,
+html .uma-side-toolbar button,
+html .autoResearchEditorToolbar button,
+html .historyViewSwitch button,
+html .uma-clay-button,
+html .uma-clay-button-primary {
+  border-radius: 10px;
+}
+html .plannerButton.secondary,
+html .successionPickerFooter button.uma-clay-button,
+html .uma-clay-button {
+  border: 2px solid var(--uma-clay-ink);
+  background: var(--uma-clay-blue);
+  color: var(--uma-clay-text);
+  box-shadow: var(--uma-clay-control-shadow);
+}
+html .plannerButton.primary,
+html .successionPickerFooter button.uma-clay-button-primary,
+html .uma-clay-button-primary {
+  border: 2px solid var(--uma-clay-ink);
+  background: var(--uma-clay-green);
+  color: #173520;
+  box-shadow: var(--uma-clay-control-shadow);
+}
+html .historyViewSwitch button.bg-white,
+html .uma-app-header button[aria-current='page'],
+html .uma-side-toolbar button[aria-current='page'] {
+  background: var(--uma-clay-accent-soft);
+  color: var(--uma-clay-accent);
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  html .plannerButton.primary:hover:not(:disabled),
+  html
+    .successionPickerFooter
+    button.uma-clay-button-primary:hover:not(:disabled),
+  html .uma-clay-button-primary:hover:not(:disabled) {
+    border-color: var(--uma-clay-ink);
+    background: #60d16b;
+    color: #173520;
+  }
+  html .plannerButton.secondary:hover:not(:disabled),
+  html .successionPickerFooter button.uma-clay-button:hover:not(:disabled),
+  html .uma-clay-button:hover:not(:disabled) {
+    border-color: var(--uma-clay-ink);
+    background: #c8e7ef;
+    color: var(--uma-clay-text);
+  }
+}
+html .plannerButton:is(.primary, .secondary):not(:disabled):active,
+html .uma-clay-button:not(:disabled):active,
+html .uma-clay-button-primary:not(:disabled):active {
+  box-shadow:
+    0 1px 0 var(--uma-clay-ink),
+    inset 0 2px 0 #343b4914;
+}
+html
+  :is(
+    .autoResearchForm,
+    .successionPickerDialog,
+    .uma-dialog-surface,
+    .uma-clay-panel
+  )
+  :is(
+    input:not([type='checkbox']):not([type='radio']):not([type='range']):not(
+        [type='file']
+      ),
+    select,
+    textarea
+  ) {
+  border-color: #929b99;
+  border-radius: 8px;
+  background: #fffdf9;
+  color: var(--uma-clay-text);
+  box-shadow: none;
+}
+html :is(input[type='checkbox'], input[type='radio']) {
+  accent-color: var(--uma-clay-accent);
+}
+html
+  :is(button, input, select, textarea, summary, [role='button']):focus-visible {
+  outline: 2px solid var(--uma-clay-accent);
+  outline-offset: 3px;
+}
+html .historyRecordRow:hover,
+html .historyTable tbody tr:hover,
+html .historyRun:hover {
+  background: #f0f8eb;
+}
+html .autoResearchMobileTabs {
+  border-top: 1px solid #e3dccd;
+  background: var(--uma-clay-surface);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+html .autoResearchMobileTab[aria-current='page'] {
+  border-radius: 10px;
+  background: var(--uma-clay-accent-soft);
+  color: var(--uma-clay-accent);
+  box-shadow: none;
+}
+::selection {
+  color: #173520;
+  background: #bcf0ad;
+}
+::placeholder {
+  color: var(--uma-clay-muted);
+}
+@media (max-width: 639px) {
+  html
+    .successionPickerOverlay:not(.successionPickerCompactOverlay)
+    > .successionPickerDialog {
+    border-radius: 0;
+    border-width: 0;
+    box-shadow: none;
+  }
+  html .successionPickerCompactOverlay > .successionPickerDialog {
+    border-radius: 16px;
+  }
+}
+@media (forced-colors: active) {
+  html .plannerButton,
+  html .uma-clay-button,
+  html .uma-clay-button-primary {
+    border: 1px solid ButtonText;
+    box-shadow: none;
+  }
+  html
+    :is(
+      button,
+      input,
+      select,
+      textarea,
+      summary,
+      [role='button']
+    ):focus-visible {
+    outline-color: Highlight;
+  }
+}

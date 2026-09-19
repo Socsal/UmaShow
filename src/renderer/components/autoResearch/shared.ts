@@ -305,7 +305,7 @@ export async function fileToBase64(file: File) {
 }
 
 export function panelClass(extra = '') {
-  return `rounded-lg border border-gray-200 bg-white ${extra}`;
+  return `uma-clay-panel ${extra}`;
 }
 
 export function statusBadgeClass(

@@ -1,12 +1,29 @@
-/* Shared by desktop, AutoUma, and portal-mounted dialogs. Keep the user's
-   root font size. Compact data has its own scale; no webfont download/swap. */
+/* One bundled variable font for Chinese, Latin and numeric UI in both apps. */
+@font-face {
+  font-family: 'Uma Sans';
+  src: url('../assets/fonts/noto-sans-sc/NotoSansSC-ui.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Rare player-name and imported-data glyphs load only when needed. */
+@font-face {
+  font-family: 'Uma Sans Extended';
+  src: url('../assets/fonts/noto-sans-sc/NotoSansSC-variable.woff2')
+    format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   --uma-font-sans:
-    'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC',
-    sans-serif;
-  --uma-font-mono:
-    Consolas, 'SFMono-Regular', 'Microsoft YaHei UI', 'Microsoft YaHei',
-    monospace;
+    'Uma Sans', 'Uma Sans Extended', 'Noto Sans SC', 'Microsoft YaHei UI',
+    'PingFang SC', sans-serif;
+  /* Legacy numeric classes use the same face, with tabular figures below. */
+  --uma-font-mono: var(--uma-font-sans);
+  --uma-font-code: Consolas, 'SFMono-Regular', monospace;
   --uma-type-caption: 0.75rem;
   --uma-type-label: 0.8125rem;
   --uma-type-data: 0.875rem;
@@ -22,6 +39,7 @@
   line-height: 1.5;
   color: #334155;
   font-kerning: normal;
+  font-synthesis: none;
 }
 
 :where(button, input, select, textarea) {
@@ -53,7 +71,12 @@
 }
 
 :where(code, pre, kbd, samp) {
-  font-family: var(--uma-font-mono);
+  font-family: var(--uma-font-code);
+}
+
+.font-mono {
+  font-family: var(--uma-font-sans);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 /* Opt-in prose measure, never applied to table cells or compact controls. */
@@ -65,8 +88,8 @@
 }
 
 ::selection {
-  color: #312e81;
-  background: #e0e7ff;
+  color: #193f28;
+  background: #e6f7df;
 }
 ::placeholder {
   color: #64748b;
@@ -122,9 +145,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px 16px;
-  padding: 8px;
+  padding: 10px 12px;
   border-bottom: 1px solid #e2e8f0;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .autoResearchEditorTabs,
@@ -137,7 +160,8 @@
 }
 
 .autoResearchEditorActions {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
+  margin-left: auto;
   justify-content: flex-end;
   gap: 8px;
 }
@@ -154,10 +178,14 @@
 }
 
 .autoResearchEditorStatus {
-  flex: 1 1 8rem;
+  flex: 0 1 auto;
   min-width: 0;
   max-width: 24rem;
   overflow-wrap: anywhere;
+}
+
+.autoResearchEditorSave {
+  min-width: 104px;
 }
 
 .autoResearchAdaptiveColumns {

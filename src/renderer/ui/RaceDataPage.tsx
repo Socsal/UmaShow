@@ -323,7 +323,7 @@ class RaceDataPageClass extends React.Component<
           role="dialog"
           aria-modal="true"
           aria-label="重复模拟"
-          className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-2xl"
+          className="uma-dialog-surface max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-2xl"
           onMouseDown={(event) => event.stopPropagation()}
         >
           <header className="flex items-start justify-between border-b border-slate-100 px-5 py-4">

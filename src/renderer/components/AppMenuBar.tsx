@@ -140,7 +140,7 @@ export default function AppMenuBar() {
   };
 
   return (
-    <header className="app-drag-region sticky top-0 z-[100] flex h-9 flex-none items-center border-b border-slate-200 bg-white/95 px-2 shadow-sm backdrop-blur-xl">
+    <header className="uma-app-header app-drag-region sticky top-0 z-[100] flex h-9 flex-none items-center border-b border-slate-200 bg-white/95 px-2 shadow-sm backdrop-blur-xl">
       <button
         type="button"
         onClick={() => navigate('/')}

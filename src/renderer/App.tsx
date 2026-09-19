@@ -9,6 +9,7 @@ import MonitorDashboard from 'renderer/ui/MonitorDashboard';
 import 'tailwindcss/tailwind.css';
 import './styles/typography.css';
 import './styles/motion.css';
+import './styles/clay.css';
 import { useAppMotion } from './utils/motion';
 import RaceDataPage from 'renderer/ui/RaceDataPage';
 import HiddenNavigator from 'renderer/components/HiddenNavigator';
@@ -24,7 +25,7 @@ import { MonteCarloProvider } from 'renderer/components/MonteCarloProvider';
 export default function App() {
   useAppMotion();
   return (
-    <div className="flex h-screen min-h-0 flex-col overflow-hidden bg-slate-50 font-sans">
+    <div className="uma-app-shell flex h-screen min-h-0 flex-col overflow-hidden bg-slate-50 font-sans">
       <style>
         {`
           html,

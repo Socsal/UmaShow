@@ -22,7 +22,7 @@
   overflow: hidden;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .historyToolbar {
@@ -49,8 +49,8 @@
   min-height: 36px;
 }
 
-.historyGroup + .historyGroup {
-  border-top: 1px solid #e2e8f0;
+.historyGroup {
+  overflow: hidden;
 }
 
 .historyGroupHeader {
@@ -125,7 +125,7 @@
 
 .historyTracking {
   padding: 16px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .historyAssetSwitch {

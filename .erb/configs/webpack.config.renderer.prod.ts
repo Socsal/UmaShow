@@ -18,6 +18,10 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const rendererCopyPattern = [
   {
+    from: path.resolve(webpackPaths.rootPath, 'src/renderer/assets/fonts/noto-sans-sc/OFL.txt'),
+    to: path.join(webpackPaths.distRendererPath, 'licenses/NotoSansSC-OFL.txt'),
+  },
+  {
     from: path.resolve(webpackPaths.rootPath, 'web-assets'),
     to: webpackPaths.distRendererPath,
   },

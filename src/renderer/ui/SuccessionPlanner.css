@@ -86,7 +86,7 @@
 
 .successionIndexTitleLine > svg {
   flex: none;
-  color: #4f46e5;
+  color: #24783d;
 }
 
 .successionIndexActions {
@@ -127,7 +127,7 @@
   padding: 6px 12px;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: #475569;
   font-size: var(--uma-type-data);
   line-height: 1.45;
@@ -226,12 +226,12 @@
   max-height: min(88vh, 860px);
   overflow: hidden;
   border: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 24px 70px rgb(15 23 42 / 30%);
 }
 
 .successionCapturedDetailDialog > .successionPickerHeader {
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCapturedDetailMembers {
@@ -248,7 +248,7 @@
   padding: 10px;
   border: 1px solid var(--uma-border);
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCapturedDetailMembers > article > header {
@@ -323,9 +323,9 @@
 }
 
 .successionCapturedAllFactors .race {
-  border-color: #c7d2fe;
-  background: #eef2ff;
-  color: #4338ca;
+  border-color: #bdebb1;
+  background: #f1faed;
+  color: #1d6033;
 }
 
 .successionCapturedDetailActions {
@@ -334,7 +334,7 @@
   gap: 8px;
   padding: 10px 14px;
   border-top: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCapturedDetailActions button {
@@ -593,7 +593,7 @@
   padding: 3px 6px;
   border: 1px solid;
   border-radius: 5px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -623,7 +623,7 @@
 
 .successionCapturedFactorCounts .white {
   border-color: #e5e7eb;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: #6b7280;
 }
 
@@ -1034,8 +1034,8 @@
 }
 
 .successionUmaSelect.selected {
-  border-color: #b7c8e7;
-  background: #f7faff;
+  border-color: var(--uma-clay-selected-border, #65a66c);
+  background: var(--uma-clay-accent-soft, #e6f7df);
 }
 
 .successionUmaSelectTitle {
@@ -1138,7 +1138,7 @@
   padding: 8px;
   border: 1px solid var(--uma-border);
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   text-align: left;
   cursor: pointer;
@@ -1183,7 +1183,7 @@
   justify-content: flex-end;
   padding: 12px 18px;
   border-top: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionSelectedUma {
@@ -1246,7 +1246,7 @@
 
 .successionUmaTrigger:hover {
   border-color: var(--uma-accent);
-  background: #f7faff;
+  background: var(--uma-clay-hover, #f0f8eb);
 }
 
 .successionUmaTrigger:disabled {
@@ -1364,7 +1364,7 @@
   padding: 9px 11px;
   border: 1px solid var(--uma-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   text-align: left;
   cursor: pointer;
@@ -1372,12 +1372,12 @@
 
 .successionPlayerScanAccounts button:hover,
 .successionPlayerScanAccounts button.selected {
-  border-color: #818cf8;
-  background: #eef2ff;
+  border-color: #64c864;
+  background: #f1faed;
 }
 
 .successionPlayerScanAccounts button.selected {
-  box-shadow: inset 3px 0 #6366f1;
+  box-shadow: inset 3px 0 #348b43;
 }
 
 .successionPlayerScanAccounts button span {
@@ -1401,20 +1401,20 @@
   width: 100%;
   border: 1px solid var(--uma-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   outline: none;
 }
 
 .successionPlayerScanTargets textarea:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  border-color: #348b43;
+  box-shadow: 0 0 0 3px rgba(52, 139, 67, 0.12);
 }
 
 .successionPlayerScanFooter button {
-  border: 1px solid #6366f1;
+  border: 1px solid #348b43;
   border-radius: 8px;
-  background: #4f46e5;
+  background: #24783d;
   color: #fff;
   font-weight: 700;
   cursor: pointer;
@@ -1443,8 +1443,8 @@
 }
 
 .successionPlayerScanProgress {
-  background: #eef2ff;
-  color: #3730a3;
+  background: #f1faed;
+  color: #1b4c2e;
 }
 
 .successionPlayerScanMessage.success {
@@ -1470,7 +1470,7 @@
   padding: 5px 8px;
   border: 1px solid var(--uma-border);
   border-radius: 6px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   font-size: var(--uma-type-label);
   line-height: 1.45;
@@ -1479,8 +1479,8 @@
 }
 
 .successionPlayerScanSavedToolbar button:hover {
-  border-color: #818cf8;
-  color: #4338ca;
+  border-color: #64c864;
+  color: #1d6033;
 }
 
 .successionPlayerScanSavedToolbar button:disabled {
@@ -1542,14 +1542,14 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.28);
   content: '';
   transition: transform 0.18s ease;
 }
 
 .successionPlayerScanUpdateToggle input:checked + i {
-  background: #4f46e5;
+  background: #24783d;
 }
 
 .successionPlayerScanUpdateToggle input:checked + i::after {
@@ -1557,7 +1557,7 @@
 }
 
 .successionPlayerScanUpdateToggle input:focus-visible + i {
-  outline: 2px solid #818cf8;
+  outline: 2px solid #64c864;
   outline-offset: 2px;
 }
 
@@ -1584,11 +1584,11 @@
   gap: 18px;
   padding: 20px 22px 15px;
   border-bottom: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionPickerHeader span {
-  color: #6366f1;
+  color: #348b43;
   font-size: var(--uma-type-caption);
   line-height: 1.45;
   font-weight: 700;
@@ -1694,19 +1694,19 @@
   padding: 9px 11px;
   border-color: var(--uma-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionPickerCard:hover {
   border-color: var(--uma-accent);
-  background: #f8fbff;
+  background: var(--uma-clay-hover, #f0f8eb);
   transform: translateY(-1px);
 }
 
 .successionPickerCard.selected {
-  border-color: #818cf8;
-  background: #eef2ff;
-  box-shadow: 0 0 0 2px #e0e7ff;
+  border-color: #64c864;
+  background: #f1faed;
+  box-shadow: 0 0 0 2px #e6f7df;
 }
 
 .successionPickerCard.selected .successionPickerCardBody > strong {
@@ -1759,7 +1759,7 @@
   width: 23px;
   height: 23px;
   border-radius: 50%;
-  background: #4f46e5;
+  background: #24783d;
   color: #fff;
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -1851,7 +1851,7 @@
   padding: 58px 20px;
   border: 1px dashed var(--uma-border-strong);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   text-align: center;
 }
 
@@ -1867,7 +1867,7 @@
   gap: 12px;
   padding: 10px 20px;
   border-top: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -1876,26 +1876,26 @@
 .successionPickerFooter button {
   min-width: 76px;
   border-color: var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
 }
 
 .successionPickerFooter button:hover {
-  border-color: #a5b4fc;
+  border-color: #93db89;
   background: #f8fafc;
-  color: #3730a3;
+  color: #1b4c2e;
 }
 
 .successionPickerFooter button:last-child {
-  border-color: #4f46e5;
-  background: #4f46e5;
+  border-color: #24783d;
+  background: #24783d;
   color: #fff;
   font-weight: 700;
 }
 
 .successionPickerFooter button:last-child:hover {
-  border-color: #4338ca;
-  background: #4338ca;
+  border-color: #1d6033;
+  background: #1d6033;
   color: #fff;
 }
 
@@ -2094,7 +2094,7 @@
   min-height: 50px;
   border: 1px solid var(--uma-border);
   border-radius: 5px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionAptitude small {
@@ -2203,7 +2203,7 @@
 
 .successionTargetInline .successionUmaSelect.selected {
   border-color: var(--uma-border-strong);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionTargetInline .successionAptitudeRows.compact {
@@ -2236,7 +2236,7 @@
 
 .successionResetLineage:hover {
   border-color: var(--uma-border-strong);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
 }
 
@@ -2360,7 +2360,7 @@
 }
 
 .successionBranchModeSwitch button:hover {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgb(var(--uma-clay-surface-rgb, 245 239 223) / 0.72);
   color: var(--uma-text);
 }
 
@@ -2510,8 +2510,8 @@
   padding: 6px !important;
   border: 2px solid color-mix(in srgb, var(--uma-accent) 72%, #fff) !important;
   border-radius: 9px !important;
-  background: #fff !important;
-  box-shadow: 0 10px 24px rgb(79 70 229 / 24%) !important;
+  background: var(--uma-clay-surface, #f5efdf) !important;
+  box-shadow: 0 10px 24px rgb(36 120 61 / 24%) !important;
   opacity: 1 !important;
   pointer-events: none;
   transform: scale(0.94);
@@ -2662,7 +2662,7 @@
   padding: 5px 7px;
   border: 1px solid var(--uma-border);
   border-radius: 7px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   font-weight: 700;
 }
@@ -2851,7 +2851,7 @@
   box-sizing: border-box;
   height: auto;
   min-height: 0;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionTrainedUmaModalFooter {
@@ -2887,7 +2887,7 @@
 
 .successionTrainedUmaModalFooter button.secondary {
   border-color: var(--uma-border-strong);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
 }
 
@@ -3055,7 +3055,7 @@
   padding: 3px 7px 3px 6px;
   border: 1px solid #dce6e9;
   border-radius: 6px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
 }
 
@@ -3084,9 +3084,9 @@
 
 .successionInheritanceToggle.selected {
   border-color: var(--uma-accent);
-  background: #eef2ff;
-  color: #4338ca;
-  box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.08);
+  background: #f1faed;
+  color: #1d6033;
+  box-shadow: inset 0 0 0 1px rgba(36, 120, 61, 0.08);
 }
 
 .successionInheritanceToggle.selected i {
@@ -3102,8 +3102,8 @@
   padding: 3px 6px;
   border: 1px solid #cbd5f5;
   border-radius: 6px;
-  background: #fff;
-  color: #4338ca;
+  background: var(--uma-clay-surface, #f5efdf);
+  color: #1d6033;
 }
 
 .successionInheritanceTargetSummary i {
@@ -3144,7 +3144,7 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 12px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
 }
 
@@ -3155,7 +3155,7 @@
   gap: 18px;
   padding: 20px 22px 15px;
   border-bottom: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionInheritanceModal > header span {
@@ -3247,7 +3247,7 @@
   padding: 10px 12px;
   border: 1px solid var(--uma-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   text-align: left;
 }
@@ -3415,7 +3415,7 @@
   padding: 4px 7px;
   border: 1px solid rgba(22, 135, 167, 0.2);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgb(var(--uma-clay-surface-rgb, 245 239 223) / 0.78);
   color: #176b82;
 }
 
@@ -3484,7 +3484,7 @@
   padding: 4px 7px;
   border: 1px solid rgba(22, 135, 167, 0.2);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgb(var(--uma-clay-surface-rgb, 245 239 223) / 0.78);
   color: #176b82;
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -3685,7 +3685,7 @@
   padding: 3px 6px;
   border: 1px solid rgba(22, 135, 167, 0.18);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgb(var(--uma-clay-surface-rgb, 245 239 223) / 0.82);
   color: #176b82;
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -3727,7 +3727,7 @@
   padding: 13px;
   border: 1px solid var(--uma-border);
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionRouteModalPresets > header,
@@ -3770,7 +3770,7 @@
   padding: 7px 9px;
   border-color: var(--uma-border);
   border-radius: 7px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
 }
 
@@ -3852,7 +3852,7 @@
   padding: 3px;
   border-color: #d9deea;
   border-radius: 6px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionRouteAptitudeMinimums [role='radio'].selected {
@@ -3878,7 +3878,7 @@
   padding: 28px 16px;
   border: 1px dashed var(--uma-border-strong);
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
   font-size: var(--uma-type-label);
   line-height: 1.45;
@@ -3893,7 +3893,7 @@
   gap: 12px;
   padding: 10px 18px;
   border-top: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionRouteModalFooter span {
@@ -3961,7 +3961,7 @@
 
 .successionRouteModalFooter button.secondary {
   border-color: var(--uma-border-strong);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
 }
 
@@ -3986,7 +3986,7 @@
   min-height: 58px;
   padding: 6px 9px;
   border-left: 3px solid #e34f91;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionFactorRow + .successionFactorRow {
@@ -4153,7 +4153,7 @@
   padding: 10px;
   border: 1px solid #cfd6e8;
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCompleteDesign > header {
@@ -4235,10 +4235,10 @@
 
 .successionConfiguredSkillBadge {
   padding: 2px 6px;
-  border: 1px solid #c7d2fe;
+  border: 1px solid #bdebb1;
   border-radius: 999px;
-  background: #eef2ff;
-  color: #4f46e5;
+  background: #f1faed;
+  color: #24783d;
   font-size: var(--uma-type-caption);
   line-height: 1.45;
   font-style: normal;
@@ -4336,16 +4336,16 @@
   gap: 6px;
   min-width: 84px;
   padding: 6px 12px;
-  border: 1px solid #a5b4fc;
+  border: 1px solid #93db89;
   border-radius: 7px;
-  background: #eef2ff;
-  color: #4338ca;
+  background: #f1faed;
+  color: #1d6033;
   font-weight: 700;
 }
 
 .successionCalculationSettingsButton:hover:not(:disabled) {
-  border-color: #6366f1;
-  background: #e0e7ff;
+  border-color: #348b43;
+  background: #e6f7df;
 }
 
 .successionCalculationSettingsButton i {
@@ -4354,7 +4354,7 @@
   right: 7px;
   width: 7px;
   height: 7px;
-  border: 2px solid #eef2ff;
+  border: 2px solid #f1faed;
   border-radius: 50%;
   background: #7c3aed;
 }
@@ -4464,7 +4464,7 @@
   place-items: center;
   border: 1px solid var(--uma-border);
   border-radius: 50%;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   font-family: var(--uma-mono);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -4543,7 +4543,7 @@
   padding: 9px 10px 10px;
   border: 1px solid #cbd5f5;
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionFactorJumpOption > header {
@@ -4571,7 +4571,7 @@
   border-radius: 50%;
   background: #f8f9ff;
   color: var(--uma-accent);
-  font-family: Georgia, serif;
+  font-family: var(--uma-font-sans);
   font-size: var(--uma-type-data);
   line-height: 1.45;
   font-style: italic;
@@ -4596,7 +4596,7 @@
   padding: 3px 6px;
   border: 1px solid #dce6e9;
   border-radius: 6px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
   font-family: var(--uma-mono);
   font-size: var(--uma-type-label);
@@ -4697,7 +4697,7 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCalculationInheritance .successionInheritanceGroups {
@@ -4719,7 +4719,7 @@
   padding: 11px;
   border: 1px solid #cbd5f5;
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCalculationControls > span {
@@ -4762,7 +4762,7 @@
   min-height: 28px;
   padding: 3px 9px;
   border-color: #cbd5e1;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   font-size: var(--uma-type-label);
   line-height: 1.45;
   font-weight: 700;
@@ -4898,7 +4898,7 @@
   padding: 5px 7px;
   border: 1px solid #fecdd3;
   border-radius: 7px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   text-align: left;
 }
 
@@ -4959,7 +4959,7 @@
   padding: 6px 8px;
   border-color: var(--uma-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   text-align: left;
 }
 
@@ -5012,7 +5012,7 @@
   padding: 10px 12px;
   border: 1px solid var(--uma-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCalculationProbabilityTargets.embedded {
@@ -5117,7 +5117,7 @@
   padding: 3px 5px 3px 8px;
   border: 1px solid var(--uma-border);
   border-radius: 6px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
 }
 
@@ -5193,7 +5193,7 @@
   display: block;
   margin: 0;
   padding: 0 4px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -5468,7 +5468,7 @@
   padding: 10px;
   border: 1px solid #fda4af;
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 14px 34px rgb(15 23 42 / 22%);
   color: var(--uma-text);
 }
@@ -5936,7 +5936,7 @@
   flex: 0 0 auto;
   padding: 4px 8px;
   border-radius: 999px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--succession-paternal);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -6147,7 +6147,7 @@
   padding: 14px 10px;
   border: 1px dashed var(--uma-border);
   border-radius: 7px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -6159,7 +6159,7 @@
   overflow: hidden;
   border: 1px solid var(--uma-border);
   border-radius: 7px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionPositionRequirement > header {
@@ -6268,7 +6268,7 @@
   padding: 4px 6px;
   border: 1px solid #f3bac3;
   border-radius: 5px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionImpossibleRequirements > span > strong {
@@ -6664,7 +6664,7 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 12px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
 }
 
@@ -6675,7 +6675,7 @@
   gap: 18px;
   padding: 20px 22px 15px;
   border-bottom: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCalculationSettingsDialog > header span {
@@ -6832,7 +6832,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.28);
   transition: transform 0.16s ease;
 }
@@ -7002,7 +7002,7 @@
   gap: 12px;
   padding: 12px 20px;
   border-top: 1px solid var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .successionCalculationSettingsDialog > footer span {
@@ -7036,7 +7036,7 @@
   > footer
   .successionCalculationSettingsReset {
   border-color: var(--uma-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-muted);
 }
 
@@ -7120,9 +7120,9 @@
   flex: none;
   min-height: 34px;
   padding: 6px 11px;
-  border: 1px solid #6366f1;
+  border: 1px solid #348b43;
   border-radius: 8px;
-  background: #6366f1;
+  background: #348b43;
   color: #fff;
   font-size: var(--uma-type-label);
   line-height: 1.45;
@@ -7130,8 +7130,8 @@
 }
 
 .successionCapturedSkillPriority > header > button:hover:not(:disabled) {
-  border-color: #4f46e5;
-  background: #4f46e5;
+  border-color: #24783d;
+  background: #24783d;
 }
 
 .successionCapturedSkillPriorityList {
@@ -7156,7 +7156,7 @@
   padding: 7px;
   border: 1px solid #dbe3ec;
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--uma-text);
   cursor: grab;
   transition:
@@ -7165,11 +7165,11 @@
 }
 
 .successionCapturedSkillPriorityList > div:hover {
-  border-color: #a5b4fc;
+  border-color: #93db89;
 }
 
 .successionCapturedSkillPriorityList > div.dragging {
-  border-color: #818cf8;
+  border-color: #64c864;
   opacity: 0.45;
 }
 
@@ -7179,8 +7179,8 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: #eef2ff;
-  color: #4338ca;
+  background: #f1faed;
+  color: #1d6033;
   font-family: var(--uma-mono);
   font-size: var(--uma-type-caption);
   line-height: 1.45;
@@ -7216,7 +7216,7 @@
   min-height: 72px;
   border: 1px dashed #cbd5e1;
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: #64748b;
   font-size: var(--uma-type-label);
   line-height: 1.45;
@@ -7224,9 +7224,9 @@
 }
 
 .successionCapturedSkillPriorityList > button:hover:not(:disabled) {
-  border-color: #818cf8;
-  background: #eef2ff;
-  color: #4338ca;
+  border-color: #64c864;
+  background: #f1faed;
+  color: #1d6033;
 }
 
 .successionCapturedSkillIcon {
@@ -7247,7 +7247,7 @@
 }
 
 .successionCapturedSkillIcon i {
-  color: #6366f1;
+  color: #348b43;
   font-size: var(--uma-type-label);
   line-height: 1.45;
   font-style: normal;

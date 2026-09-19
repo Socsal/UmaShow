@@ -630,8 +630,8 @@ function SuccessToast({
 
 const accountDialogButtonClass =
   'autoResearchAccountDialogButton inline-flex min-h-7 items-center justify-center gap-1.5 rounded-md px-2.5 py-1 text-caption font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50';
-const accountDialogSecondaryButtonClass = `${accountDialogButtonClass} border border-slate-200 bg-white text-slate-600 hover:bg-slate-50`;
-const accountDialogPrimaryButtonClass = `${accountDialogButtonClass} !border-indigo-600 !bg-indigo-600 !text-white hover:!border-indigo-700 hover:!bg-indigo-700`;
+const accountDialogSecondaryButtonClass = `${accountDialogButtonClass} uma-clay-button`;
+const accountDialogPrimaryButtonClass = `${accountDialogButtonClass} uma-clay-button-primary`;
 const accountDialogDangerButtonClass = `${accountDialogButtonClass} !border-red-600 !bg-red-600 !text-white hover:!border-red-700 hover:!bg-red-700`;
 const accountManualInputClass =
   'autoResearchAccountManualInput min-w-0 rounded-md border border-slate-200 bg-white px-2.5 py-1 text-caption outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100';
@@ -6069,12 +6069,12 @@ export default function AutoResearch() {
           }
           .autoResearchTabScroll::-webkit-scrollbar-thumb:hover {
             border-width: 3px;
-            background: linear-gradient(180deg, #818cf8, #8b5cf6);
+            background: var(--uma-clay-accent);
             background-clip: padding-box;
           }
           .autoResearchTabScroll::-webkit-scrollbar-thumb:active {
             border-width: 3px;
-            background: #6366f1;
+            background: var(--uma-clay-accent);
             background-clip: padding-box;
           }
           .autoResearchTabScroll::-webkit-scrollbar-button {
@@ -6179,7 +6179,7 @@ export default function AutoResearch() {
                 calc(0.375rem + var(--autouma-safe-bottom))
                 calc(0.5rem + var(--autouma-safe-left));
               border-top: 1px solid rgba(226, 232, 240, 0.96);
-              background: rgba(255, 255, 255, 0.96);
+              background: rgb(var(--uma-clay-surface-rgb) / 0.96);
               box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.08);
               backdrop-filter: blur(18px);
             }
@@ -6797,7 +6797,7 @@ export default function AutoResearch() {
                       可点击导入或拖放手机导出的数据库文件
                     </p>
                   </div>
-                  <label className="inline-flex min-h-9 shrink-0 cursor-pointer items-center rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500">
+                  <label className="uma-clay-button-primary inline-flex min-h-9 shrink-0 cursor-pointer items-center px-3 text-xs font-semibold">
                     <Upload className="mr-1.5" size={13} />
                     {busy === 'users-db' ? '导入中…' : '导入'}
                     <input
@@ -7737,7 +7737,7 @@ export default function AutoResearch() {
               <span
                 className={`autoResearchHeaderStatus inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-caption font-semibold ${
                   serverHostedMode
-                    ? 'bg-violet-100 text-violet-700'
+                    ? 'bg-sky-100 text-sky-800'
                     : localSessionMode || localAccountSessionState === 'ready'
                       ? 'bg-emerald-100 text-emerald-700'
                       : 'bg-slate-100 text-slate-500'
@@ -8037,7 +8037,7 @@ export default function AutoResearch() {
                         ) : null}
                       </div>
                       <span
-                        className={`rounded-full px-2 py-0.5 text-caption ${disconnectingAccountId === account.id ? 'bg-amber-100 text-amber-700' : runtimeSessionOwner(account.runtime) === 'server' ? 'bg-violet-100 text-violet-700' : runtimeSessionOwner(account.runtime) === 'local' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}
+                        className={`rounded-full px-2 py-0.5 text-caption ${disconnectingAccountId === account.id ? 'bg-amber-100 text-amber-700' : runtimeSessionOwner(account.runtime) === 'server' ? 'bg-sky-100 text-sky-800' : runtimeSessionOwner(account.runtime) === 'local' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}
                       >
                         {disconnectingAccountId === account.id
                           ? '退出中'
@@ -8221,7 +8221,7 @@ export default function AutoResearch() {
                     <Check className="mx-auto text-emerald-500" size={42} />
                   ) : (
                     <RefreshCw
-                      className="mx-auto animate-spin text-cyan-500"
+                      className="mx-auto animate-spin text-indigo-600"
                       size={42}
                     />
                   )}
@@ -8269,7 +8269,7 @@ export default function AutoResearch() {
                         checkingExistingRuntimeAccountId ===
                           selectedAccount?.id,
                     )}
-                    className="rounded-md bg-indigo-600 px-5 py-2.5 font-semibold text-white disabled:opacity-50"
+                    className="uma-clay-button-primary px-5 py-2.5 font-semibold disabled:opacity-50"
                   >
                     {loginProgress?.accountId === selectedAccount?.id
                       ? `登录中 ${loginProgress?.elapsed || 0}s · ${loginProgress?.detail || '正在连接登录服务'}`

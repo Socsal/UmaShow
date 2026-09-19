@@ -19,7 +19,6 @@ import {
   formatDailyJewelScheduleWindow,
   HIDDEN_RUNNER_LOG_ACTIONS,
   isCredentialExpiredError,
-  panelClass,
   statusBadgeClass,
   turnDateLabel,
 } from './shared';
@@ -406,7 +405,7 @@ export default function ProgressTab({
   }
   return currentCareerActive ? (
     <div className="space-y-4">
-      <section>
+      <section className="uma-task-card p-4 sm:p-5">
         <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4">
           <div className="flex w-full min-w-0 flex-1 items-center gap-3 sm:w-auto sm:gap-4">
             <span className="h-14 w-14 flex-none sm:h-20 sm:w-20">
@@ -709,9 +708,7 @@ export default function ProgressTab({
     </div>
   ) : (
     <section
-      className={panelClass(
-        'flex min-h-[320px] items-center justify-center p-8 text-center',
-      )}
+      className="uma-task-card flex min-h-[320px] items-center justify-center p-8 text-center"
     >
       <div>
         <Activity

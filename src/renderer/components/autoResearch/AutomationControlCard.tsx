@@ -174,7 +174,7 @@ export default function AutomationControlCard({
   );
 
   return (
-    <section className="automationControlCard rounded-xl border border-slate-200/80 bg-white/90 p-2.5 shadow-sm backdrop-blur-xl">
+    <section className="automationControlCard uma-task-card p-4 sm:p-5">
       <div className="automationControlCardHeader flex flex-wrap items-center justify-between gap-1.5">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">

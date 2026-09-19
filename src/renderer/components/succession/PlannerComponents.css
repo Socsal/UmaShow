@@ -1,6 +1,6 @@
 .plannerUiTheme {
-  --planner-accent: #4f46e5;
-  --planner-accent-soft: #eef2ff;
+  --planner-accent: #24783d;
+  --planner-accent-soft: #f1faed;
   --planner-border: #dbe3ec;
   --planner-border-strong: #cbd5e1;
   --planner-text: #1e293b;
@@ -23,7 +23,7 @@
 .plannerDialogHeaderBlock {
   padding: 16px 22px;
   border-bottom: 1px solid #dbe3ec;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
 }
 
 .plannerDialogHeaderBlock h3,
@@ -144,8 +144,8 @@
 }
 
 .plannerFactorBadge.race {
-  background: #eef2ff;
-  color: #4338ca;
+  background: #f1faed;
+  color: #1d6033;
 }
 
 .plannerFactorBadge.skill {
@@ -193,20 +193,20 @@
 }
 
 .plannerButton.primary:hover:not(:disabled) {
-  border-color: #4338ca;
-  background: #4338ca;
+  border-color: #1d6033;
+  background: #1d6033;
 }
 
 .plannerButton.secondary {
   border-color: var(--planner-border);
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: #475569;
 }
 
 .plannerButton.secondary:hover:not(:disabled) {
-  border-color: #a5b4fc;
+  border-color: #93db89;
   background: #f8fafc;
-  color: #3730a3;
+  color: #1b4c2e;
 }
 
 .plannerButton.ghost {
@@ -231,14 +231,14 @@
   padding: 4px 10px;
   border-color: var(--planner-border);
   border-radius: 999px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--planner-muted);
   font-size: var(--uma-type-label);
   line-height: 1.45;
 }
 
 .plannerButton.filter.active {
-  border-color: #312e81;
+  border-color: #193f28;
   background: #334155;
   color: #fff;
 }
@@ -247,7 +247,7 @@
 .plannerSelectionCard:focus-visible,
 .plannerSkillCard:focus-visible,
 .plannerLineageCard:focus-visible {
-  outline: 3px solid rgb(99 102 241 / 20%);
+  outline: 3px solid rgb(52 139 67 / 20%);
   outline-offset: 2px;
 }
 
@@ -281,17 +281,17 @@
 
 .plannerSelectionCard:hover:not(:disabled),
 .plannerSkillCard:hover:not(:disabled) {
-  border-color: #a5b4fc;
-  background: #f8faff;
+  border-color: #93db89;
+  background: var(--uma-clay-hover, #f0f8eb);
   transform: translateY(-1px);
 }
 
 .plannerSelectionCard.selected {
-  border-color: #6366f1;
-  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  border-color: #348b43;
+  background: linear-gradient(135deg, #f1faed 0%, #e6f7df 100%);
   box-shadow:
-    inset 4px 0 0 #6366f1,
-    0 0 0 2px #c7d2fe;
+    inset 4px 0 0 #348b43,
+    0 0 0 2px #bdebb1;
 }
 
 .plannerSelectionCard.occupied {
@@ -312,9 +312,9 @@
 }
 
 .plannerSkillCard.selected {
-  border-color: #818cf8;
+  border-color: #64c864;
   background: var(--planner-accent-soft);
-  box-shadow: 0 0 0 2px #e0e7ff;
+  box-shadow: 0 0 0 2px #e6f7df;
 }
 
 .plannerSelectionCard:disabled {
@@ -412,10 +412,10 @@
 }
 
 .plannerSelectionState.selected {
-  border-color: #4f46e5;
-  background: #4f46e5;
+  border-color: #24783d;
+  background: #24783d;
   color: #fff;
-  box-shadow: 0 2px 6px rgb(79 70 229 / 22%);
+  box-shadow: 0 2px 6px rgb(36 120 61 / 22%);
 }
 
 .plannerSelectionState.occupied {
@@ -522,10 +522,10 @@
   min-height: 28px;
   flex: 0 0 auto;
   padding: 4px 12px;
-  border: 1px solid #c7d2fe;
+  border: 1px solid #bdebb1;
   border-radius: 7px;
-  background: #eef2ff;
-  color: #4338ca;
+  background: #f1faed;
+  color: #1d6033;
   font-size: var(--uma-type-label);
   line-height: 1.45;
   font-weight: 700;
@@ -551,7 +551,7 @@
   overflow: hidden;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   box-shadow: 0 24px 70px rgb(15 23 42 / 32%);
 }
 
@@ -613,7 +613,7 @@
   min-height: 32px;
   border: 0;
   border-radius: 7px;
-  background: #4f46e5;
+  background: #24783d;
   color: #fff;
   font-size: var(--uma-type-label);
   line-height: 1.45;
@@ -622,7 +622,7 @@
 
 .successionPickerFilterSheet > footer button.secondary {
   border: 1px solid #e2e8f0;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: #64748b;
 }
 
@@ -692,7 +692,7 @@
     margin-top: auto;
     padding: 8px 10px
       calc(8px + var(--autouma-safe-bottom, env(safe-area-inset-bottom)));
-    background: #fff;
+    background: var(--uma-clay-surface, #f5efdf);
     box-shadow: 0 -8px 22px rgb(15 23 42 / 10%);
   }
 }
@@ -729,7 +729,7 @@
   padding: 11px;
   border: 1px solid var(--planner-border);
   border-radius: 9px;
-  background: #fff;
+  background: var(--uma-clay-surface, #f5efdf);
   color: var(--planner-text);
   text-align: left;
   transition:
@@ -743,16 +743,16 @@
 }
 
 .plannerLineageCard[role='button']:hover {
-  border-color: #a5b4fc;
-  background: #f8faff;
+  border-color: #93db89;
+  background: var(--uma-clay-hover, #f0f8eb);
 }
 
 .plannerLineageCard.selected {
-  border-color: #6366f1;
-  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  border-color: #348b43;
+  background: linear-gradient(135deg, #f1faed 0%, #e6f7df 100%);
   box-shadow:
-    inset 4px 0 0 #6366f1,
-    0 0 0 2px #c7d2fe;
+    inset 4px 0 0 #348b43,
+    0 0 0 2px #bdebb1;
 }
 
 .plannerLineageCard.disabled {

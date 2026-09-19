@@ -17,7 +17,7 @@ export default function RacePageLayout({
 }: RacePageLayoutProps) {
   return (
     <div
-      className="flex h-full min-h-full flex-col bg-gray-50 p-4 xl:px-6"
+      className="uma-page flex h-full min-h-full flex-col bg-gray-50 p-4 xl:px-6"
       aria-label={title}
     >
       {actions ? (

@@ -687,7 +687,7 @@ export default function RaceList() {
           return (
             <div
               key={item.filename}
-              className={`group relative bg-white border rounded-xl p-1.5 flex items-start gap-3 transition-ui duration-200 hover:shadow-md
+              className={`uma-clay-card group relative bg-white border rounded-xl p-1.5 flex items-start gap-3 transition-ui duration-200 hover:shadow-md
                   ${isSelected ? 'border-blue-400 ring-1 ring-blue-400 bg-blue-50/10' : 'border-gray-200'}
                 `}
               onMouseLeave={() => setHoveredHorsePreview(null)}

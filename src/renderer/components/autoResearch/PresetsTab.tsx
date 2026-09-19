@@ -219,8 +219,8 @@ export default function PresetsTab(props: PresetsTabProps) {
           </div>
         </AppSideNotch>
       </AppMenuPortal>
-      <section className="flex-1">
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <section className="autoResearchSettingsList flex-1">
+        <div className="grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
           {presets.map((preset) => {
             const isDefault = preset.name === DEFAULT_PRESET_NAME;
             const referencedCount = careerSettings.filter(
@@ -230,11 +230,11 @@ export default function PresetsTab(props: PresetsTabProps) {
             return (
               <article
                 key={preset.name}
-                className="relative rounded-lg border border-gray-200 bg-gray-50/60 p-3"
+                className="uma-setting-card relative flex h-full flex-col p-4"
               >
                 {isDefault ? (
                   <span
-                    className={`absolute right-3 top-3 ${statusBadgeClass('violet')}`}
+                    className={`absolute right-3 top-3 ${statusBadgeClass('emerald')}`}
                   >
                     默认预设
                   </span>
@@ -284,11 +284,11 @@ export default function PresetsTab(props: PresetsTabProps) {
                     ) : null}
                   </div>
                 </div>
-                <div className="mt-3 flex gap-2">
+                <div className="mt-auto flex gap-2 pt-3">
                   <button
                     type="button"
                     onClick={() => openPresetEditor(preset.name)}
-                    className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-data font-medium text-white hover:bg-indigo-700"
+                    className="uma-clay-button-primary flex-1 px-3 py-2 text-data font-semibold"
                   >
                     进入预设
                   </button>
@@ -375,7 +375,7 @@ export default function PresetsTab(props: PresetsTabProps) {
           </button>
           <span
             role="status"
-            className={`autoResearchEditorStatus text-label ${
+            className={`${!presetDirty && !presetSyncError ? 'sr-only' : 'autoResearchEditorStatus text-label'} ${
               presetDirty || presetSyncError
                 ? 'text-amber-800'
                 : 'text-emerald-700'
@@ -391,11 +391,7 @@ export default function PresetsTab(props: PresetsTabProps) {
             type="button"
             onClick={savePreset}
             disabled={busy === 'preset'}
-            className={`flex h-8 flex-none items-center gap-1.5 rounded-md px-2.5 text-label font-semibold text-white disabled:opacity-50 ${
-              presetSaved
-                ? 'bg-emerald-600 hover:bg-emerald-600'
-                : 'bg-indigo-600 hover:bg-indigo-700'
-            }`}
+            className="autoResearchEditorSave uma-clay-button-primary flex flex-none items-center gap-1.5 px-3 text-label font-semibold disabled:opacity-50"
           >
             {presetSaved ? <Check size={14} /> : <Save size={14} />}
             {busy === 'preset'

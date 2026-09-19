@@ -1055,7 +1055,7 @@ export default function WebAutoUma() {
                 calc(.375rem + var(--autouma-safe-bottom))
                 calc(.5rem + var(--autouma-safe-left));
               border-top: 1px solid rgba(226,232,240,.96);
-              background: rgba(255,255,255,.96);
+              background: rgb(var(--uma-clay-surface-rgb) / .96);
               box-shadow: 0 -8px 24px rgba(15,23,42,.08);
               backdrop-filter: blur(18px);
             }
@@ -1065,7 +1065,7 @@ export default function WebAutoUma() {
               border-radius: .75rem; color: #64748b; font-size: .6875rem; font-weight: 600;
             }
             html[data-autouma] .autoResearchMobileTab[aria-current='page'] {
-              background: #eef2ff; color: #4f46e5;
+              background: var(--uma-clay-accent-soft); color: var(--uma-clay-accent);
             }
             html[data-autouma] .autoResearchCloudPullAction {
               position: fixed; z-index: 125;
@@ -1073,11 +1073,11 @@ export default function WebAutoUma() {
               bottom: calc(4.75rem + var(--autouma-safe-bottom));
               width: 3.5rem; height: 3.5rem; justify-content: center;
               padding: 0; border: 0; border-radius: 9999px;
-              background: #4f46e5; color: white;
-              box-shadow: 0 .75rem 1.75rem rgba(79,70,229,.32);
+              background: var(--uma-clay-accent); color: white;
+              box-shadow: 0 .5rem 1rem rgb(36 120 61 / .18);
             }
             html[data-autouma] .autoResearchCloudPullAction:hover {
-              border: 0; background: #4338ca; color: white;
+              border: 0; background: #1d6033; color: white;
             }
             html[data-autouma] .autoResearchCloudPullAction:active {
               transform: scale(.94);

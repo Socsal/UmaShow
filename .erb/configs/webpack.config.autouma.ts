@@ -138,6 +138,10 @@ const configuration: webpack.Configuration = {
     }),
     new CopyWebpackPlugin({
       patterns: [
+        {
+          from: path.join(root, 'src/renderer/assets/fonts/noto-sans-sc/OFL.txt'),
+          to: 'licenses/NotoSansSC-OFL.txt',
+        },
         ...(includeAndroidAssets
           ? [{ from: path.join(root, 'master.mdb'), to: 'master.mdb' }]
           : []),

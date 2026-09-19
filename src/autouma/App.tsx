@@ -5,6 +5,7 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
 import 'renderer/styles/typography.css';
 import 'renderer/styles/motion.css';
+import 'renderer/styles/clay.css';
 import { useAppMotion } from 'renderer/utils/motion';
 import AutoResearch from 'renderer/ui/AutoResearch';
 import TrainingHistory from 'renderer/ui/TrainingHistory';
@@ -56,9 +57,9 @@ export default function AutoUmaApp() {
           }
           html, body, #root { height: 100%; min-height: 0; overflow: hidden; }
           html[data-autouma], html[data-autouma] body, html[data-autouma] #root {
-            background: #fff;
+            background: var(--uma-clay-canvas);
           }
-          body { margin: 0; background: #fff; }
+          body { margin: 0; background: var(--uma-clay-canvas); }
           img { -webkit-user-drag: none; }
           input, select, textarea, [contenteditable='true'] {
             pointer-events: auto;
@@ -93,7 +94,7 @@ export default function AutoUmaApp() {
             padding-right: var(--autouma-safe-right);
             padding-bottom: var(--autouma-safe-bottom);
             padding-left: var(--autouma-safe-left);
-            background: #f8fafc;
+            background: var(--uma-clay-canvas);
           }
           .autouma-content .min-h-screen {
             min-height: calc(100dvh - 2.5rem - var(--autouma-safe-top) - var(--autouma-safe-bottom));

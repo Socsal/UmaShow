@@ -600,7 +600,7 @@ export default function CareerTab(props: CareerTabProps) {
     </section>
   ) : !careerSaveOpen && !automationActive ? (
     <div className="autoResearchForm contents">
-      <section className="flex-1">
+      <section className="autoResearchSettingsList flex-1">
         <div className="mb-3 flex justify-end">
           <button
             type="button"
@@ -615,7 +615,7 @@ export default function CareerTab(props: CareerTabProps) {
             </span>
           </button>
         </div>
-        <div className="grid auto-rows-fr gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
           {accountCareerSettings.map((setting) => {
             const uma = dashboard.umas.find(
               (item) => item.id === setting.card_id,
@@ -634,7 +634,7 @@ export default function CareerTab(props: CareerTabProps) {
             return (
               <article
                 key={setting.id}
-                className="relative flex h-full flex-col rounded-lg border border-gray-200 bg-gray-50/60 p-3"
+                className="uma-setting-card relative flex h-full flex-col p-4"
               >
                 <span
                   className={`absolute right-3 top-3 ${careerSettingModeBadgeClass(offline)}`}
@@ -702,7 +702,7 @@ export default function CareerTab(props: CareerTabProps) {
                         : applyCareerSetting(setting.id)
                     }
                     disabled={!presetExists}
-                    className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-data font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="uma-clay-button-primary flex-1 px-3 py-2 text-data font-semibold disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {readOnly ? '选择并设置运行方式' : '进入详设'}
                   </button>
@@ -743,7 +743,7 @@ export default function CareerTab(props: CareerTabProps) {
               onClick={() => setNewCareerDialogOpen(true)}
               className="flex h-full min-h-40 flex-col items-center justify-center rounded-lg border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-4 text-center text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm">
+              <span className="flex h-11 w-11 items-center justify-center">
                 <Plus size={22} />
               </span>
               <strong className="mt-3 text-data text-indigo-950">
@@ -947,25 +947,10 @@ export default function CareerTab(props: CareerTabProps) {
       </header>
 
       <section id="career-task" className="scroll-mt-28">
-        {!readOnly ? (
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 text-label">
-            <span
-              role="status"
-              className={
-                careerDirty ? 'font-medium text-amber-800' : 'text-slate-600'
-              }
-            >
-              {careerDirty ? '有未保存的修改' : '当前详设已保存'}
-            </span>
-            <span className="text-slate-500">
-              配置保存在本地，上传云端需单独操作
-            </span>
-          </div>
-        ) : null}
         {Object.keys(validationErrors).length ? (
           <div
             role="alert"
-            className="mb-4 rounded-lg border border-rose-200 bg-rose-50 p-4 text-data text-rose-800"
+            className="mb-4 rounded-lg   bg-rose-50 p-4 text-data text-rose-800"
           >
             <p className="font-semibold">请补全以下配置</p>
             <ul className="mt-2 space-y-1">
@@ -1060,7 +1045,7 @@ export default function CareerTab(props: CareerTabProps) {
               id="career-uma"
               className="scroll-mt-28 grid gap-5 xl:grid-cols-3"
             >
-              <section className="rounded-lg border border-gray-200 bg-gray-50/60 p-4">
+              <section className="uma-clay-panel p-4">
                 {validationErrors['career-uma'] ? (
                   <p className="mb-3 text-data font-medium text-rose-700">
                     {validationErrors['career-uma']}
