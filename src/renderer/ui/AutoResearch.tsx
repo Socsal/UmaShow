@@ -4706,6 +4706,43 @@ export default function AutoResearch() {
     }
   };
 
+  const syncCareerSetting = async (
+    setting: CareerSetting,
+    availablePresets = presets,
+  ) => {
+    if (!selectedAccountId || !server) return false;
+    const credential = (await window.electron.autoResearch.credential(
+      selectedAccountId,
+    )) as { uid: string; accessKey: string };
+    const result = await request<{
+      success: boolean;
+      config: CloudCareerConfig;
+    }>('/api/account/configuration/career/upsert', {
+      method: 'POST',
+      body: JSON.stringify({
+        uid: credential.uid,
+        access_key: credential.accessKey,
+        config_id: setting.id,
+        name: setting.name,
+        payload: {
+          setting: structuredClone(setting),
+          preset:
+            setting.mode === 'offline'
+              ? undefined
+              : availablePresets.find(
+                  (preset) => preset.name === setting.preset_name,
+                ),
+        },
+      }),
+    });
+    setCloudCareerConfigIds((current) => {
+      const next = new Set(current);
+      next.add(result.config.config_id);
+      return next;
+    });
+    return true;
+  };
+
   const savePreset = async () => {
     if (
       !presetEditorOpen ||
@@ -4724,6 +4761,20 @@ export default function AutoResearch() {
       setSharedStorageItem(LOCAL_PRESETS_KEY, JSON.stringify(nextPresets));
       presetDraft.markSaved();
       presetDirtyRef.current = false;
+      try {
+        for (const setting of careerSettings.filter(
+          (item) =>
+            item.account_uid === selectedAccount?.uid &&
+            item.mode !== 'offline' &&
+            item.preset_name === preset.name,
+        )) {
+          await syncCareerSetting(setting, nextPresets);
+        }
+      } catch (caught) {
+        setPresetSyncError(true);
+        setError(`预设已保存到本地，但云端同步失败：${(caught as Error).message}`);
+        return false;
+      }
       const runnerPresetName =
         activeAutomationSetting?.preset_name || String(runner?.preset || '');
       if (automationActive && runnerPresetName === preset.name) {
@@ -4937,14 +4988,6 @@ export default function AutoResearch() {
     setSharedStorageItem(CAREER_SETTINGS_KEY, JSON.stringify(nextSettings));
   };
 
-  const careerConfigCloudPayload = (setting: CareerSetting) => ({
-    setting: structuredClone(setting),
-    preset:
-      setting.mode === 'offline'
-        ? undefined
-        : presets.find((preset) => preset.name === setting.preset_name),
-  });
-
   const uploadCareerSetting = async (settingId: string) => {
     if (!selectedAccountId || !server) {
       setError('上传详设前，请先连接自动育成服务器');
@@ -4957,27 +5000,7 @@ export default function AutoResearch() {
     setError('');
     setSuccessMessage('');
     try {
-      const credential = (await window.electron.autoResearch.credential(
-        selectedAccountId,
-      )) as { uid: string; accessKey: string };
-      const result = await request<{
-        success: boolean;
-        config: CloudCareerConfig;
-      }>('/api/account/configuration/career/upsert', {
-        method: 'POST',
-        body: JSON.stringify({
-          uid: credential.uid,
-          access_key: credential.accessKey,
-          config_id: setting.id,
-          name: setting.name,
-          payload: careerConfigCloudPayload(setting),
-        }),
-      });
-      setCloudCareerConfigIds((current) => {
-        const next = new Set(current);
-        next.add(result.config.config_id);
-        return next;
-      });
+      await syncCareerSetting(setting);
       setSuccessMessage(`详设“${setting.name}”已上传到云端`);
     } catch (caught) {
       setError(`详设上传失败：${(caught as Error).message}`);
@@ -5319,7 +5342,7 @@ export default function AutoResearch() {
     setError('');
   };
 
-  const saveCareerSetting = () => {
+  const saveCareerSetting = async () => {
     if (!selectedAccount || !dashboard) return false;
     const name = careerSettingName.trim();
     if (!name) {
@@ -5428,11 +5451,26 @@ export default function AutoResearch() {
     setCareerValidationVisible(false);
     setSelectedCareerSettingId(setting.id);
     setError('');
+    setSuccessMessage('');
+    setBusy('career-save');
+    try {
+      const uploaded = await syncCareerSetting(setting);
+      setSuccessMessage(
+        uploaded
+          ? `详设“${setting.name}”及绑定预设已保存并同步到云端`
+          : `详设“${setting.name}”已保存到本地，连接服务器后可上传`,
+      );
+    } catch (caught) {
+      setError(`详设已保存到本地，但云端同步失败：${(caught as Error).message}`);
+      return false;
+    } finally {
+      setBusy('');
+    }
     return true;
   };
 
   const saveAndApplyCareerSetting = async () => {
-    if (!saveCareerSetting()) return;
+    if (!(await saveCareerSetting())) return;
     const preset = presets.find((item) => item.name === careerPresetName);
     if (!preset) {
       setError('这个养马详设绑定的预设不存在');
@@ -5769,8 +5807,8 @@ export default function AutoResearch() {
     }
   };
 
-  const saveAndRunCareer = () => {
-    if (!saveCareerSetting()) return;
+  const saveAndRunCareer = async () => {
+    if (!(await saveCareerSetting())) return;
     setRepeatDaily(false);
     setScheduleTiming('now');
     setScheduledStartAt('');
@@ -6487,7 +6525,9 @@ export default function AutoResearch() {
           }}
           onSave={async () => {
             if (pendingLeave.preset && !(await savePreset())) return false;
-            if (pendingLeave.career && !saveCareerSetting()) return false;
+            if (pendingLeave.career && !(await saveCareerSetting())) {
+              return false;
+            }
             setPendingLeave(null);
             pendingLeave.action();
             return true;
