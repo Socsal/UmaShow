@@ -637,6 +637,45 @@ export default function WebAutoUma() {
     }
   };
 
+  const deleteCareerHistory = async (reportIds: string[]) => {
+    if (busy || !reportIds.length) return;
+    if (!server || !connectedAccountId || !connectedUid) {
+      setLoginSettingsOpen(true);
+      return;
+    }
+    setBusy('history-delete');
+    setError('');
+    setSuccessMessage('');
+    try {
+      const credential = (await window.electron.autoResearch.credential(
+        connectedAccountId,
+      )) as { uid: string; accessKey: string };
+      if (credential.uid !== connectedUid) {
+        throw new Error('账号已变化，请重新连接后删除记录');
+      }
+      const result = await serverRequest<CareerHistoryResponse>(
+        server,
+        '/api/account/career/history/delete-by-account',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            uid: credential.uid,
+            access_key: credential.accessKey,
+            report_ids: reportIds,
+            view: 'day',
+          }),
+        },
+      );
+      setCareerHistory(result.reports || []);
+      setSelectedCareerRecords(null);
+      setSuccessMessage('养马记录已删除');
+    } catch (caught) {
+      setError(`删除记录失败：${String((caught as Error)?.message || caught)}`);
+    } finally {
+      setBusy('');
+    }
+  };
+
   const commitHostedSession = (next: SessionResponse) => {
     setSession((current) => {
       const nextRuntimeAutomation =
@@ -1246,6 +1285,7 @@ export default function WebAutoUma() {
           ) : (
             <HistoryTab
               readOnly
+              canDelete={Boolean(connectedAccountId && connectedUid)}
               selectedCareerRecords={selectedCareerRecords}
               setSelectedCareerRecords={setSelectedCareerRecords}
               busy={busy}
@@ -1255,7 +1295,7 @@ export default function WebAutoUma() {
               careerHistory={careerHistory}
               assetSnapshots={assetSnapshots}
               downloadCareerSetting={noopAsync}
-              deleteCareerHistory={noopAsync}
+              deleteCareerHistory={deleteCareerHistory}
               downloadTrainingHistory={noopAsync}
               localTrainingHistoryIds={new Set()}
               openTrainingHistory={noop}

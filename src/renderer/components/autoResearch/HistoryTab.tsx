@@ -44,6 +44,7 @@ import {
 
 type HistoryTabProps = {
   readOnly?: boolean;
+  canDelete?: boolean;
   selectedCareerRecords: CareerSessionRecord[] | null;
   setSelectedCareerRecords: Dispatch<
     SetStateAction<CareerSessionRecord[] | null>
@@ -539,6 +540,7 @@ const aggregateRecords = (records: CareerSessionRecord[]) => {
 
 export default function HistoryTab({
   readOnly = false,
+  canDelete = !readOnly,
   selectedCareerRecords,
   setSelectedCareerRecords,
   busy,
@@ -698,7 +700,7 @@ export default function HistoryTab({
                   {settingDownloaded ? '详设已保存' : '下载详设'}
                 </PlannerButton>
               ) : null}
-              {!readOnly ? (
+              {canDelete ? (
                 <PlannerButton
                   variant="danger"
                   size="small"
@@ -1300,7 +1302,7 @@ export default function HistoryTab({
                       {settingDownloaded ? '详设已保存' : '下载详设'}
                     </button>
                   ) : null}
-                  {!readOnly ? (
+                  {canDelete ? (
                     <button
                       type="button"
                       disabled={busy === 'history-delete'}
