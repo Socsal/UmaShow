@@ -40,10 +40,16 @@ html[data-autouma] #root {
 }
 html .uma-app-shell,
 html .uma-page,
-html .autouma-shell,
 html .autouma-content,
 html .successionPlannerPage {
   background: var(--uma-clay-canvas);
+}
+/* Transparent system bars and browser overscroll expose the root backdrop. */
+html[data-autouma],
+html[data-autouma] body,
+html[data-autouma] #root,
+html .autouma-shell {
+  background: var(--uma-clay-chrome);
 }
 html .successionPlannerPage,
 html .successionPickerTheme {
