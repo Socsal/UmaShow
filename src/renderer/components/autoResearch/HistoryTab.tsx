@@ -581,7 +581,10 @@ export default function HistoryTab({
       const details = (
         await Promise.all(
           records.map((record) =>
-            record.summary_only
+            record.summary_only ||
+            (!record.runs?.length &&
+              !record.current &&
+              Number(record.attempt_count || record.count || 0) > 0)
               ? loadCareerHistoryDetail(record.id)
               : Promise.resolve([record]),
           ),
@@ -589,6 +592,17 @@ export default function HistoryTab({
       ).flat();
       if (revision === detailRevision.current) {
         if (!details.length) throw new Error('记录已不存在，请刷新列表');
+        if (
+          details.some(
+            (record) =>
+              record.summary_only ||
+              (!record.runs?.length &&
+                !record.current &&
+                Number(record.attempt_count || record.count || 0) > 0),
+          )
+        ) {
+          throw new Error('服务器未返回育成详情，请刷新重试或更新服务器');
+        }
         setSelectedCareerRecords(details);
       }
     } catch (caught) {

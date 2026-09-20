@@ -2004,6 +2004,7 @@ export default function AutoResearch() {
             uid: account.uid,
             view: 'day',
             days: 50,
+            summary_only: true,
           }),
         });
         if (
@@ -2172,6 +2173,7 @@ export default function AutoResearch() {
             access_key: credential.accessKey,
             report_ids: reportIds,
             view: 'day',
+            summary_only: true,
           }),
         });
         setCareerHistory([
