@@ -25,7 +25,7 @@ import { PlannerButton } from 'renderer/components/succession/PlannerComponents'
 import { loadUMDB, UMDB } from 'renderer/utils/umdb';
 import AssetTracking from './AssetTracking';
 import './History.css';
-import { umaSkinIconPath } from './SelectionCards';
+import { characterIconPath, umaSkinIconPath } from './SelectionCards';
 import {
   careerSettingModeBadgeClass,
   formatAccountError,
@@ -371,7 +371,7 @@ const groupRecordsBySettingAndDate = (records: CareerSessionRecord[]) => {
     .forEach((record) => {
       const dateKey = recordDateKey(record);
       const settingKey = recordSettingKey(record);
-      const key = `${settingKey}\u0000${dateKey}`;
+      const key = `${record.task_id || record.session_id || record.id}\u0000${settingKey}\u0000${dateKey}`;
       const group = groups.get(key);
       if (group) {
         group.records.push(record);
@@ -673,7 +673,7 @@ export default function HistoryTab({
   };
 
   useEffect(() => {
-    if (readOnly) return undefined;
+    if (!window.electron?.utils?.getUmaDatabase) return undefined;
     let active = true;
     loadUMDB()
       .then((database) => {
@@ -684,7 +684,7 @@ export default function HistoryTab({
     return () => {
       active = false;
     };
-  }, [readOnly]);
+  }, []);
 
   const resolveRecordUma = (cardId: number) => {
     if (!cardId) return undefined;
@@ -727,8 +727,7 @@ export default function HistoryTab({
       accountCareerSettings,
     );
     const canDownloadSetting = hasCareerSettingSnapshot(selectedCareerRecords);
-    const planSummary =
-      historyView === 'task' ? taskPlanSummary(selectedCareerRecords[0]) : '';
+    const planSummary = taskPlanSummary(selectedCareerRecords[0]);
 
     return (
       <div className="autoResearchHistory autoResearchHistoryDetail space-y-4">
@@ -768,7 +767,7 @@ export default function HistoryTab({
                   onClick={() => {
                     if (
                       window.confirm(
-                        `确定删除 ${formatRecordDate(dateKey)} 的全部养马记录吗？`,
+                        `确定删除「${settingName}」${historyView === 'task' ? '的全部' : `在 ${formatRecordDate(dateKey)} 的`}养马记录吗？`,
                       )
                     ) {
                       deleteCareerHistory(
@@ -793,6 +792,13 @@ export default function HistoryTab({
                 {recordUma ? (
                   <AssetIcon
                     path={recordUma.iconPath || ''}
+                    fallback={
+                      <AssetIcon
+                        path={characterIconPath(recordUma.id) || ''}
+                        alt={recordUma.name}
+                        className="h-full w-full object-contain"
+                      />
+                    }
                     alt={recordUma.name}
                     className="h-full w-full object-contain"
                   />
@@ -1332,8 +1338,7 @@ export default function HistoryTab({
             accountCareerSettings,
           );
           const canDownloadSetting = hasCareerSettingSnapshot(records);
-          const planSummary =
-            historyView === 'task' ? taskPlanSummary(records[0]) : '';
+          const planSummary = taskPlanSummary(records[0]);
           return (
             <section key={key} className="historyGroup uma-task-card">
               <div className="historyGroupHeader">
@@ -1382,7 +1387,7 @@ export default function HistoryTab({
                       onClick={() => {
                         if (
                           window.confirm(
-                            `确定删除 ${formatRecordDate(dateKey)} 的全部养马记录吗？`,
+                            `确定删除「${settingName}」${historyView === 'task' ? '的全部' : `在 ${formatRecordDate(dateKey)} 的`}养马记录吗？`,
                           )
                         ) {
                           deleteCareerHistory(
@@ -1416,6 +1421,13 @@ export default function HistoryTab({
                     {recordUma ? (
                       <AssetIcon
                         path={recordUma.iconPath || ''}
+                        fallback={
+                          <AssetIcon
+                            path={characterIconPath(recordUma.id) || ''}
+                            alt={settingName}
+                            className="h-full w-full object-contain"
+                          />
+                        }
                         alt={settingName}
                         className="h-full w-full object-contain"
                       />
