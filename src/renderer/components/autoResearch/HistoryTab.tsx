@@ -266,6 +266,10 @@ const runStatus = (run: CareerSessionRun, current = false) => {
   }
   if (run.completed) return { label: '已完成', className: 'text-emerald-600' };
   if (run.discarded) return { label: '已放弃', className: 'text-slate-500' };
+  if (run.status === 'continuing')
+    return { label: '跨日育成', className: 'text-sky-600' };
+  if (run.status === 'stopped' || run.status === 'paused')
+    return { label: '已中断', className: 'text-amber-600' };
   return { label: '未完成', className: 'text-red-600' };
 };
 
@@ -473,21 +477,24 @@ const aggregateRecords = (records: CareerSessionRecord[]) => {
         ...(record.current ? [{ run: record.current, current: true }] : []),
       ];
       return recordRows.map((row, index) => {
-        const startedAt =
-          String(row.run.started_at || '') ||
-          runIdTimestamp(row.run.run_id) ||
-          (index === 0 ? String(record.started_at || '') : '');
+        const startedAt = row.run.timestamps_authoritative
+          ? String(row.run.started_at || '')
+          : String(row.run.started_at || '') ||
+            runIdTimestamp(row.run.run_id) ||
+            (index === 0 ? String(record.started_at || '') : '');
         const nextRun = recordRows[index + 1]?.run;
         const nextStartedAt = nextRun
           ? String(nextRun.started_at || '') || runIdTimestamp(nextRun.run_id)
           : '';
         const endedAt = row.current
           ? ''
-          : String(row.run.ended_at || '') ||
-            nextStartedAt ||
-            (index === recordRows.length - 1
-              ? String(record.ended_at || '')
-              : '');
+          : row.run.timestamps_authoritative
+            ? String(row.run.ended_at || '')
+            : String(row.run.ended_at || '') ||
+              nextStartedAt ||
+              (index === recordRows.length - 1
+                ? String(record.ended_at || '')
+                : '');
         return { ...row, startedAt, endedAt };
       });
     })
@@ -883,7 +890,9 @@ export default function HistoryTab({
                 {aggregate.rows.map(
                   ({ run, current, startedAt, endedAt, sequence }, index) => {
                     const status = runStatus(run, current);
-                    const duration = formatRunDuration(startedAt, endedAt);
+                    const duration = run.ended_at_inferred
+                      ? '结束时间未记录'
+                      : formatRunDuration(startedAt, endedAt);
                     const trainingHistoryId = String(
                       run.training_history_id || '',
                     );
@@ -1012,7 +1021,9 @@ export default function HistoryTab({
                         index,
                       ) => {
                         const status = runStatus(run, current);
-                        const duration = formatRunDuration(startedAt, endedAt);
+                        const duration = run.ended_at_inferred
+                          ? '结束时间未记录'
+                          : formatRunDuration(startedAt, endedAt);
                         const trainingHistoryId = String(
                           run.training_history_id || '',
                         );
@@ -1466,9 +1477,7 @@ export default function HistoryTab({
             </section>
           );
         })}
-        {historyView !== 'tracking' &&
-        !groups.length &&
-        busy !== 'history' ? (
+        {historyView !== 'tracking' && !groups.length && busy !== 'history' ? (
           <p
             role="status"
             className="py-14 text-center text-data text-slate-600"

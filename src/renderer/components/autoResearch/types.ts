@@ -484,7 +484,16 @@ export type G123RaceRecord = {
 export type CareerSessionRun = {
   run_id?: string;
   training_history_id?: string;
-  status?: 'running' | 'paused';
+  status?:
+    | 'running'
+    | 'paused'
+    | 'stopped'
+    | 'continuing'
+    | 'finished'
+    | 'failed'
+    | 'discarded';
+  timestamps_authoritative?: boolean;
+  ended_at_inferred?: boolean;
   in_progress?: boolean;
   started_at?: string;
   ended_at?: string;
