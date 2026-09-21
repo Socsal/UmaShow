@@ -330,6 +330,7 @@ export type Dashboard = {
 };
 
 export type AutoResearchTab =
+  | 'friend_farm'
   | 'accounts'
   | 'presets'
   | 'career'

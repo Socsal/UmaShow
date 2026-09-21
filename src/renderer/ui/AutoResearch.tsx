@@ -32,6 +32,7 @@ import {
   Users,
 } from 'lucide-react';
 import HistoryTab from 'renderer/components/autoResearch/HistoryTab';
+import FriendFarmTab from 'renderer/components/autoResearch/FriendFarmTab';
 import ProgressTab from 'renderer/components/autoResearch/ProgressTab';
 import PresetsTab from 'renderer/components/autoResearch/PresetsTab';
 import CareerTab from 'renderer/components/autoResearch/CareerTab';
@@ -143,6 +144,7 @@ const autoResearchTabs = [
   { id: 'presets' as const, label: '预设', icon: Settings2 },
   { id: 'career' as const, label: '详设', icon: ListChecks },
   { id: 'history' as const, label: '记录', icon: History },
+  { id: 'friend_farm' as const, label: '刷友情点', icon: Users },
 ];
 
 const isScheduledDateTime = (value?: string) =>
@@ -8662,6 +8664,29 @@ export default function AutoResearch() {
                   />
                 ) : null}
 
+                {activeTab === 'friend_farm' ? (
+                  <FriendFarmTab
+                    key={`${server}:${selectedAccountId}`}
+                    request={async <T,>(_path: string, init?: RequestInit) => {
+                      if (!server || !selectedAccountId)
+                        throw new Error('请先选择服务器和小号');
+                      const credential =
+                        (await window.electron.autoResearch.credential(
+                          selectedAccountId,
+                        )) as { uid: string; accessKey: string };
+                      return request<T>('/api/tasks/friend-farm', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                          uid: credential.uid,
+                          access_key: credential.accessKey,
+                          ...(init?.body
+                            ? JSON.parse(String(init.body))
+                            : { action: 'status' }),
+                        }),
+                      });
+                    }}
+                  />
+                ) : null}
                 {activeTab === 'history' ? (
                   server ? (
                     <HistoryTab
