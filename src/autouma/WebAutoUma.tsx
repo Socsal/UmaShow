@@ -24,6 +24,7 @@ import AppMenuPortal from 'renderer/components/AppMenuPortal';
 import AutomationControlCard from 'renderer/components/autoResearch/AutomationControlCard';
 import CareerTab from 'renderer/components/autoResearch/CareerTab';
 import HistoryTab from 'renderer/components/autoResearch/HistoryTab';
+import { automationHasHostedTask } from 'renderer/components/autoResearch/hostedTask';
 import FriendFarmTab from 'renderer/components/autoResearch/FriendFarmTab';
 import ProgressTab from 'renderer/components/autoResearch/ProgressTab';
 import RunTargetInput from 'renderer/components/autoResearch/RunTargetInput';
@@ -361,7 +362,7 @@ export default function WebAutoUma() {
   const schedule = automation?.schedule;
   const observation = automation?.observation;
   const runner = observation?.runner;
-  const automationActive = Boolean(schedule);
+  const automationActive = automationHasHostedTask(automation);
   const runnerStopping = Boolean(
     runner?.stopping || busy === 'pause' || busy === 'stop',
   );

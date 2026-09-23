@@ -149,6 +149,14 @@ export type AutomationObservation = {
 };
 
 export type AccountAutomation = {
+  friend_farm?: {
+    status: 'running' | 'paused' | 'stopped';
+    stage: string;
+    target_viewer_id: number;
+    runs: number;
+    rebuilds: number;
+    message: string;
+  };
   schedule: ScheduleIntent | null;
   observation: AutomationObservation;
   daily_tasks?: ScheduleIntent['daily_tasks'];
